@@ -5,6 +5,10 @@ const concepts = [
     text: '왠지 ADJECTIVE + -(으)ㄹ 것 같더라고요',
     explanation: 'It kind of looked like it would be ADJECTIVE. / For some reason, I thought it would be ADJECTIVE.'
   },
+  {
+    text: 'VERB + -(으)시면 VERB + -(으)실 수 있어요',
+    explanation: 'If you VERB, you can VERB.'
+  },
 ];
 
 const exercises = [
@@ -18,6 +22,10 @@ const exerciseConcepts = [
   {
     exerciseId: 1,
     conceptId: 1
+  },
+  {
+    exerciseId: 1,
+    conceptId: 2
   },
 ];
 
