@@ -18,6 +18,20 @@ const exercises = [
   },
 ];
 
+const vocabs = [
+  {
+    krText: '재미있다',
+    enText: 'to have fun',
+  }
+];
+
+const exerciseVocabs = [
+  {
+    exerciseId: 1,
+    vocabId: 1
+  },
+]
+
 const exerciseConcepts = [
   {
     exerciseId: 1,
@@ -32,5 +46,7 @@ const exerciseConcepts = [
 module.exports = {
   concepts,
   exercises,
+  vocabs,
   exerciseConcepts,
+  exerciseVocabs,
 };

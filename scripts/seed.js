@@ -2,6 +2,8 @@ const { db } = require('@vercel/postgres');
 const {
   concepts,
   exercises,
+  vocabs,
+  exerciseVocabs,
   exerciseConcepts
 } = require('../app/lib/placeholder-data.js');
 
@@ -13,7 +15,7 @@ async function seedConcepts(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS concepts (
         id SERIAL PRIMARY KEY,
-        text VARCHAR NOT NULL,
+        text VARCHAR NOT NULL UNIQUE,
         explanation VARCHAR NOT NULL
       );
     `;
@@ -43,6 +45,44 @@ async function seedConcepts(client) {
   }
 }
 
+async function seedVocabs(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS vocabs CASCADE;`
+    // Create the "vocab" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS vocabs (
+        id SERIAL PRIMARY KEY,
+        en_text VARCHAR NOT NULL,
+        kr_text VARCHAR NOT NULL UNIQUE
+      );
+    `;
+
+    console.log(`Created "vocabs" table`);
+
+    // Insert data into the "vocab" table
+    const insertedVocabs = await Promise.all(
+      vocabs.map(async (vocab) => {
+        return client.sql`
+        INSERT INTO vocabs (en_text, kr_text)
+        VALUES (${vocab.enText}, ${vocab.krText})
+        ON CONFLICT (id) DO NOTHING;
+      `;
+      }),
+    );
+
+    console.log(`Seeded ${insertedVocabs.length} vocabs`);
+
+    return {
+      createTable,
+      vocabs: insertedVocabs,
+    };
+  } catch (error) {
+    console.error('Error seeding vocabs:', error);
+    throw error;
+  }
+}
+
 async function seedExercises(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -52,8 +92,8 @@ async function seedExercises(client) {
     const createTable = await client.sql`
     CREATE TABLE IF NOT EXISTS exercises (
     id SERIAL PRIMARY KEY,
-    en_text VARCHAR NOT NULL,
-    kr_text VARCHAR NOT NULL
+    en_text VARCHAR NOT NULL UNIQUE,
+    kr_text VARCHAR NOT NULL UNIQUE
   );
 `;
 
@@ -122,12 +162,54 @@ async function seedExerciseConcept(client) {
   }
 }
 
+async function seedExerciseVocab(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS exercise_vocabs CASCADE;`
+
+    // Create the "exercise_vocabs" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS exercise_vocabs (
+        exercise_id INT,
+        vocab_id INT,
+        PRIMARY KEY (exercise_id, vocab_id),
+        CONSTRAINT fk_exercise FOREIGN KEY(exercise_id) REFERENCES exercises(id),
+        CONSTRAINT fk_vocab FOREIGN KEY(vocab_id) REFERENCES vocabs(id)
+      );
+    `;
+
+    console.log(`Created "exercise_vocabs" table`);
+
+    // Insert data into the "exercise_vocabs" table
+    const insertedExerciseVocabss = await Promise.all(
+      exerciseVocabs.map(
+        (exerciseVocab) => client.sql`
+        INSERT INTO exercise_vocabs (exercise_id, vocab_id)
+        VALUES (${exerciseVocab.exerciseId}, ${exerciseVocab.vocabId});
+      `,
+      ),
+    );
+
+    console.log(`Seeded ${exerciseVocabs.length} exercise vocabs`);
+
+    return {
+      createTable,
+      exerciseVocabs: insertedExerciseVocabss,
+    };
+  } catch (error) {
+    console.error('Error seeding exercise_vocabs:', error);
+    throw error;
+  }
+}
+
 async function main() {
   const client = await db.connect();
 
   await seedConcepts(client);
   await seedExercises(client);
+  await seedVocabs(client);
   await seedExerciseConcept(client);
+  await seedExerciseVocab(client);
 
   await client.end();
 }
