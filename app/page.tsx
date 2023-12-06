@@ -1,11 +1,12 @@
-import Image from 'next/image'
+import { fetchExercises } from './lib/data';
 
-export default function Home() {
+export default async function Home() {
+  const exercises = await fetchExercises();
 
   return (
     <main className="flex h-screen flex-col items-center justify-center">
       <div className="text-2xl">
-        <span>Hello there.</span>
+        <span>{exercises[0].en_text}</span>
       </div>
 
       <div className="flex m-4 w-1/3 h-1/8">
