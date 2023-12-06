@@ -21,7 +21,7 @@ const exercises = [
 const vocabs = [
   {
     krText: '재미있다',
-    enText: 'to have fun',
+    enText: 'to be/have fun',
   }
 ];
 
