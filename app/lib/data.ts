@@ -17,6 +17,16 @@ export async function fetchExercises() {
   }
 }
 
+export async function fetchExercise(id: number) {
+  try {
+    const data = await sql<Exercise>`SELECT * FROM exercises WHERE id = ${id}`
+    return data.rows[0];
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch exercise: ${id}`);
+  }
+}
+
 export async function fetchConceptsForExercise(exercise: Exercise) {
   try {
     noStore();
