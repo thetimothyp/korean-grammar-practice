@@ -15,7 +15,7 @@ export default function Accordion({ children }: AccordionProps) {
   }, [])
 
   return (
-    <div className="absolute py-2">
+    <div className="absolute py-2 w-full">
       <h2>
         <button
           className="flex items-center justify-between w-full text-left font-semibold py-2 mb-4"
