@@ -14,8 +14,8 @@ export default async function Home() {
       </div>
 
       <div className="flex items-end justify-end w-1/3">
-        <button className="bg-green-500 font-semibold hover:bg-green-600 text-gray-900 p-2 px-4 rounded-lg transition-colors right-0">
-          <span className="text-white text-center">SUBMIT</span>
+        <button className="bg-green-500 font-medium hover:bg-green-600 text-gray-900 p-2 px-4 rounded-lg transition-colors right-0">
+          <span className="text-white text-center antialiased">Check Answer</span>
         </button>
       </div>
     </main>
