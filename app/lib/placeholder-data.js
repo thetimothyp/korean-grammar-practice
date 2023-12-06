@@ -6,9 +6,9 @@ const concepts = [
     explanation: 'It kind of looked like it would be ADJECTIVE. / For some reason, I thought it would be ADJECTIVE.'
   },
   {
-    text: 'VERB + -(으)시면 VERB + -(으)실 수 있어요',
-    explanation: 'If you VERB, you can VERB.'
-  },
+    text: 'VERB + -고 싶은 거 있어?',
+    explanation: 'Is there something that you want to/would like to VERB?'
+  }
 ];
 
 const exercises = [
@@ -16,12 +16,20 @@ const exercises = [
     krText: '왠지 재밌을 것 같더라고요.',
     enText: 'It kind of looked like it would be fun.',
   },
+  {
+    krText: '뭐 먹고 싶은 거 있어?',
+    enText: 'Is there something you’d like to eat?',
+  },
 ];
 
 const vocabs = [
   {
     krText: '재미있다',
     enText: 'to be/have fun',
+  },
+  {
+    krText: '먹다',
+    enText: 'to eat',
   }
 ];
 
@@ -30,6 +38,10 @@ const exerciseVocabs = [
     exerciseId: 1,
     vocabId: 1
   },
+  {
+    exerciseId: 2,
+    vocabId: 2
+  }
 ]
 
 const exerciseConcepts = [
@@ -38,7 +50,7 @@ const exerciseConcepts = [
     conceptId: 1
   },
   {
-    exerciseId: 1,
+    exerciseId: 2,
     conceptId: 2
   },
 ];
