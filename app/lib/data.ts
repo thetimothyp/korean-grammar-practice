@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import { sql } from '@vercel/postgres';
 import {
   Concept,
@@ -7,6 +8,7 @@ import {
 
 export async function fetchExercises() {
   try {
+    noStore();
     const data = await sql<Exercise>`SELECT * from exercises`;
     return data.rows;
   } catch(error) {
@@ -17,6 +19,7 @@ export async function fetchExercises() {
 
 export async function fetchConceptsForExercise(exercise: Exercise) {
   try {
+    noStore();
     const data = await sql<Concept>`
       SELECT concepts.text, concepts.explanation
       FROM exercise_concepts
@@ -32,6 +35,7 @@ export async function fetchConceptsForExercise(exercise: Exercise) {
 
 export async function fetchVocabForExercise(exercise: Exercise) {
   try {
+    noStore();
     const data = await sql<Vocab>`
       SELECT vocabs.en_text, vocabs.kr_text
       FROM exercise_vocabs
