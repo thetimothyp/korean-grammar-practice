@@ -91,7 +91,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
           <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 transition-all"><Link href={`/exercises/${nextId()}`}>Override: I was correct</Link></span>
         ) : status === 'correct' ? <span className="mx-4 text-slate-900">{randomCongrats()}</span> : ''}
         <button className={`${status === 'incorrect' ? 'bg-red-400 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} shadow-sm text-gray-900 p-2 px-4 rounded-lg transition-colors right-0`}>
-          <span className="text-white text-center antialiased">{buttonLabel()}</span>
+          <span className="font-semibold tracking-wide text-white text-center antialiased">{buttonLabel()}</span>
         </button>
       </div>
     </form>
