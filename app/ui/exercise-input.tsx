@@ -30,12 +30,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
       return;
     }
 
-    // Read the form data
-    const form = e.target;
-    const formData = new FormData(form);
-    const formJson = Object.fromEntries(formData.entries());
-
-    if (formJson.response == answer) {
+    if (response == answer) {
       setStatus('correct');
     } else {
       setStatus('incorrect');
@@ -72,6 +67,11 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
           name="response" 
           value={response}
           onChange={e => setResponse(e.target.value)}
+          onKeyDown={e => {
+            if (e.key == 'Enter') {
+              handleSubmit(e);
+            }
+          }}
           placeholder="한국어로 번역해 보세요" 
           autoFocus 
           className="text-lg resize-none p-4 w-full h-full outline-none rounded-lg"
