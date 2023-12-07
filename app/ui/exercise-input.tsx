@@ -54,6 +54,17 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
     }
   }
 
+  function getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+  }
+
+  function randomCongrats() {
+    const congrats = ['Nice job! 🎉', 'Correct! 🥳', 'Well done! 🎈', 'Spot on! 👍'];
+    return congrats[getRandomInt(0, congrats.length)];
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex my-4 w-full h-1/8">
@@ -78,7 +89,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
       <div className="flex items-end justify-end items-center w-full">
         {status === 'incorrect' ? (
           <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 transition-all"><Link href={`/exercises/${nextId()}`}>Override: I was correct</Link></span>
-        ) : status === 'correct' ? <span className="mx-4 text-slate-900">Nice job! 🎉</span> : ''}
+        ) : status === 'correct' ? <span className="mx-4 text-slate-900">{randomCongrats()}</span> : ''}
         <button className={`${status === 'incorrect' ? 'bg-red-400 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-gray-900 p-2 px-4 rounded-lg transition-colors right-0`}>
           <span className="text-white text-center antialiased">{buttonLabel()}</span>
         </button>
