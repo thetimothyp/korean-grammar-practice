@@ -86,7 +86,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
         </div>
       ) : ''}
 
-      <div className="flex items-end justify-end items-center w-full">
+      <div className="flex items-end justify-end items-center mt-2 w-full">
         {status === 'incorrect' ? (
           <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 transition-all"><Link href={`/exercises/${nextId()}`}>Override: I was correct</Link></span>
         ) : status === 'correct' ? <span className="mx-4 text-slate-900">{randomCongrats()}</span> : ''}
