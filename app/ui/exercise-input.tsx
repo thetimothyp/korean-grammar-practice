@@ -74,7 +74,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
           }}
           placeholder="한국어로 번역해 보세요" 
           autoFocus 
-          className="text-lg resize-none p-4 w-full h-full outline-none rounded-lg"
+          className="shadow-sm text-lg resize-none p-4 w-full h-full outline-none rounded-lg"
         >
         </textarea>
       </div>
@@ -90,7 +90,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
         {status === 'incorrect' ? (
           <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 transition-all"><Link href={`/exercises/${nextId()}`}>Override: I was correct</Link></span>
         ) : status === 'correct' ? <span className="mx-4 text-slate-900">{randomCongrats()}</span> : ''}
-        <button className={`${status === 'incorrect' ? 'bg-red-400 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-gray-900 p-2 px-4 rounded-lg transition-colors right-0`}>
+        <button className={`${status === 'incorrect' ? 'bg-red-400 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} shadow-sm text-gray-900 p-2 px-4 rounded-lg transition-colors right-0`}>
           <span className="text-white text-center antialiased">{buttonLabel()}</span>
         </button>
       </div>
