@@ -32,17 +32,28 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
   const defaultConcepts = concepts.map(c => ({ value: c.id, label: c.text }));
   const defaultVocab = vocabs.map(v => ({ value: v.id, label: v.kr_text }));
 
+  const [selectedConceptIds, setSelectedConceptIds] = useState(defaultConcepts.map(c => c.value));
+  const [selectedVocabIds, setSelectedVocabIds] = useState(defaultVocab.map(v => v.value));
+
   function handleSubmit(e: any) {
     e.preventDefault();
     
-    // const req = async () => {
-    //   const response = await fetch('/api/exercise/new', {
-    //     method: 'POST',
-    //     body: JSON.stringify({ enText, krText })
-    //   });
-    //   return response.json();
-    // };
-    // req().then(console.log);
+    const req = async () => {
+      const response = await fetch('/api/exercise/tag-with-concepts', {
+        method: 'POST',
+        body: JSON.stringify({ exerciseId: exercise.id, conceptIds: selectedConceptIds })
+      });
+      return response.json();
+    };
+    req().then(console.log);
+  }
+
+  function handleConceptsSelect(selected: any) {
+    setSelectedConceptIds(selected.map((item: any) => item.value));
+  }
+
+  function handleVocabSelect(selected: any) {
+    setSelectedVocabIds(selected.map((item: any) => item.value));
   }
 
   return (
@@ -55,16 +66,18 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
         defaultOptions 
         loadOptions={grammarOptionsPromise}
         defaultValue={defaultConcepts}
+        onChange={handleConceptsSelect}
       />
       <h2 className="text-lg">Vocabulary</h2>
       <AsyncSelect
         isMulti 
-        instanceId="grammar-concepts-search" 
+        instanceId="vocab-search" 
         defaultOptions 
         loadOptions={vocabOptionsPromise}
         defaultValue={defaultVocab}
+        onChange={handleVocabSelect}
       />
-      <button className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-4 rounded-lg transition-colors">
+      <button onClick={handleSubmit} className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-4 rounded-lg transition-colors">
         <span className="font-semibold tracking-wide text-white text-center antialiased">Submit</span>
       </button>
     </div>

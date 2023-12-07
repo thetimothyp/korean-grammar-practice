@@ -1,5 +1,5 @@
 import { unstable_noStore as noStore } from 'next/cache';
-import { sql } from '@vercel/postgres';
+import { db, sql } from '@vercel/postgres';
 import {
   Concept,
   Exercise,
@@ -124,6 +124,29 @@ export async function searchVocab(query: string) {
     return data.rows;
   } catch (error) {
     console.error('Error fetching vocab search results:', error);
+    throw error;
+  }
+}
+
+export async function tagExerciseWithConcepts(exerciseId: number, conceptIds: number[]) {
+  // https://github.com/orgs/vercel/discussions/3682
+  const valuesString = conceptIds.map((c, index) => `($${index * 2 + 1}, $${index * 2 + 2})`).join(',');
+  const query = `
+    INSERT INTO exercise_concepts (exercise_id, concept_id)
+    VALUES ${valuesString}
+    ON CONFLICT DO NOTHING`
+  const params: any[] = [];
+  conceptIds.forEach(c => {
+    params.push(exerciseId);
+    params.push(c);
+  });
+
+  try {
+    const client = await db.connect();
+    await client.query(query, params);
+    console.log(`Inserted ${conceptIds.length} new concepts for exercise ${exerciseId}`);
+  } catch (error) {
+    console.error('Error tagging exercise with concepts:', error);
     throw error;
   }
 }
