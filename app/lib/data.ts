@@ -99,3 +99,16 @@ export async function createVocab(enText: string, krText: string) {
     throw error;
   }
 }
+
+export async function searchConcepts(query: string) {
+  try {
+    const data = await sql<Concept>`
+      SELECT *
+      FROM concepts
+      WHERE text ILIKE '%${query}%'`
+    return data.rows;
+  } catch (error) {
+    console.error('Error fetching grammar search results:', error);
+    throw error;
+  }
+}
