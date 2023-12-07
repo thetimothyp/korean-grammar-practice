@@ -86,3 +86,16 @@ export async function createExercise(enText: string, krText: string) {
     throw error;
   }
 }
+
+export async function createVocab(enText: string, krText: string) {
+  try {
+    await sql`
+      INSERT INTO vocabs (en_text, kr_text)
+      VALUES (${enText}, ${krText});`
+    
+    console.log('Inserted 1 new vocab.')
+  } catch (error) {
+    console.error('Error creating new vocab:', error);
+    throw error;
+  }
+}
