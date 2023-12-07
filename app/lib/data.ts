@@ -143,6 +143,8 @@ export async function tagExerciseWithConcepts(exerciseId: number, conceptIds: nu
 
   try {
     const client = await db.connect();
+    // Lazy way, drop all existing rows to delete tags that are removed in UI
+    await client.sql`DELETE FROM exercise_concepts WHERE exercise_id = ${exerciseId}`;
     await client.query(query, params);
     client.release();
     console.log(`Inserted ${conceptIds.length} new concepts for exercise ${exerciseId}`);
@@ -167,6 +169,7 @@ export async function tagExerciseWithVocab(exerciseId: number, vocabIds: number[
 
   try {
     const client = await db.connect();
+    await client.sql`DELETE FROM exercise_vocabs WHERE exercise_id = ${exerciseId}`;
     await client.query(query, params);
     client.release();
     console.log(`Inserted ${vocabIds.length} new vocab for exercise ${exerciseId}`);
