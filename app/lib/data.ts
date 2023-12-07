@@ -33,7 +33,7 @@ export async function fetchConceptsForExercise(exercise: Exercise) {
   try {
     // noStore();
     const data = await sql<Concept>`
-      SELECT concepts.text, concepts.explanation
+      SELECT *
       FROM exercise_concepts
       JOIN exercises ON exercise_concepts.exercise_id = exercises.id
       JOIN concepts ON exercise_concepts.concept_id = concepts.id
@@ -49,7 +49,7 @@ export async function fetchVocabForExercise(exercise: Exercise) {
   try {
     // noStore();
     const data = await sql<Vocab>`
-      SELECT vocabs.en_text, vocabs.kr_text
+      SELECT *
       FROM exercise_vocabs
       JOIN exercises ON exercise_vocabs.exercise_id = exercises.id
       JOIN vocabs ON exercise_vocabs.vocab_id = vocabs.id
@@ -102,10 +102,11 @@ export async function createVocab(enText: string, krText: string) {
 
 export async function searchConcepts(query: string) {
   try {
+    const param = `%${query}%`;
     const data = await sql<Concept>`
       SELECT *
       FROM concepts
-      WHERE text ILIKE '%${query}%'`
+      WHERE text ILIKE ${param}`
     return data.rows;
   } catch (error) {
     console.error('Error fetching grammar search results:', error);
