@@ -8,7 +8,7 @@ import {
 
 export async function fetchExercises() {
   try {
-    noStore();
+    // noStore();
     const data = await sql<Exercise>`SELECT * from exercises`;
     return data.rows;
   } catch(error) {
@@ -30,7 +30,7 @@ export async function fetchExercise(id: number) {
 
 export async function fetchConceptsForExercise(exercise: Exercise) {
   try {
-    noStore();
+    // noStore();
     const data = await sql<Concept>`
       SELECT concepts.text, concepts.explanation
       FROM exercise_concepts
@@ -46,7 +46,7 @@ export async function fetchConceptsForExercise(exercise: Exercise) {
 
 export async function fetchVocabForExercise(exercise: Exercise) {
   try {
-    noStore();
+    // noStore();
     const data = await sql<Vocab>`
       SELECT vocabs.en_text, vocabs.kr_text
       FROM exercise_vocabs
