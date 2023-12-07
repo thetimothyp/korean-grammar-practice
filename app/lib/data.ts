@@ -150,3 +150,26 @@ export async function tagExerciseWithConcepts(exerciseId: number, conceptIds: nu
     throw error;
   }
 }
+
+export async function tagExerciseWithVocab(exerciseId: number, vocabIds: number[]) {
+  // https://github.com/orgs/vercel/discussions/3682
+  const valuesString = vocabIds.map((c, index) => `($${index * 2 + 1}, $${index * 2 + 2})`).join(',');
+  const query = `
+    INSERT INTO exercise_vocabs (exercise_id, vocab_id)
+    VALUES ${valuesString}
+    ON CONFLICT DO NOTHING`
+  const params: any[] = [];
+  vocabIds.forEach(c => {
+    params.push(exerciseId);
+    params.push(c);
+  });
+
+  try {
+    const client = await db.connect();
+    await client.query(query, params);
+    console.log(`Inserted ${vocabIds.length} new vocab for exercise ${exerciseId}`);
+  } catch (error) {
+    console.error('Error tagging exercise with vocab:', error);
+    throw error;
+  }
+}

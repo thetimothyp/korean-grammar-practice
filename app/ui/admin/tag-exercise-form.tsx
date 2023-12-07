@@ -38,14 +38,28 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
   function handleSubmit(e: any) {
     e.preventDefault();
     
-    const req = async () => {
+    const promises: Promise<any>[] = [];
+    
+    const submitConceptTags = async () => {
       const response = await fetch('/api/exercise/tag-with-concepts', {
         method: 'POST',
         body: JSON.stringify({ exerciseId: exercise.id, conceptIds: selectedConceptIds })
       });
       return response.json();
     };
-    req().then(console.log);
+
+    const submitVocabTags = async () => {
+      const response = await fetch('/api/exercise/tag-with-vocab', {
+        method: 'POST',
+        body: JSON.stringify({ exerciseId: exercise.id, vocabIds: selectedVocabIds })
+      });
+      return response.json();
+    };
+
+    promises.push(submitConceptTags());
+    promises.push(submitVocabTags());
+
+    Promise.all(promises).then(console.log);
   }
 
   function handleConceptsSelect(selected: any) {
