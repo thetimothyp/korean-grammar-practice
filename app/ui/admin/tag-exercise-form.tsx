@@ -10,10 +10,16 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ]
 
-const promiseOptions = async (query: string) => {
+const grammarOptionsPromise = async (query: string) => {
   const url = '/api/grammar/search?' + new URLSearchParams({ query })
   const response = await fetch(url, { method: 'GET' });
-  return response.json().then(data => data.map((concept: Concept) => ({ value: concept.id, label: concept.text })));
+  return response.json().then(data => data.map((c: Concept) => ({ value: c.id, label: c.text })));
+}
+
+const vocabOptionsPromise = async (query: string) => {
+  const url = '/api/vocab/search?' + new URLSearchParams({ query })
+  const response = await fetch(url, { method: 'GET' });
+  return response.json().then(data => data.map((v: Vocab) => ({ value: v.id, label: v.kr_text })));
 }
 
 type TagExerciseFormProps = {
@@ -24,6 +30,7 @@ type TagExerciseFormProps = {
 
 export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerciseFormProps) {
   const defaultConcepts = concepts.map(c => ({ value: c.id, label: c.text }));
+  const defaultVocab = vocabs.map(v => ({ value: v.id, label: v.kr_text }));
 
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -46,11 +53,17 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
         isMulti 
         instanceId="grammar-concepts-search" 
         defaultOptions 
-        loadOptions={promiseOptions}
+        loadOptions={grammarOptionsPromise}
         defaultValue={defaultConcepts}
       />
       <h2 className="text-lg">Vocabulary</h2>
-      <AsyncSelect isMulti instanceId="vocab-search" options={options} />
+      <AsyncSelect
+        isMulti 
+        instanceId="grammar-concepts-search" 
+        defaultOptions 
+        loadOptions={vocabOptionsPromise}
+        defaultValue={defaultVocab}
+      />
       <button className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-4 rounded-lg transition-colors">
         <span className="font-semibold tracking-wide text-white text-center antialiased">Submit</span>
       </button>

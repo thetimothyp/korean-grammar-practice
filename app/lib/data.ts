@@ -113,3 +113,17 @@ export async function searchConcepts(query: string) {
     throw error;
   }
 }
+
+export async function searchVocab(query: string) {
+  try {
+    const param = `%${query}%`;
+    const data = await sql<Concept>`
+      SELECT *
+      FROM vocabs
+      WHERE kr_text ILIKE ${param}`
+    return data.rows;
+  } catch (error) {
+    console.error('Error fetching vocab search results:', error);
+    throw error;
+  }
+}
