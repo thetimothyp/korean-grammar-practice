@@ -19,6 +19,7 @@ export async function fetchExercises() {
 
 export async function fetchExercise(id: number) {
   try {
+    noStore();
     const data = await sql<Exercise>`SELECT * FROM exercises WHERE id = ${id}`
     if (data.rows.length === 0) throw new Error(`Failed to fetch exercise: ${id}`);
     return data.rows[0];
@@ -66,9 +67,22 @@ export async function createConcept(text: string, explanation: string) {
       INSERT INTO concepts (text, explanation)
       VALUES (${text}, ${explanation});`
     
-    console.log(`Inserted new grammar concepted: ${text}`)
+    console.log(`Inserted new grammar concept: ${text}`)
   } catch (error) {
-    console.error('Error createing new concept:', error);
+    console.error('Error creating new concept:', error);
+    throw error;
+  }
+}
+
+export async function createExercise(enText: string, krText: string) {
+  try {
+    await sql`
+      INSERT INTO exercises (en_text, kr_text)
+      VALUES (${enText}, ${krText});`
+    
+    console.log('Inserted 1 new exercise.')
+  } catch (error) {
+    console.error('Error creating new exercise:', error);
     throw error;
   }
 }

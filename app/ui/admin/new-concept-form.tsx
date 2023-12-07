@@ -8,7 +8,7 @@ export default function NewConceptForm() {
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    
+
     const req = async () => {
       const response = await fetch('/api/grammar/new', {
         method: 'POST',
@@ -21,7 +21,7 @@ export default function NewConceptForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='flex flex-col bg-none w-full justify-left gap-4'>
+      <div className='flex flex-col bg-none w-full justify-left gap-4 my-8'>
         <h1 className="text-xl">Create a new grammar concept</h1>
         <input name='text' onChange={e => setText(e.target.value)} className="p-4 rounded-lg" placeholder="Enter grammar concept text"></input>
         <input name='explanation' onChange={e => setExplanation(e.target.value)} className="p-4 rounded-lg" placeholder="Enter grammar concept explanation"></input>
