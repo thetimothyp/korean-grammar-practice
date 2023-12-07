@@ -1,9 +1,11 @@
+import { FormEvent, FormEventHandler } from 'react';
 import {
   fetchConceptsForExercise,
   fetchVocabForExercise,
   fetchExercise
 } from '../../lib/data';
 import Accordion from '../../ui/accordion';
+import ExerciseInput from '@/app/ui/exercise-input';
 
 export default async function Home({ params }: { params: { id: number }}) {
   const exercise = await fetchExercise(params.id);
@@ -22,15 +24,7 @@ export default async function Home({ params }: { params: { id: number }}) {
           <p className="text-slate-900 opacity-50 text-sm my-2">({vocabTip})</p>
         </div>
 
-        <div className="flex my-4 w-full h-1/8">
-          <textarea placeholder="한국어로 번역해 보세요" autoFocus className="text-lg resize-none p-4 w-full h-full outline-none rounded-lg"></textarea>
-        </div>
-
-        <div className="flex items-end justify-end w-full">
-          <button className="bg-green-500 hover:bg-green-600 text-gray-900 p-2 px-4 rounded-lg transition-colors right-0">
-            <span className="text-white text-center antialiased">Check Answer</span>
-          </button>
-        </div>
+        <ExerciseInput answer={exercise.kr_text} id={params.id} />
 
         <div className="flex my-4 w-full">
           <Accordion>
