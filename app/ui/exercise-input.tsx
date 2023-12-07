@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type ExerciseInputProps = {
@@ -14,15 +13,23 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
   const [response, setResponse] = useState('');
   const router = useRouter();
 
-  function nextId() {
-    return parseInt(id as string) + 1;
+  async function goToNextExercise() {
+    const getNextId = async () => {
+      const url = '/api/exercise/next?' + new URLSearchParams({
+        id,
+        filter: 'all'
+      });
+      const response = await fetch(url, { method: 'GET' });
+      return response.json();
+    }
+    getNextId().then(res => router.push(`/exercises/${res.nextId}`));
   }
 
   function handleSubmit(e: any) {
     e.preventDefault();
 
     if (status === 'correct') {
-      return router.push(`/exercises/${nextId()}`);
+      return goToNextExercise();
     }
     if (status === 'incorrect') {
       setStatus('pending');
@@ -88,7 +95,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
 
       <div className="flex items-end justify-end items-center mt-2 w-full">
         {status === 'incorrect' ? (
-          <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 transition-all"><Link href={`/exercises/${nextId()}`}>Override: I was correct</Link></span>
+          <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 hover:cursor-pointer transition-all"><a onClick={goToNextExercise}>Override: I was correct</a></span>
         ) : status === 'correct' ? <span className="mx-4 text-slate-900">{randomCongrats()}</span> : ''}
         <button className={`${status === 'incorrect' ? 'bg-red-400 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} shadow-sm text-gray-900 p-2 px-4 rounded-lg transition-colors right-0`}>
           <span className="font-semibold tracking-wide text-white text-center antialiased">{buttonLabel()}</span>
