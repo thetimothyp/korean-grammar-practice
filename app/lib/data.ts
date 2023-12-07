@@ -59,3 +59,16 @@ export async function fetchVocabForExercise(exercise: Exercise) {
     throw new Error(`Failed to fetch vocab for exercise with ID ${exercise.id}`);
   }
 }
+
+export async function createConcept(text: string, explanation: string) {
+  try {
+    await sql`
+      INSERT INTO concepts (text, explanation)
+      VALUES (${text}, ${explanation});`
+    
+    console.log(`Inserted new grammar concepted: ${text}`)
+  } catch (error) {
+    console.error('Error createing new concept:', error);
+    throw error;
+  }
+}

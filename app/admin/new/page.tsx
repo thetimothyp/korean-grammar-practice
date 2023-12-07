@@ -1,6 +1,6 @@
 'use client';
 
-import NewConceptForm from "../ui/admin/new-concept-form";
+import NewConceptForm from "../../ui/admin/new-concept-form";
 
 export default async function Admin() {
   return (
