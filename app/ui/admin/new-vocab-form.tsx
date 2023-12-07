@@ -21,7 +21,7 @@ export default function NewVocabForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='flex flex-col bg-none w-full justify-left gap-4'>
+      <div className='flex flex-col bg-none w-full justify-left gap-4 my-2'>
         <h1 className="text-xl">Create a new vocabulary term</h1>
         <input name='enText' onChange={e => setEnText(e.target.value)} className="p-4 rounded-lg" placeholder="Enter English text"></input>
         <input name='krText' onChange={e => setKrText(e.target.value)} className="p-4 rounded-lg" placeholder="Enter Korean text"></input>

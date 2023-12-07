@@ -72,7 +72,7 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
 
   return (
     <div className='flex flex-col bg-none w-full justify-left gap-2'>
-      <h1 className="text-xl">Edit exercise tags</h1>
+      <h1 className="text-lg text-slate-900 opacity-50">Edit exercise tags</h1>
       <h2 className="text-lg">Grammar concepts</h2>
       <AsyncSelect
         isMulti 
