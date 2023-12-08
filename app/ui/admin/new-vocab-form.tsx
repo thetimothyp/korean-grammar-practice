@@ -16,7 +16,7 @@ export default function NewVocabForm() {
       });
       return response.json();
     };
-    req().then(console.log);
+    req().then(() => { alert('Success!'); });
   }
 
   return (

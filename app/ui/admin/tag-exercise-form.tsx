@@ -59,7 +59,7 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
     promises.push(submitConceptTags());
     promises.push(submitVocabTags());
 
-    Promise.all(promises).then(console.log);
+    Promise.all(promises).then(() => { alert('Success!'); });
   }
 
   function handleConceptsSelect(selected: any) {
