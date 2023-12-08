@@ -55,10 +55,25 @@ const exerciseConcepts = [
   },
 ];
 
+// To change password:
+// 1. Change password in this file and save. Do NOT commit the new password to GitHub!
+// 2. In `seed.js:main()`, comment out everything except seedUsers()
+// 3. Run `yarn run seed`
+// 4. Revert the password here back to `adminadmin`
+const users = [
+  {
+    id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    name: 'Tim',
+    email: 'thetimothyp@gmail.com',
+    password: 'adminadmin',
+  },
+];
+
 module.exports = {
   concepts,
   exercises,
   vocabs,
   exerciseConcepts,
   exerciseVocabs,
+  users,
 };

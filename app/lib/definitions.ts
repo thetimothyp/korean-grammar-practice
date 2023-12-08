@@ -15,3 +15,10 @@ export type Exercise = {
   en_text: string;
   kr_text: string;
 };
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+};
