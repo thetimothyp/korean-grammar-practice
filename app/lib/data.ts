@@ -45,6 +45,18 @@ export async function fetchConceptsForExercise(exercise: Exercise) {
   }
 }
 
+export async function fetchConcepts() {
+  try {
+    const data = await sql<Concept>`
+      SELECT *
+      FROM concepts`
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch concepts`);
+  }
+}
+
 export async function fetchVocabForExercise(exercise: Exercise) {
   try {
     // noStore();
