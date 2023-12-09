@@ -101,7 +101,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
           placeholder={status === 'incorrect' ? '' : "한국어로 번역해 보세요"}
           autoFocus 
           disabled={status === 'incorrect'}
-          className={`shadow-sm text-lg resize-none p-4 ${status === 'incorrect' ? 'text-red-400 bg-white/70' : ''} w-full h-full outline-none rounded-lg`}
+          className={`shadow-sm text-lg resize-none p-4 ${status === 'incorrect' ? 'text-red-400 bg-white/90' : ''} w-full h-full outline-none rounded-lg`}
         >
         </textarea>
       </div>
