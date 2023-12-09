@@ -113,7 +113,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
         </div>
       ) : ''}
 
-      <div className="flex items-end justify-end items-center mt-2 w-full">
+      <div className="flex flex-col gap-2 sm:flex-row sm:gap-0 items-end justify-end items-center mt-2 w-full">
         {status === 'incorrect' ? (
           <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 hover:cursor-pointer transition-all"><a onClick={goToNextExercise}>Override: I’m close enough!</a></span>
         ) : status === 'correct' ? <span className="mx-4 text-slate-900">{randomCongrats()}</span> : ''}
