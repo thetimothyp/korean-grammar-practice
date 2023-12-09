@@ -71,6 +71,21 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
     return congrats[getRandomInt(0, congrats.length)];
   }
 
+  function answerWithSimpleDiff() {
+    // Quizlet just bolds any characters that you missed in your answer, so we’ll do the same.
+    const responseCharacterSet = new Set(response.replaceAll(/\s/g,''));
+
+    let buffer: any = [];
+    Array.from(answer).forEach(c => {
+      if (!responseCharacterSet.has(c)) {
+        buffer.push(<span className="font-semibold">{c}</span>);
+      } else {
+        buffer.push(<span>{c}</span>);
+      }
+    });
+    return buffer;
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex my-4 w-full h-1/8">
@@ -83,9 +98,10 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
               handleSubmit(e);
             }
           }}
-          placeholder="한국어로 번역해 보세요" 
+          placeholder={status === 'incorrect' ? '' : "한국어로 번역해 보세요"}
           autoFocus 
-          className="shadow-sm text-lg resize-none p-4 w-full h-full outline-none rounded-lg"
+          disabled={status === 'incorrect'}
+          className={`shadow-sm text-lg resize-none p-4 ${status === 'incorrect' ? 'px-0 text-red-400' : ''} w-full h-full outline-none rounded-lg`}
         >
         </textarea>
       </div>
@@ -93,7 +109,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
       {status === 'incorrect' ? (
         <div className="flex flex-col w-full">
           <p className="text-slate-900 opacity-50">Correct answer</p>
-          <p className="text-xl">{answer}</p>
+          <p className="text-xl">{answerWithSimpleDiff()}</p>
         </div>
       ) : ''}
 
