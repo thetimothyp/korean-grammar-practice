@@ -4,7 +4,7 @@ const concepts = [
   // [concept_id]
   {
     // 1
-    text: 'VERB + -(으)ㄴ 적 있으세요?',
+    text: 'VERB + -(으)ㄴ 적 있어요?',
     explanation: 'Have you PAST PARTICIPLE VERB before?'
   },
   {
@@ -14,7 +14,7 @@ const concepts = [
   },
   {
     // 3
-    text: 'VERB + -(으)시면 VERB + -(으)실 수 있어요',
+    text: 'VERB + -(으)면 VERB + -(으)ㄹ 수 있어요',
     explanation: 'If you VERB, you can VERB.'
   },
 ];
@@ -23,27 +23,27 @@ const exercises = [
   // [exercise_id] - [concept_id]
   {
     // 1 - 1
-    krText: '지연 씨는 전에 이 모임 참석한 적 있으세요?',
+    krText: '지연 씨는 전에 이 모임 참석한 적 있어요?',
     enText: 'Ji-yeon, have you attended this meetup before?',
   },
   {
     // 2 - 1
-    krText: '멤버쉽 가입한 적 있으세요?',
+    krText: '멤버쉽 가입한 적 있어요?',
     enText: 'Have you signed up for a membership before?',
   },
   {
     // 3 - 1
-    krText: '여기에 온 적 있으세요?',
+    krText: '여기에 온 적 있어요?',
     enText: 'Have you come here before?',
   },
   {
     // 4 - 1
-    krText: '이 남자 본 적 있으세요?',
+    krText: '이 남자 본 적 있어요?',
     enText: 'Have you seen this guy before?',
   },
   {
     // 5 - 1
-    krText: '저 사람 만난 적 있으세요?',
+    krText: '저 사람 만난 적 있어요?',
     enText: 'Have you met that person before?',
   },
   {
@@ -73,27 +73,27 @@ const exercises = [
   },
   {
     // 11 - 3
-    krText: '심심할 때 사이트 놀러 오시면 제 그림 보실 수 있어요.',
+    krText: '심심할 때 사이트 놀러 오면 제 그림 볼 수 있어요.',
     enText: 'When you’re bored, if you come to my site (for fun), you can see my drawings.',
   },
   {
     // 12 - 3
-    krText: '여기로 가시면 나가실 수 있어요.',
+    krText: '여기로 가면 나갈 수 있어요.',
     enText: 'If you go here, you can go out.',
   },
   {
     // 13 - 3
-    krText: '지금 결제하시면 다 보실 수 있어요.',
+    krText: '지금 결제하면 다 볼 수 있어요.',
     enText: 'If you pay now, you can watch everything.',
   },
   {
     // 14 - 3
-    krText: '기다리시면 그녀를 만나실 수 있어요.',
+    krText: '기다리면 그녀를 만날 수 있어요.',
     enText: 'If you wait, you can meet her.',
   },
   {
     // 15 - 3
-    krText: '지금 전화하시면 그 사람과 이야기하실 수 있어요.',
+    krText: '지금 전화하면 그 사람과 이야기할 수 있어요.',
     enText: 'If you call now, you can talk to that person.',
   },
 ];
