@@ -8,18 +8,16 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import { Concept } from '../lib/definitions';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import './grammar-filter-drawer.css';
+import { useQueryState } from 'next-usequerystate';
 
 export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] }) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const filter = searchParams.get('filter');
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
     setIsOpen(prevState => !prevState)
   }
+
+  const [filter, setFilter] = useQueryState('filter', { defaultValue: '' });
   
   const defaultGrammarFilter: any = {};
 
@@ -31,10 +29,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
     concepts.forEach(c => {
       defaultGrammarFilter[c.id] = false;
     });
-  }
-
-  if (filter != null && filter != 'all') {
-    filter.split(',').forEach(id => {
+    decodeURIComponent(filter).split(',').forEach(id => {
       defaultGrammarFilter[id] = true;
     });
   }
@@ -49,15 +44,9 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
   }
 
   useEffect(() => {
-    const editableSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
+    // https://github.com/vercel/next.js/discussions/48110#discussioncomment-7017549
     const enabledGrammars = Object.entries(grammarFilter).filter(([id, enabled]) => enabled).map(([id, enabled]) => id);
-    editableSearchParams.set('filter', enabledGrammars.join(','));
-
-    // cast to string
-    const search = editableSearchParams.toString();
-    const query = search ? `?${search}` : "";
-
-    router.replace(`${pathname}${query}`);
+    setFilter(enabledGrammars.join(','));
   }, [grammarFilter]);
 
   return (
@@ -96,6 +85,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
                 key={c.id}
               >
                 <p className='w-4/5'>{c.text}</p>
+                {/* https://getcssscan.com/css-checkboxes-examples */}
                 <div className="checkbox-wrapper-2 mt-1">
                   <input
                     type="checkbox" 

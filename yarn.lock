@@ -2138,6 +2138,11 @@ minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
+mitt@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.1.tgz#ea36cf0cc30403601ae074c8f77b7092cdab36d1"
+  integrity sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==
+
 mkdirp@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
@@ -2178,6 +2183,13 @@ next-auth@^5.0.0-beta.4:
   integrity sha512-vgocjvwPA8gxd/zrIP/vr9lJ/HeNe+C56lPP1D3sdyenHt8KncQV6ro7q0xCsDp1fcOKx7WAWVZH5o8aMxDzgw==
   dependencies:
     "@auth/core" "0.18.4"
+
+next-usequerystate@^1.13.1:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.13.1.tgz#70dddf60f6266104080b2aee62796a1406a3d018"
+  integrity sha512-TO20wx1NjBJ4kSXtTSUPxYaiBh9xN0fbDaPm0OYYKb1q2QVJ5hxmJLWrikxSc0vI2cGs1ixXSWqtY/3k0r1QbA==
+  dependencies:
+    mitt "^3.0.1"
 
 next@14.0.3:
   version "14.0.3"
