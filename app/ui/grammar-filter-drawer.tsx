@@ -22,9 +22,16 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
   }
   
   const defaultGrammarFilter: any = {};
-  concepts.forEach(c => {
-    defaultGrammarFilter[c.id] = false;
-  });
+
+  if (filter == null || filter == '') {
+    concepts.forEach(c => {
+      defaultGrammarFilter[c.id] = true;
+    });
+  } else {
+    concepts.forEach(c => {
+      defaultGrammarFilter[c.id] = false;
+    });
+  }
 
   if (filter != null && filter != 'all') {
     filter.split(',').forEach(id => {
