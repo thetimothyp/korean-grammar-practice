@@ -102,6 +102,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
                   <input
                     type="checkbox" 
                     checked={grammarFilter[c.id]}
+                    readOnly
                     className="sc-gJwTLC ikxBAC" 
                   />
                 </div>
