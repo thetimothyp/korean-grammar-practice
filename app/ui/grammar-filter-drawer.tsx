@@ -71,6 +71,17 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
             <XMarkIcon className='h-6 w-6' />
           </button>
         </div>
+        <button 
+          onClick={() => {
+            const obj: any = {};
+            concepts.forEach(c => {
+              obj[c.id] = true;
+            });
+            setGrammarFilter(obj);
+          }}
+          className='bg-green-500 hover:bg-green-600 shadow-sm text-gray-900 p-2 px-4 rounded-lg transition-colors'>
+          <span className="font-semibold tracking-wide text-white text-center antialiased">Enable all</span>
+        </button>
         <div className='flex flex-col'>
           <input className='my-4 p-2 shadow-sm rounded-md' placeholder='Find concepts...' onChange={filterOptions} />
           <ul className='flex flex-col gap-2'>
