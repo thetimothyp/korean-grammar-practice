@@ -4,12 +4,6 @@ import { Concept, Exercise, Vocab } from "@/app/lib/definitions";
 import { useState } from "react";
 import AsyncSelect from 'react-select/async';
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-]
-
 const grammarOptionsPromise = async (query: string) => {
   const url = '/api/grammar/search?' + new URLSearchParams({ query })
   const response = await fetch(url, { method: 'GET' });
