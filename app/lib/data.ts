@@ -57,6 +57,31 @@ export async function fetchConcepts() {
   }
 }
 
+export async function fetchExercisesWithConcepts(conceptIds: string) {
+  // https://github.com/orgs/vercel/discussions/3682
+  const valuesString = conceptIds.split(',').map((id, index) => `$${index + 1}`).join(',');
+  const query = `
+    SELECT *
+    FROM exercise_concepts
+    JOIN exercises ON exercise_concepts.exercise_id = exercises.id
+    JOIN concepts ON exercise_concepts.concept_id = concepts.id
+    WHERE concepts.id IN (${valuesString})`
+  const params: any[] = [];
+  conceptIds.split(',').forEach(id => {
+    params.push(id);
+  });
+
+  try {
+    const client = await db.connect();
+    const data = await client.query(query, params);
+    client.release();
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch exercises with concept IDs: ${conceptIds}`);
+  }
+}
+
 export async function fetchVocabForExercise(exercise: Exercise) {
   try {
     // noStore();

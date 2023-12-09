@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type ExerciseInputProps = {
   id: any,
@@ -12,6 +12,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
   const [status, setStatus] = useState('pending');
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState('');
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   async function goToNextExercise() {
@@ -19,12 +20,13 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
     const getNextId = async () => {
       const url = '/api/exercise/next?' + new URLSearchParams({
         id,
-        filter: 'all'
+        filter: searchParams.get('filter') || 'all'
       });
       const response = await fetch(url, { method: 'GET' });
       return response.json();
     }
-    getNextId().then(res => router.push(`/exercises/${res.nextId}`));
+
+    getNextId().then(res => router.push(`/exercises/${res.nextId}?${searchParams.toString()}`));
   }
 
   function handleSubmit(e: any) {
