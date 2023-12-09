@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Concept } from '../lib/definitions';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import './grammar-filter-drawer.css';
 
 export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] }) {
   const searchParams = useSearchParams();
@@ -36,7 +37,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
 
   function filterOptions(e: any) {
     const value = e.target.value;
-    const filtered = concepts.filter(c => c.text.includes(value));
+    const filtered = concepts.filter(c => c.text.toLowerCase().includes(value.toLowerCase()));
     setFilteredOptions(filtered);
   }
 
@@ -55,7 +56,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
   return (
     <div className='absolute right-0 top-0 py-12 px-16'>
       <button className='text-slate-900 opacity-70 hover:opacity-90 transition-opacity' onClick={toggleDrawer}>
-        <span>Filter by grammar concept <AdjustmentsHorizontalIcon className='inline ml-1 h-6 w-6' /></span>
+        <span>Filter exercises by grammar concept <AdjustmentsHorizontalIcon className='inline ml-1 h-6 w-6' /></span>
       </button>
       <Drawer
         open={isOpen}
@@ -68,29 +69,33 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
         }}
         className='flex flex-col py-12 px-12 !shadow-md gap-4'
       >
-        <button onClick={toggleDrawer} className='flex justify-between items-center'>
+        <div className='flex justify-between items-center'>
           <h1 className='font-bold text-slate-600'>Filter exercises</h1>
-          <XMarkIcon className='h-6 w-6' />
-        </button>
-        <div className='flex flex-col gap-2'>
-          <input className='mt-4 p-2 shadow-sm rounded-md' placeholder='Find concepts...' onChange={filterOptions} />
-          <div className='mt-4 flex justify-between text-slate-900/60'>
-            <p>Grammar concept</p>
-            <p>Enabled</p>
-          </div>
-          <ul className='flex flex-col gap-4'>
+          <button onClick={toggleDrawer}>
+            <XMarkIcon className='h-6 w-6' />
+          </button>
+        </div>
+        <div className='flex flex-col'>
+          <input className='my-4 p-2 shadow-sm rounded-md' placeholder='Find concepts...' onChange={filterOptions} />
+          <ul className='flex flex-col gap-2'>
             {filteredOptions.map(c => 
-              <li className='flex justify-between' key={c.id}>
+              <li 
+                onClick={() => {
+                  const updated = { ...grammarFilter };
+                  updated[c.id] = !updated[c.id];
+                  setGrammarFilter(updated);
+                }} 
+                className='flex items-center justify-between hover:cursor-pointer hover:bg-yellow-700/5 rounded-lg transition-all p-2' 
+                key={c.id}
+              >
                 <p className='w-4/5'>{c.text}</p>
-                <input 
-                  type='checkbox'
-                  checked={grammarFilter[c.id]}
-                  onChange={e => {
-                    const updated = { ...grammarFilter };
-                    updated[c.id] = !updated[c.id];
-                    setGrammarFilter(updated);
-                  }}
-                />
+                <div className="checkbox-wrapper-2 mt-1">
+                  <input
+                    type="checkbox" 
+                    checked={grammarFilter[c.id]}
+                    className="sc-gJwTLC ikxBAC" 
+                  />
+                </div>
               </li>
             )}
           </ul>
