@@ -137,6 +137,20 @@ export async function createVocab(enText: string, krText: string) {
   }
 }
 
+export async function searchExercises(query: string) {
+  try {
+    const param = `%${query}%`;
+    const data = await sql<Concept>`
+      SELECT *
+      FROM exercises
+      WHERE en_text ILIKE ${param} OR kr_text ILIKE ${param}`
+    return data.rows;
+  } catch (error) {
+    console.error('Error fetching grammar search results:', error);
+    throw error;
+  }
+}
+
 export async function searchConcepts(query: string) {
   try {
     const param = `%${query}%`;
