@@ -26,7 +26,7 @@ export default function NewConceptForm() {
         <input name='text' onChange={e => setText(e.target.value)} className="p-4 rounded-lg" placeholder="Enter grammar concept text"></input>
         <input name='explanation' onChange={e => setExplanation(e.target.value)} className="p-4 rounded-lg" placeholder="Enter grammar concept explanation"></input>
         <button className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-4 rounded-lg transition-colors">
-          <span className="font-semibold tracking-wide text-white text-center antialiased">Submit</span>
+          <span className="font-bold tracking-wide text-white text-center antialiased">Submit</span>
         </button>
       </div>
     </form>

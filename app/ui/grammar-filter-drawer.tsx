@@ -67,7 +67,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
         className='flex flex-col py-12 px-12 !shadow-md gap-4'
       >
         <div className='flex justify-between items-center'>
-          <h1 className='font-bold text-slate-600'>Filter exercises</h1>
+          <h1 className='text-slate-600'>Filter exercises</h1>
           <button onClick={toggleDrawer}>
             <XMarkIcon className='h-6 w-6' />
           </button>
@@ -81,7 +81,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
             setGrammarFilter(obj);
           }}
           className='bg-green-500 hover:bg-green-600 shadow-sm text-gray-900 p-2 px-4 rounded-lg transition-colors'>
-          <span className="font-semibold tracking-wide text-white text-center antialiased">Enable all</span>
+          <span className="font-bold tracking-wide text-white text-center antialiased">Enable all</span>
         </button>
         <div className='flex flex-col'>
           <input className='my-4 p-2 shadow-sm rounded-md' placeholder='Find concepts...' onChange={filterOptions} />

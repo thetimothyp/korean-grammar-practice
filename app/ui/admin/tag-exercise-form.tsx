@@ -86,7 +86,7 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
         onChange={handleVocabSelect}
       />
       <button onClick={handleSubmit} className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-4 rounded-lg transition-colors">
-        <span className="font-semibold tracking-wide text-white text-center antialiased">Submit</span>
+        <span className="font-bold tracking-wide text-white text-center antialiased">Submit</span>
       </button>
     </div>
   )

@@ -78,7 +78,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
     let buffer: any = [];
     Array.from(answer).forEach(c => {
       if (!responseCharacterSet.has(c)) {
-        buffer.push(<span className="font-semibold">{c}</span>);
+        buffer.push(<span className="font-bold">{c}</span>);
       } else {
         buffer.push(<span>{c}</span>);
       }
@@ -122,7 +122,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
               <div className="mt-2 animate-spin inline-block w-6 h-6 border-[2px] border-white border-opacity-70 border-t-transparent rounded-full" role="status" aria-label="loading">
               </div>
             </div>
-            <span className="font-semibold tracking-wide text-white text-center antialiased">{buttonLabel()}</span>
+            <span className="font-bold tracking-wide text-white text-center antialiased">{buttonLabel()}</span>
         </button>
       </div>
     </form>
