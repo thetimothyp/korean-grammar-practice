@@ -9,10 +9,13 @@ export async function GET(request: NextRequest) {
   let results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter, done);
 
   if (results.length > 0) {
-    // return random exercise from result set
-    return NextResponse.json({ nextId: results[0].id, reset: false });
+    // Return random exercise from result set
+    // https://stackoverflow.com/questions/5915096/get-a-random-item-from-a-javascript-array
+    const randomIndex = Math.floor(Math.random() * results.length);
+    return NextResponse.json({ nextId: results[randomIndex].id, reset: false });
   }
 
   results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter);
-  return NextResponse.json({ nextId: results[0].id, reset: true });
+  const randomIndex = Math.floor(Math.random() * results.length);
+  return NextResponse.json({ nextId: results[randomIndex].id, reset: true });
 }
