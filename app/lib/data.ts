@@ -61,7 +61,7 @@ export async function fetchExercisesWithConcepts(conceptIds: string) {
   // https://github.com/orgs/vercel/discussions/3682
   const valuesString = conceptIds.split(',').map((id, index) => `$${index + 1}`).join(',');
   const query = `
-    SELECT *
+    SELECT exercises.id
     FROM exercise_concepts
     JOIN exercises ON exercise_concepts.exercise_id = exercises.id
     JOIN concepts ON exercise_concepts.concept_id = concepts.id
