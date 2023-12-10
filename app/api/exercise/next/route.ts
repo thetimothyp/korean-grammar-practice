@@ -3,21 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const filter = searchParams.get('filter');
-  const id = searchParams.get('id') as string;
+  const filter = searchParams.get('filter') as string;
+  const done = searchParams.get('done') as string;
   
-  const results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter as string);
+  let results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter, done);
 
-  // Calculate next exercise ID
-  // TODO - do this in the SQL query
-  let nextExerciseIndex = 0;
-
-  while (results[nextExerciseIndex] && results[nextExerciseIndex].id <= parseInt(id) && nextExerciseIndex < results.length) {
-    nextExerciseIndex += 1;
+  if (results.length > 0) {
+    // return random exercise from result set
+    return NextResponse.json({ nextId: results[0].id, reset: false });
   }
 
-  if (nextExerciseIndex >= results.length) {
-    return NextResponse.json({ nextId: results[0].id});
-  }
-  return NextResponse.json({ nextId: results[nextExerciseIndex].id});
+  results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter);
+  return NextResponse.json({ nextId: results[0].id, reset: true });
 }

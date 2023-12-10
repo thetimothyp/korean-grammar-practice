@@ -44,7 +44,13 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
       done: doneString(),
     });
 
-    getNextId().then(res => router.push(`/exercises/${res.nextId}?${urlParams.toString()}`));
+    getNextId().then(res => {
+      if (res.reset) {
+        setDone('');
+        urlParams.set('done', '');
+      }
+      router.push(`/exercises/${res.nextId}?${urlParams.toString()}`)
+    });
   }
 
   function handleSubmit(e: any) {

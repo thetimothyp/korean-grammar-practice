@@ -57,15 +57,26 @@ export async function fetchConcepts() {
   }
 }
 
-export async function fetchExercisesWithConcepts(conceptIds: string) {
+export async function fetchExercisesWithConcepts(conceptIds: string, exceptIds: string = '') {
   // https://github.com/orgs/vercel/discussions/3682
   const valuesString = conceptIds.split(',').map((id, index) => `$${index + 1}`).join(',');
-  const query = `
-    SELECT exercises.id
-    FROM exercise_concepts
-    JOIN exercises ON exercise_concepts.exercise_id = exercises.id
-    JOIN concepts ON exercise_concepts.concept_id = concepts.id
-    WHERE concepts.id IN (${valuesString})`
+  const query = exceptIds.length > 0 ? 
+    `
+      SELECT exercises.id
+      FROM exercise_concepts
+      JOIN exercises ON exercise_concepts.exercise_id = exercises.id
+      JOIN concepts ON exercise_concepts.concept_id = concepts.id
+      WHERE concepts.id IN (${valuesString})
+      AND exercises.id NOT IN (${exceptIds})
+    ` : 
+    `
+      SELECT exercises.id
+      FROM exercise_concepts
+      JOIN exercises ON exercise_concepts.exercise_id = exercises.id
+      JOIN concepts ON exercise_concepts.concept_id = concepts.id
+      WHERE concepts.id IN (${valuesString})
+    `
+
   const params: any[] = [];
   conceptIds.split(',').forEach(id => {
     params.push(id);
