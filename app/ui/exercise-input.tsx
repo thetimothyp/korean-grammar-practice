@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useQueryState } from 'next-usequerystate';
 
 type ExerciseInputProps = {
@@ -13,9 +13,9 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
   const [status, setStatus] = useState('pending');
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState('');
-  const searchParams = useSearchParams();
   const router = useRouter();
   const [done, setDone] = useQueryState('done', { defaultValue: '' });
+  const [filter, _] = useQueryState('filter', { defaultValue: '' });
 
   function doneString() {
     if (done.length > 0) {
@@ -31,7 +31,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
     const getNextId = async () => {
       const url = '/api/exercise/next?' + new URLSearchParams({
         id,
-        filter: searchParams.get('filter') || '',
+        filter,
         done: doneString(),
       });
       const response = await fetch(url, { method: 'GET' });
@@ -40,7 +40,7 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
 
     setDone(doneString());
     const urlParams = new URLSearchParams({
-      filter: searchParams.get('filter') || '',
+      filter,
       done: doneString(),
     });
 
