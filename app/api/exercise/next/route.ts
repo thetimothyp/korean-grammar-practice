@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   const filter = searchParams.get('filter');
   const id = searchParams.get('id') as string;
   
-  const results = filter == 'all' ? await fetchExercises() : await fetchExercisesWithConcepts(filter as string);
+  const results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter as string);
 
   // Calculate next exercise ID
   // TODO - do this in the SQL query
