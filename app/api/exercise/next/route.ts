@@ -5,6 +5,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const filter = searchParams.get('filter') as string;
   const done = searchParams.get('done') as string;
+  const id = searchParams.get('id') as string;
   
   let results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter, done);
 
@@ -16,6 +17,8 @@ export async function GET(request: NextRequest) {
   }
 
   results = filter == '' ? await fetchExercises() : await fetchExercisesWithConcepts(filter);
+  const resultIds = new Set(results.map(item => item.id));
+  resultIds.delete(id);
   const randomIndex = Math.floor(Math.random() * results.length);
-  return NextResponse.json({ nextId: results[randomIndex].id, reset: true });
+  return NextResponse.json({ nextId: Array.from(resultIds)[randomIndex], reset: true });
 }
