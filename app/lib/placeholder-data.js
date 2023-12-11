@@ -34,8 +34,8 @@ const concepts = [
   },
   {
     // 7
-    text: 'VERB + -기 싫다',
-    explanation: 'SUBJECT hates VERBing'
+    text: 'VERB + -기',
+    explanation: 'VERB-ing (as noun)'
   },
   {
     // 8
@@ -52,6 +52,51 @@ const concepts = [
     text: 'VERB + -(으)ㄴ 지 진짜 오래 됐어요',
     explanation: 'It’s been a really long time since (someone/something) last PAST TENSE VERB.'
   },
+  {
+    // 11
+    text: 'VERB/ADJECTIVE + -게 됐어요',
+    explanation: '(SUBJECT) happened to VERB... / (SUBJECT) ended up VERB-ing...'
+  },
+  {
+    // 12
+    text: '어쩔 수 없이 VERB',
+    explanation: '(SUBJECT) had no choice but to VERB.'
+  },
+  {
+    // 13
+    text: 'VERB + -고 있어요',
+    explanation: '(SUBJECT) am/is/are VERB-ing. (Present progressive)'
+  },
+  {
+    // 14
+    text: '우리 VERB + -(으)ㄹ까요?',
+    explanation: 'Shall we VERB?'
+  },
+  {
+    // 15
+    text: 'VERB + -(으)ㄹ 수 있다',
+    explanation: 'to be able to VERB'
+  },
+  {
+    // 16
+    text: 'SOMEONE + -(이)랑 VERB',
+    explanation: 'to VERB with SOMEONE'
+  },
+  {
+    // 17
+    text: 'PLACE + 에/(으)로 가다/오다',
+    explanation: 'to go/come to PLACE'
+  },
+  {
+    // 18
+    text: 'PLACE + 에서 VERB',
+    explanation: 'to VERB at PLACE / to VERB from PLACE'
+  },
+  {
+    // 19
+    text: 'TIME + 에 VERB',
+    explanation: 'to VERB at TIME'
+  },
 ];
 
 const exercises = [
@@ -67,7 +112,7 @@ const exercises = [
     enText: 'Have you signed up for a membership before?',
   },
   {
-    // 3 - 1
+    // 3 - 1, 17
     krText: '여기에 온 적 있어요?',
     enText: 'Have you come here before?',
   },
@@ -107,27 +152,27 @@ const exercises = [
     enText: 'For some reason, it kind of looked like it would be okay.',
   },
   {
-    // 11 - 3
+    // 11 - 3, 15
     krText: '심심할 때 사이트 놀러 오면 제 그림 볼 수 있어요.',
     enText: 'When you’re bored, if you come to my site (for fun), you can see my drawings.',
   },
   {
-    // 12 - 3
+    // 12 - 3, 15, 17
     krText: '여기로 가면 나갈 수 있어요.',
     enText: 'If you go here, you can go out.',
   },
   {
-    // 13 - 3
+    // 13 - 3, 15
     krText: '지금 결제하면 다 볼 수 있어요.',
     enText: 'If you pay now, you can watch everything.',
   },
   {
-    // 14 - 3
+    // 14 - 3, 15
     krText: '기다리면 그녀를 만날 수 있어요.',
     enText: 'If you wait, you can meet her.',
   },
   {
-    // 15 - 3
+    // 15 - 3, 15
     krText: '지금 전화하면 그 사람과 이야기할 수 있어요.',
     enText: 'If you call now, you can talk to that person.',
   },
@@ -262,7 +307,7 @@ const exercises = [
     enText: 'It’s been a really long time since I last saw (you).',
   },
   {
-    // 42 - 10
+    // 42 - 10, 17
     krText: '영화관에 온 지 진짜 오래 됐어요.',
     enText: 'It’s been a really long time since I last came to a movie theater.',
   },
@@ -272,7 +317,7 @@ const exercises = [
     enText: 'It’s been a really long time since I last traveled.',
   },
   {
-    // 44 - 10
+    // 44 - 10, 17
     krText: '밖에 나간 지 진짜 오래 됐어요.',
     enText: 'It’s been a really long time since I last went outside.',
   },
@@ -280,6 +325,106 @@ const exercises = [
     // 45 - 10
     krText: '지하철 탄 지 진짜 오래 됐어요.',
     enText: 'It’s been a really long time since I last rode the subway.',
+  },
+  {
+    // 46 - 11, 19
+    krText: '이번 주는 주말에 쉴 수 있게 됐어요.',
+    enText: 'He happened to be able to rest this weekend.',
+  },
+  {
+    // 47 - 11, 12
+    krText: '어쩔 수 없이 번호를 바꾸게 됐어요.',
+    enText: 'I ended up having no choice but to change my number.',
+  },
+  {
+    // 48 - 11
+    krText: '그 일을 제가 맡게 됐어요.',
+    enText: 'I happened to be put in charge of that task.',
+  },
+  {
+    // 49 - 11, 18
+    krText: '그 사람을 카페에서 보게 됐어요.',
+    enText: 'I happened to see him at a café.',
+  },
+  {
+    // 50 - 11, 17, 19
+    krText: '지난 주말에 공원에 가게 됐어요.',
+    enText: 'I ended up going to the park last weekend.',
+  },
+  {
+    // 51 - 12
+    krText: '어쩔 수 없이 진실을 알려줬어요.',
+    enText: 'I had no choice but to tell the truth.',
+  },
+  {
+    // 52 - 12, 17
+    krText: '어쩔 수 없이 병원에 갔어요.',
+    enText: 'I had no choice but to go to the hospital.',
+  },
+  {
+    // 53 - 12
+    krText: '어쩔 수 없이 열심히 공부해요.',
+    enText: 'I have no choice but to study hard.',
+  },
+  {
+    // 54 - 12
+    krText: '어쩔 수 없이 다시 해요.',
+    enText: 'I have no choice but to do it again.',
+  },
+  {
+    // 55 - 12, 17
+    krText: '어쩔 수 없이 집에 도라가요.',
+    enText: 'I have no choice but to go back home.',
+  },
+  {
+    // 56 - 13
+    krText: '지금 맛집 찾아보고 있어요.',
+    enText: 'I’m looking for a good restaurant right now.',
+  },
+  {
+    // 57 - 13
+    krText: '지금 저녁 먹고 있어요.',
+    enText: 'I’m eating dinner right now.',
+  },
+  {
+    // 58 - 13
+    krText: '그 사람 일하고 있어요.',
+    enText: 'He is working.',
+  },
+  {
+    // 59 - 13
+    krText: '시험 공부하고 있어요.',
+    enText: 'I’m studying for my test.',
+  },
+  {
+    // 60 - 13, 16
+    krText: '친구랑 게임하고 있어요.',
+    enText: 'I’m playing games with my friend.',
+  },
+  {
+    // 61 - 14, 19
+    krText: '우리 일요일에 같이 점심 먹을까요?',
+    enText: 'Shall we eat lunch together on Sunday?',
+  },
+  {
+    // 62 - 14
+    krText: '우리 오늘 같이 야구 보러 갈까요?',
+    enText: 'Shall we go watch a baseball game together today?',
+  },
+  {
+    // 63 - 14
+    krText: '우리 저녁에 삼겹살 먹을까요?',
+    enText: 'Shall we eat sam-gyeop-sal for dinner?',
+  },
+  {
+    // 64 - 14
+    krText: '우리 오늘 저녁에 같이 영화 볼까요?',
+    enText: 'Shall we watch a movie together tonight?',
+  },
+  {
+    // 65 - 14, 18, 19
+    krText: '우리 이번 주말에 같이 공원에 갈까요?',
+    enText: 'Shall we go to the park together this weekend?',
   },
 ];
 
@@ -316,7 +461,7 @@ const vocabs = [
     enText: 'to come',
   },
   {
-    // 7 - 4, 11, 13, 41
+    // 7 - 4, 11, 13, 41, 49, 64
     krText: '보다',
     enText: 'to see/watch',
   },
@@ -333,7 +478,7 @@ const vocabs = [
   {
     // 10 - 5
     krText: '저 사람',
-    enText: 'that person',
+    enText: 'that person (over there)',
   },
   {
     // 11 - 6
@@ -346,9 +491,9 @@ const vocabs = [
     enText: 'to be scared/scary',
   },
   {
-    // 13 - 8
-    krText: '그 영화',
-    enText: 'that movie',
+    // 13 - 8, 64
+    krText: '영화',
+    enText: 'movie',
   },
   {
     // 14 - 8
@@ -391,7 +536,7 @@ const vocabs = [
     enText: 'to go out',
   },
   {
-    // 22 - 13, 15, 17, 27, 30
+    // 22 - 13, 15, 17, 27, 30, 56, 57
     krText: '지금',
     enText: 'now',
   },
@@ -556,12 +701,12 @@ const vocabs = [
     enText: 'to prepare for a wedding',
   },
   {
-    // 55 - 37
+    // 55 - 37, 59
     krText: '시험 공부하다',
     enText: 'to study for a test',
   },
   {
-    // 56 - 38
+    // 56 - 38, 58
     krText: '일하다',
     enText: 'to work',
   },
@@ -605,6 +750,156 @@ const vocabs = [
     krText: '지하철 타다',
     enText: 'to ride the subway',
   },
+  {
+    // 65 - 46
+    krText: '이번 주는 주말',
+    enText: 'this weekend (in particular)',
+  },
+  {
+    // 66 - 46
+    krText: '쉬다',
+    enText: 'to rest',
+  },
+  {
+    // 67 - 47
+    krText: '번호',
+    enText: 'number',
+  },
+  {
+    // 68 - 47
+    krText: '바꾸다',
+    enText: 'to change',
+  },
+  {
+    // 69 - 48
+    krText: '일을 맡다',
+    enText: 'to take charge of a task',
+  },
+  {
+    // 70 - 49
+    krText: '카페',
+    enText: 'cafe',
+  },
+  {
+    // 71 - 15, 27, 40, 49, 58
+    krText: '그 사람',
+    enText: 'that person (we are talking about)',
+  },
+  {
+    // 72 - 50
+    krText: '지난 주말',
+    enText: 'last weekend',
+  },
+  {
+    // 73 - 50, 65
+    krText: '공원',
+    enText: 'park',
+  },
+  {
+    // 74 - 50, 52, 65
+    krText: '가다',
+    enText: 'to go',
+  },
+  {
+    // 75 - 51
+    krText: '진실을 알려주다',
+    enText: 'to explain/tell the truth',
+  },
+  {
+    // 76 - 52
+    krText: '병원',
+    enText: 'hospital',
+  },
+  {
+    // 77 - 53
+    krText: '공부하다',
+    enText: 'to study',
+  },
+  {
+    // 78 - 28, 54
+    krText: '다시',
+    enText: 'again',
+  },
+  {
+    // 79 - 54
+    krText: '하다',
+    enText: 'to do',
+  },
+  {
+    // 80 - 55
+    krText: '집',
+    enText: 'home/house',
+  },
+  {
+    // 81 - 55
+    krText: '도라가다',
+    enText: 'to go back/return',
+  },
+  {
+    // 82 - 56
+    krText: '맛집',
+    enText: 'good restaurant',
+  },
+  {
+    // 83 - 56
+    krText: '찾아보다',
+    enText: 'to look for',
+  },
+  {
+    // 84 - 57
+    krText: '저녁',
+    enText: 'dinner',
+  },
+  {
+    // 85 - 57, 61, 63
+    krText: '먹다',
+    enText: 'to eat',
+  },
+  {
+    // 86 - 60
+    krText: '친구',
+    enText: 'friend',
+  },
+  {
+    // 87 - 60
+    krText: '게임하다',
+    enText: 'to play games',
+  },
+  {
+    // 88 - 61
+    krText: '일요일',
+    enText: 'Sunday',
+  },
+  {
+    // 89 - 61
+    krText: '점심',
+    enText: 'lunch',
+  },
+  {
+    // 90 - 61, 62, 64, 65
+    krText: '같이',
+    enText: 'together',
+  },
+  {
+    // 91 - 62
+    krText: '야구',
+    enText: 'baseball game',
+  },
+  {
+    // 92 - 63
+    krText: '저녁에',
+    enText: 'for dinner',
+  },
+  {
+    // 93 - 64
+    krText: '오늘 저녁에',
+    enText: 'tonight',
+  },
+  {
+    // 94 - 65
+    krText: '이번 주말',
+    enText: 'this weekend',
+  },
 ];
 
 const exerciseConcepts = [
@@ -619,6 +914,10 @@ const exerciseConcepts = [
   {
     exerciseId: 3,
     conceptId: 1
+  },
+  {
+    exerciseId: 3,
+    conceptId: 17
   },
   {
     exerciseId: 4,
@@ -653,20 +952,44 @@ const exerciseConcepts = [
     conceptId: 3
   },
   {
+    exerciseId: 11,
+    conceptId: 15
+  },
+  {
     exerciseId: 12,
     conceptId: 3
+  },
+  {
+    exerciseId: 12,
+    conceptId: 15
+  },
+  {
+    exerciseId: 12,
+    conceptId: 17
   },
   {
     exerciseId: 13,
     conceptId: 3
   },
   {
+    exerciseId: 13,
+    conceptId: 15
+  },
+  {
     exerciseId: 14,
     conceptId: 3
   },
   {
+    exerciseId: 14,
+    conceptId: 15
+  },
+  {
     exerciseId: 15,
     conceptId: 3
+  },
+  {
+    exerciseId: 15,
+    conceptId: 15
   },
   {
     exerciseId: 16,
@@ -781,6 +1104,10 @@ const exerciseConcepts = [
     conceptId: 10
   },
   {
+    exerciseId: 42,
+    conceptId: 17
+  },
+  {
     exerciseId: 43,
     conceptId: 10
   },
@@ -789,8 +1116,136 @@ const exerciseConcepts = [
     conceptId: 10
   },
   {
+    exerciseId: 44,
+    conceptId: 17
+  },
+  {
     exerciseId: 45,
     conceptId: 10
+  },
+  {
+    exerciseId: 46,
+    conceptId: 11
+  },
+  {
+    exerciseId: 46,
+    conceptId: 19
+  },
+  {
+    exerciseId: 47,
+    conceptId: 11
+  },
+  {
+    exerciseId: 47,
+    conceptId: 12
+  },
+  {
+    exerciseId: 48,
+    conceptId: 11
+  },
+  {
+    exerciseId: 49,
+    conceptId: 11
+  },
+  {
+    exerciseId: 49,
+    conceptId: 18
+  },
+  {
+    exerciseId: 50,
+    conceptId: 11
+  },
+  {
+    exerciseId: 50,
+    conceptId: 17
+  },
+  {
+    exerciseId: 50,
+    conceptId: 19
+  },
+  {
+    exerciseId: 51,
+    conceptId: 12
+  },
+  {
+    exerciseId: 52,
+    conceptId: 12
+  },
+  {
+    exerciseId: 52,
+    conceptId: 17
+  },
+  {
+    exerciseId: 53,
+    conceptId: 12
+  },
+  {
+    exerciseId: 54,
+    conceptId: 12
+  },
+  {
+    exerciseId: 55,
+    conceptId: 12
+  },
+  {
+    exerciseId: 55,
+    conceptId: 17
+  },
+  {
+    exerciseId: 56,
+    conceptId: 13
+  },
+  {
+    exerciseId: 57,
+    conceptId: 13
+  },
+  {
+    exerciseId: 58,
+    conceptId: 13
+  },
+  {
+    exerciseId: 59,
+    conceptId: 13
+  },
+  {
+    exerciseId: 60,
+    conceptId: 13
+  },
+  {
+    exerciseId: 60,
+    conceptId: 16
+  },
+  {
+    exerciseId: 61,
+    conceptId: 14
+  },
+  {
+    exerciseId: 61,
+    conceptId: 19
+  },
+  {
+    exerciseId: 62,
+    conceptId: 14
+  },
+  {
+    exerciseId: 63,
+    conceptId: 14
+  },
+  {
+    exerciseId: 64,
+    conceptId: 14
+  },
+  {
+    exerciseId: 65,
+    conceptId: 14
+  },
+  {
+    exerciseId: 65,
+    conceptId: 18
+  },
+  {
+    exerciseId: 65,
+    conceptId: 19
   },
 ];
 
@@ -840,6 +1295,14 @@ const exerciseVocabs = [
     vocabId: 7
   },
   {
+    exerciseId: 49,
+    vocabId: 7
+  },
+  {
+    exerciseId: 64,
+    vocabId: 7
+  },
+  {
     exerciseId: 4,
     vocabId: 8
   },
@@ -869,6 +1332,10 @@ const exerciseVocabs = [
   },
   {
     exerciseId: 8,
+    vocabId: 13
+  },
+  {
+    exerciseId: 64,
     vocabId: 13
   },
   {
@@ -921,6 +1388,14 @@ const exerciseVocabs = [
   },
   {
     exerciseId: 30,
+    vocabId: 22
+  },
+  {
+    exerciseId: 56,
+    vocabId: 22
+  },
+  {
+    exerciseId: 57,
     vocabId: 22
   },
   {
@@ -1072,7 +1547,15 @@ const exerciseVocabs = [
     vocabId: 55
   },
   {
+    exerciseId: 59,
+    vocabId: 55
+  },
+  {
     exerciseId: 38,
+    vocabId: 56
+  },
+  {
+    exerciseId: 58,
     vocabId: 56
   },
   {
@@ -1106,6 +1589,178 @@ const exerciseVocabs = [
   {
     exerciseId: 45,
     vocabId: 64
+  },
+  {
+    exerciseId: 46,
+    vocabId: 65
+  },
+  {
+    exerciseId: 46,
+    vocabId: 66
+  },
+  {
+    exerciseId: 47,
+    vocabId: 67
+  },
+  {
+    exerciseId: 47,
+    vocabId: 68
+  },
+  {
+    exerciseId: 48,
+    vocabId: 69
+  },
+  {
+    exerciseId: 49,
+    vocabId: 70
+  },
+  {
+    exerciseId: 15,
+    vocabId: 71
+  },
+  {
+    exerciseId: 27,
+    vocabId: 71
+  },
+  {
+    exerciseId: 40,
+    vocabId: 71
+  },
+  {
+    exerciseId: 49,
+    vocabId: 71
+  },
+  {
+    exerciseId: 58,
+    vocabId: 71
+  },
+  {
+    exerciseId: 50,
+    vocabId: 72
+  },
+  {
+    exerciseId: 50,
+    vocabId: 73
+  },
+  {
+    exerciseId: 65,
+    vocabId: 73
+  },
+  {
+    exerciseId: 50,
+    vocabId: 74
+  },
+  {
+    exerciseId: 52,
+    vocabId: 74
+  },
+  {
+    exerciseId: 65,
+    vocabId: 74
+  },
+  {
+    exerciseId: 51,
+    vocabId: 75
+  },
+  {
+    exerciseId: 52,
+    vocabId: 76
+  },
+  {
+    exerciseId: 53,
+    vocabId: 77
+  },
+  {
+    exerciseId: 28,
+    vocabId: 78
+  },
+  {
+    exerciseId: 54,
+    vocabId: 78
+  },
+  {
+    exerciseId: 54,
+    vocabId: 79
+  },
+  {
+    exerciseId: 55,
+    vocabId: 80
+  },
+  {
+    exerciseId: 55,
+    vocabId: 81
+  },
+  {
+    exerciseId: 56,
+    vocabId: 82
+  },
+  {
+    exerciseId: 56,
+    vocabId: 83
+  },
+  {
+    exerciseId: 57,
+    vocabId: 84
+  },
+  {
+    exerciseId: 57,
+    vocabId: 85
+  },
+  {
+    exerciseId: 61,
+    vocabId: 85
+  },
+  {
+    exerciseId: 63,
+    vocabId: 85
+  },
+  {
+    exerciseId: 60,
+    vocabId: 86
+  },
+  {
+    exerciseId: 60,
+    vocabId: 87
+  },
+  {
+    exerciseId: 61,
+    vocabId: 88
+  },
+  {
+    exerciseId: 61,
+    vocabId: 89
+  },
+  {
+    exerciseId: 61,
+    vocabId: 90
+  },
+  {
+    exerciseId: 62,
+    vocabId: 90
+  },
+  {
+    exerciseId: 64,
+    vocabId: 90
+  },
+  {
+    exerciseId: 65,
+    vocabId: 90
+  },
+  {
+    exerciseId: 62,
+    vocabId: 91
+  },
+  {
+    exerciseId: 63,
+    vocabId: 92
+  },
+  {
+    exerciseId: 64,
+    vocabId: 93
+  },
+  {
+    exerciseId: 65,
+    vocabId: 94
   },
 ]
 
