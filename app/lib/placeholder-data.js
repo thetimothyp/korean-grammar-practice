@@ -592,7 +592,7 @@ const vocabs = [
   },
   {
     // 62 - 43
-    krText: '영화가다',
+    krText: '여행가다',
     enText: 'to travel',
   },
   {
