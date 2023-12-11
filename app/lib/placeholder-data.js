@@ -148,12 +148,12 @@ const exercises = [
   },
   {
     // 19 - 4
-    krText: '내일 머리 자르러 가야겠다.',
+    krText: '내일 머리 자르러 가야겠어요.',
     enText: 'I think I should go get my haircut tomorrow.',
   },
   {
     // 20 - 4
-    krText: '우산 가지고 가야겠다.',
+    krText: '우산 가지고 가야겠어요.',
     enText: 'I think I should bring an umbrella.',
   },
   {
