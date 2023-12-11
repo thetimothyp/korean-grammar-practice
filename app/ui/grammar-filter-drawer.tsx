@@ -52,7 +52,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
   return (
     <div className='absolute right-0 top-0 py-12 px-16'>
       <button className='text-slate-900 opacity-70 hover:opacity-90 transition-opacity' onClick={toggleDrawer}>
-        <span>Filter exercises by grammar concept <AdjustmentsHorizontalIcon className='inline ml-1 h-6 w-6' /></span>
+        <span>Filter exercises by grammar patterns <AdjustmentsHorizontalIcon className='inline ml-1 h-6 w-6' /></span>
       </button>
       <Drawer
         open={isOpen}
@@ -85,7 +85,7 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
           <span className="font-bold tracking-wide text-white text-center antialiased">Enable all</span>
         </button>
         <div className='flex flex-col'>
-          <input className='my-4 p-2 shadow-sm rounded-md' placeholder='Find concepts...' onChange={filterOptions} />
+          <input className='my-4 p-2 shadow-sm rounded-md' placeholder='Find grammar pattern...' onChange={filterOptions} />
           <ul className='flex flex-col gap-2'>
             {filteredOptions.map(c => 
               <li 
