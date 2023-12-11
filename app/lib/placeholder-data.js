@@ -471,7 +471,7 @@ const vocabs = [
     enText: 'this guy',
   },
   {
-    // 9 - 5, 14
+    // 9 - 5, 14, 28
     krText: '만나다',
     enText: 'to meet',
   },
@@ -1312,6 +1312,10 @@ const exerciseVocabs = [
   },
   {
     exerciseId: 14,
+    vocabId: 9
+  },
+  {
+    exerciseId: 28,
     vocabId: 9
   },
   {
