@@ -62,7 +62,8 @@ export default function GrammarFilterDrawer({ concepts }: { concepts: Concept[] 
         size={450}
         style={{
           backgroundColor: 'rgb(255, 250, 245)',
-          maxWidth: '100vw'
+          maxWidth: '100vw',
+          overflow: 'scroll'
         }}
         className='flex flex-col py-12 px-12 !shadow-md gap-4'
       >
