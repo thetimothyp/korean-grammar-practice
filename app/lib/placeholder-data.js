@@ -37,6 +37,21 @@ const concepts = [
     text: 'VERB + -기 싫다',
     explanation: 'SUBJECT hates VERBing'
   },
+  {
+    // 8
+    text: '왜 이렇게 ADJECTIVE + -아/어/여요?',
+    explanation: 'Why am/is/are (SUBJECT) so ADJECTIVE?'
+  },
+  {
+    // 9
+    text: 'VERB + -느라 정신이 없어요',
+    explanation: '(SUBJECT) am/is/are so busy VERB-ing/with NOUN (that SUBJECT am/is/are distracted/feeling stressed/going crazy)'
+  },
+  {
+    // 10
+    text: 'VERB + -(으)ㄴ 지 진짜 오래 됐어요',
+    explanation: 'It’s been a really long time since (someone/something) last PAST TENSE VERB.'
+  },
 ];
 
 const exercises = [
@@ -191,6 +206,81 @@ const exercises = [
     krText: '지금 졸려서 그래요.',
     enText: 'It is because I am sleepy now.',
   },
+  {
+    // 31 - 8
+    krText: '요즘 왜 이렇게 조용해요?',
+    enText: 'Why are you so quiet these days?',
+  },
+  {
+    // 32 - 8
+    krText: '저기 왜 이렇게 시끄러워요?',
+    enText: 'Why is it so loud over there?',
+  },
+  {
+    // 33 - 8
+    krText: '왜 이렇게 비싸요?',
+    enText: 'Why is it so expensive?',
+  },
+  {
+    // 34 - 8
+    krText: '저 남자 왜 이렇게 잘생겼어요?',
+    enText: 'Why is that guy so handsome?',
+  },
+  {
+    // 35 - 8
+    krText: '왜 이렇게 늦어요?',
+    enText: 'Why are you so late?',
+  },
+  {
+    // 36 - 9
+    krText: '요즘 결혼 준비하느라 정신이 없어요.',
+    enText: 'I’m so busy these days with wedding preparations (that I’m going crazy).',
+  },
+  {
+    // 37 - 9
+    krText: '시험 공부하느라 정신이 없어요.',
+    enText: 'I’m so busy studying for my test (that I’m completely distracted).',
+  },
+  {
+    // 38 - 9
+    krText: '요즘 일하느라 정신이 없어요.',
+    enText: 'I’m so busy with work these days (that I’m going crazy).',
+  },
+  {
+    // 39 - 9
+    krText: '그 남자 요즘 연애하느라 정신이 없어요.',
+    enText: 'He is so busy dating these days (that he is completely distracted).',
+  },
+  {
+    // 40 - 9
+    krText: '그 사람들 그 행사를 준비하느라 정신이 없어요.',
+    enText: 'They are so busy preparing for the event (that they can’t think about anything else).',
+  },
+  {
+    // 41 - 10
+    krText: '본 지 진짜 오래 됐어요.',
+    enText: 'It’s been a really long time since I last saw (you).',
+  },
+  {
+    // 42 - 10
+    krText: '영화관에 온 지 진짜 오래 됐어요.',
+    enText: 'It’s been a really long time since I last came to a movie theater.',
+  },
+  {
+    // 43 - 10
+    krText: '여행간 지 진짜 오래 됐어요.',
+    enText: 'It’s been a really long time since I last traveled.',
+  },
+  {
+    // 44 - 10
+    krText: '밖에 나간 지 진짜 오래 됐어요.',
+    enText: 'It’s been a really long time since I last went outside.',
+  },
+  {
+    // 45 - 10
+    krText: '지하철 탄 지 진짜 오래 됐어요.',
+    enText: 'It’s been a really long time since I last rode the subway.',
+  },
 ];
 
 const vocabs = [
@@ -221,12 +311,12 @@ const vocabs = [
     enText: 'here',
   },
   {
-    // 6 - 3
+    // 6 - 3, 42
     krText: '오다',
     enText: 'to come',
   },
   {
-    // 7 - 4, 11, 13
+    // 7 - 4, 11, 13, 41
     krText: '보다',
     enText: 'to see/watch',
   },
@@ -420,6 +510,101 @@ const vocabs = [
     krText: '졸리다',
     enText: 'to be sleepy',
   },
+  {
+    // 46 - 31, 36, 38, 39
+    krText: '요즘',
+    enText: 'these days',
+  },
+  {
+    // 47 - 31
+    krText: '조용하다',
+    enText: 'to be quiet',
+  },
+  {
+    // 48 - 32
+    krText: '저기',
+    enText: 'over there',
+  },
+  {
+    // 49 - 32
+    krText: '시끄럽다',
+    enText: 'to be loud/noisy',
+  },
+  {
+    // 50 - 33
+    krText: '비싸다',
+    enText: 'to be expensive',
+  },
+  {
+    // 51 - 34
+    krText: '저 남자',
+    enText: 'that guy',
+  },
+  {
+    // 52 - 34
+    krText: '잘생기다 (conjugate in past tense)',
+    enText: 'to be handsome',
+  },
+  {
+    // 53 - 35
+    krText: '늦다',
+    enText: 'to be late',
+  },
+  {
+    // 54 - 36
+    krText: '결혼 준비하다',
+    enText: 'to prepare for a wedding',
+  },
+  {
+    // 55 - 37
+    krText: '시험 공부하다',
+    enText: 'to study for a test',
+  },
+  {
+    // 56 - 38
+    krText: '일하다',
+    enText: 'to work',
+  },
+  {
+    // 57 - 39
+    krText: '그 남자',
+    enText: 'he',
+  },
+  {
+    // 58 - 39
+    krText: '연애하다',
+    enText: 'to date',
+  },
+  {
+    // 59 - 40
+    krText: '준비하다',
+    enText: 'to prepare',
+  },
+  {
+    // 60 - 40
+    krText: '그 행사',
+    enText: 'the event',
+  },
+  {
+    // 61 - 42
+    krText: '영화관',
+    enText: 'movie theater',
+  },
+  {
+    // 62 - 43
+    krText: '영화가다',
+    enText: 'to travel',
+  },
+  {
+    // 63 - 44
+    krText: '밖에 나가다',
+    enText: 'to go outside',
+  },
+  {
+    // 64 - 45
+    krText: '지하철 타다',
+    enText: 'to ride the subway',
+  },
 ];
 
 const exerciseConcepts = [
@@ -547,6 +732,66 @@ const exerciseConcepts = [
     exerciseId: 30,
     conceptId: 6
   },
+  {
+    exerciseId: 31,
+    conceptId: 8
+  },
+  {
+    exerciseId: 32,
+    conceptId: 8
+  },
+  {
+    exerciseId: 33,
+    conceptId: 8
+  },
+  {
+    exerciseId: 34,
+    conceptId: 8
+  },
+  {
+    exerciseId: 35,
+    conceptId: 8
+  },
+  {
+    exerciseId: 36,
+    conceptId: 9
+  },
+  {
+    exerciseId: 37,
+    conceptId: 9
+  },
+  {
+    exerciseId: 38,
+    conceptId: 9
+  },
+  {
+    exerciseId: 39,
+    conceptId: 9
+  },
+  {
+    exerciseId: 40,
+    conceptId: 9
+  },
+  {
+    exerciseId: 41,
+    conceptId: 10
+  },
+  {
+    exerciseId: 42,
+    conceptId: 10
+  },
+  {
+    exerciseId: 43,
+    conceptId: 10
+  },
+  {
+    exerciseId: 44,
+    conceptId: 10
+  },
+  {
+    exerciseId: 45,
+    conceptId: 10
+  },
 ];
 
 const exerciseVocabs = [
@@ -575,6 +820,10 @@ const exerciseVocabs = [
     vocabId: 6
   },
   {
+    exerciseId: 42,
+    vocabId: 6
+  },
+  {
     exerciseId: 4,
     vocabId: 7
   },
@@ -584,6 +833,10 @@ const exerciseVocabs = [
   },
   {
     exerciseId: 13,
+    vocabId: 7
+  },
+  {
+    exerciseId: 41,
     vocabId: 7
   },
   {
@@ -765,6 +1018,94 @@ const exerciseVocabs = [
   {
     exerciseId: 30,
     vocabId: 45
+  },
+  {
+    exerciseId: 31,
+    vocabId: 46
+  },
+  {
+    exerciseId: 36,
+    vocabId: 46
+  },
+  {
+    exerciseId: 38,
+    vocabId: 46
+  },
+  {
+    exerciseId: 39,
+    vocabId: 46
+  },
+  {
+    exerciseId: 31,
+    vocabId: 47
+  },
+  {
+    exerciseId: 32,
+    vocabId: 48
+  },
+  {
+    exerciseId: 32,
+    vocabId: 49
+  },
+  {
+    exerciseId: 33,
+    vocabId: 50
+  },
+  {
+    exerciseId: 34,
+    vocabId: 51
+  },
+  {
+    exerciseId: 34,
+    vocabId: 52
+  },
+  {
+    exerciseId: 35,
+    vocabId: 53
+  },
+  {
+    exerciseId: 36,
+    vocabId: 54
+  },
+  {
+    exerciseId: 37,
+    vocabId: 55
+  },
+  {
+    exerciseId: 38,
+    vocabId: 56
+  },
+  {
+    exerciseId: 39,
+    vocabId: 57
+  },
+  {
+    exerciseId: 39,
+    vocabId: 58
+  },
+  {
+    exerciseId: 40,
+    vocabId: 59
+  },
+  {
+    exerciseId: 40,
+    vocabId: 60
+  },
+  {
+    exerciseId: 42,
+    vocabId: 61
+  },
+  {
+    exerciseId: 43,
+    vocabId: 62
+  },
+  {
+    exerciseId: 44,
+    vocabId: 63
+  },
+  {
+    exerciseId: 45,
+    vocabId: 64
   },
 ]
 
