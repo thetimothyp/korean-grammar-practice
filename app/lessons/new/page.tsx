@@ -11,7 +11,7 @@ export default async function Dashboard() {
 
   return (
     <main className="flex min-h-screen flex-col w-screen bg-white items-center">
-      <NewLessonForm uid={user.id} />
+      <NewLessonForm />
     </main>
   )
 }

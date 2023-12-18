@@ -5,7 +5,7 @@ import { ForwardRefEditor } from "./MDXEditor/ForwardRefEditor";
 import { type MDXEditorMethods } from "@mdxeditor/editor";
 import '@mdxeditor/editor/style.css';
 
-export default function NewLessonForm({ uid }: { uid: string }) {
+export default function NewLessonForm() {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [body, setBody] = useState('');
