@@ -46,14 +46,14 @@ export default function NewLessonForm({ uid }: { uid: string }) {
   function handleSubmit() {
     setDidSubmit(true);
     if (isValid()) {
-      // const req = async () => {
-      //   const response = await fetch('/api/exercise/new', {
-      //     method: 'POST',
-      //     body: JSON.stringify({ title, summary })
-      //   });
-      //   return response.json();
-      // };
-      // req().then(() => { alert('Success!'); });
+      const req = async () => {
+        const response = await fetch('/api/lessons/new', {
+          method: 'POST',
+          body: JSON.stringify({ title, summary, body })
+        });
+        return response.json();
+      };
+      req().then(() => { alert('Success!'); });
     }
   }
 

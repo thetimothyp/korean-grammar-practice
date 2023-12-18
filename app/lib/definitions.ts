@@ -24,7 +24,7 @@ export type User = {
 };
 
 export type Lesson = {
-  id: number;
+  id?: number;
   title: string;
   summary: string;
   body: string;

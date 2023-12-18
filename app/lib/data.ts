@@ -273,3 +273,24 @@ export async function fetchLessonsForUser(uid: any) {
     throw new Error(`Failed to fetch for user with UID: ${uid}`);
   }
 }
+
+export async function createLesson(lesson: Lesson, uid: string) {
+  try {
+    const query = `
+    with rows as (
+      INSERT INTO lessons (title, summary, body)
+      VALUES ($1, $2, $3)
+      RETURNING id
+    )
+    INSERT INTO user_lessons (user_id, lesson_id)
+    SELECT $4, id FROM rows;`;
+    const params = [lesson.title, lesson.summary, lesson.body, uid];
+    const client = await db.connect();
+    await client.query(query, params);
+    client.release();
+    console.log(`Inserted 1 new lesson for user: ${uid}`);
+  } catch (error) {
+    console.error('Error creating new lesson:', error);
+    throw error;
+  }
+}
