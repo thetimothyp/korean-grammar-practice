@@ -5,10 +5,16 @@ import { ForwardRefEditor } from "./MDXEditor/ForwardRefEditor";
 import { type MDXEditorMethods } from "@mdxeditor/editor";
 import '@mdxeditor/editor/style.css';
 
-export default function NewLessonForm() {
-  const [title, setTitle] = useState('');
-  const [summary, setSummary] = useState('');
-  const [body, setBody] = useState('');
+type EditLessonFormProps = {
+  initialTitle?: string;
+  initialSummary?: string;
+  initialBody?: string;
+};
+
+export default function EditLessonForm({ initialTitle, initialSummary, initialBody } : EditLessonFormProps) {
+  const [title, setTitle] = useState(initialTitle || '');
+  const [summary, setSummary] = useState(initialSummary || '');
+  const [body, setBody] = useState(initialBody || '');
 
   const [didSubmit, setDidSubmit] = useState(false);
   const [titleError, setTitleError] = useState(false);
@@ -69,6 +75,7 @@ export default function NewLessonForm() {
             placeholder="Untitled" />
           <input
             name='summary'
+            value={summary}
             onChange={e => setSummary(e.target.value)}
             className={`${summaryError ? 'bg-red-100' : ''} rounded-md bg-transparent px-1 text-lg focus:outline-none transition-colors`}
             placeholder="Enter lesson summary..." />
@@ -81,7 +88,7 @@ export default function NewLessonForm() {
         </button>
       </div>
       <div className={`${bodyError ? 'bg-red-100' : ''} rounded-md w-full my-6 transition-colors`}>
-        <ForwardRefEditor placeholder="Write something!" className="max-w-none prose" ref={ref} markdown='' onChange={setBody} />
+        <ForwardRefEditor placeholder="Write something!" className="max-w-none prose" ref={ref} markdown={body} onChange={setBody} />
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/app/lib/session";
-import NewLessonForm from "@/app/ui/new-lesson-form";
+import EditLessonForm from "@/app/ui/edit-lesson-form";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
@@ -11,7 +11,7 @@ export default async function Dashboard() {
 
   return (
     <main className="flex min-h-screen flex-col w-screen bg-white items-center">
-      <NewLessonForm />
+      <EditLessonForm  />
     </main>
   )
 }
