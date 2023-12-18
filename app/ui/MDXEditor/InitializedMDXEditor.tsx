@@ -4,7 +4,6 @@ import type { ForwardedRef } from "react";
 import {
   headingsPlugin,
   listsPlugin,
-  directivesPlugin,
   quotePlugin,
   thematicBreakPlugin,
   markdownShortcutPlugin,
@@ -13,7 +12,6 @@ import {
   tablePlugin,
   toolbarPlugin,
   MDXEditor,
-  AdmonitionDirectiveDescriptor,
   type MDXEditorMethods,
   type MDXEditorProps,
 } from "@mdxeditor/editor";
@@ -21,7 +19,6 @@ import {
   BlockTypeSelect,
   BoldItalicUnderlineToggles,
   CreateLink,
-  InsertAdmonition,
   InsertTable,
   InsertThematicBreak,
   ListsToggle,
@@ -40,8 +37,6 @@ function toolbarContents() {
       <Separator />
       <ListsToggle />
       <Separator />
-      <InsertAdmonition />
-      <Separator />
       <InsertThematicBreak />
     </>
   )
@@ -58,7 +53,6 @@ export default function InitializedMDXEditor({
         tablePlugin(),
         toolbarPlugin({ toolbarContents }),
         headingsPlugin(),
-        directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
         linkPlugin(),
         linkDialogPlugin(),
         listsPlugin(),
