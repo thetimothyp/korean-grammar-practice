@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   const user = await getCurrentUser();
   const data = await request.json();
   console.log('received request: ' + JSON.stringify(data));
-  await createLesson({ 
+  await createLesson({
     title: data.title,
     summary: data.summary,
     body: data.body

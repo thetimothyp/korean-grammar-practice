@@ -274,7 +274,7 @@ export async function fetchLessonsForUser(uid: any) {
   }
 }
 
-export async function createLesson(lesson: Lesson, uid: string) {
+export async function createLesson(lesson: any, uid: string) {
   try {
     const query = `
     with rows as (
