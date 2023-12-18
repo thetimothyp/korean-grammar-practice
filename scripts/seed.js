@@ -47,6 +47,45 @@ async function seedConcepts(client) {
   }
 }
 
+async function seedLessons(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS lessons CASCADE;`
+    // Create the "lessons" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS lessons (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR NOT NULL UNIQUE,
+        summary VARCHAR NOT NULL,
+        body TEXT NOT NULL
+      );
+    `;
+
+    console.log(`Created "lessons" table`);
+
+    // Insert data into the "concepts" table
+    // const insertedConcepts = await Promise.all(
+    //   concepts.map(async (concept) => {
+    //     return client.sql`
+    //     INSERT INTO concepts (text, explanation)
+    //     VALUES (${concept.text}, ${concept.explanation})
+    //     ON CONFLICT (id) DO NOTHING;
+    //   `;
+    //   }),
+    // );
+
+    // console.log(`Seeded ${insertedConcepts.length} concepts`);
+
+    return {
+      createTable,
+      // concepts: insertedConcepts,
+    };
+  } catch (error) {
+    console.error('Error seeding lessons:', error);
+    throw error;
+  }
+}
+
 async function seedVocabs(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -207,13 +246,13 @@ async function seedExerciseVocab(client) {
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS users CASCADE;`
+
     // Create the "users" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS users (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        email TEXT NOT NULL UNIQUE
       );
     `;
 
@@ -222,10 +261,9 @@ async function seedUsers(client) {
     // Insert data into the "users" table
     const insertedUsers = await Promise.all(
       users.map(async (user) => {
-        const hashedPassword = await bcrypt.hash(user.password, 10);
         return client.sql`
-        INSERT INTO users (id, name, email, password)
-        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+        INSERT INTO users (id, email)
+        VALUES (${user.id}, ${user.email})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
@@ -243,15 +281,57 @@ async function seedUsers(client) {
   }
 }
 
+async function seedUserLessons(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS user_lessons CASCADE;`
+
+    // Create the "user_lessons" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS user_lessons (
+        user_id UUID,
+        lesson_id INT,
+        PRIMARY KEY (user_id, lesson_id),
+        CONSTRAINT fk_exercise FOREIGN KEY(user_id) REFERENCES users(id),
+        CONSTRAINT fk_vocab FOREIGN KEY(lesson_id) REFERENCES lessons(id)
+      );
+    `;
+
+    console.log(`Created "user_lessons" table`);
+
+    // Insert data into the "exercise_vocabs" table
+    // const insertedExerciseVocabss = await Promise.all(
+    //   exerciseVocabs.map(
+    //     (exerciseVocab) => client.sql`
+    //     INSERT INTO exercise_vocabs (exercise_id, vocab_id)
+    //     VALUES (${exerciseVocab.exerciseId}, ${exerciseVocab.vocabId});
+    //   `,
+    //   ),
+    // );
+
+    // console.log(`Seeded ${exerciseVocabs.length} exercise vocabs`);
+
+    return {
+      createTable,
+      // exerciseVocabs: insertedExerciseVocabss,
+    };
+  } catch (error) {
+    console.error('Error seeding user_lessons:', error);
+    throw error;
+  }
+}
+
 async function main() {
   const client = await db.connect();
 
-  await seedConcepts(client);
-  await seedExercises(client);
-  await seedVocabs(client);
-  await seedExerciseConcept(client);
-  await seedExerciseVocab(client);
+  // await seedConcepts(client);
+  // await seedExercises(client);
+  // await seedVocabs(client);
+  // await seedExerciseConcept(client);
+  // await seedExerciseVocab(client);
   await seedUsers(client);
+  await seedLessons(client);
+  await seedUserLessons(client);
 
   await client.end();
 }

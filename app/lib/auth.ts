@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { fetchUser } from "./data";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -27,8 +28,14 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
+      if (token.email) {
+        const dbUser = await fetchUser(token.email);
+  
+        if (dbUser) {
+          token.id = dbUser.id;
+        } else if (user) {
+          token.id = user.id;
+        }
       }
       return token;
     },

@@ -22,3 +22,10 @@ export type User = {
   email: string;
   password: string;
 };
+
+export type Lesson = {
+  id: number;
+  title: string;
+  summary: string;
+  body: string;
+};

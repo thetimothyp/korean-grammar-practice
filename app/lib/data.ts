@@ -4,6 +4,7 @@ import {
   Concept,
   Exercise,
   Vocab,
+  Lesson,
 } from './definitions';
 
 export async function fetchExercises() {
@@ -242,5 +243,33 @@ export async function tagExerciseWithVocab(exerciseId: number, vocabIds: number[
   } catch (error) {
     console.error('Error tagging exercise with vocab:', error);
     throw error;
+  }
+}
+
+export async function fetchUser(email: string) {
+  try {
+    noStore();
+    const data = await sql<Exercise>`SELECT * FROM users WHERE email = ${email} LIMIT 1`
+    if (data.rows.length === 0) throw new Error(`Failed to fetch user: ${email}`);
+    return data.rows[0];
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error('Failed to fetch user: ' + email);
+  }
+}
+
+export async function fetchLessonsForUser(uid: any) {
+  try {
+    noStore();
+    const data = await sql<Lesson>`
+      SELECT *
+      FROM user_lessons
+      JOIN users ON user_lessons.user_id = users.id
+      JOIN lessons ON user_lessons.lesson_id = lessons.id
+      WHERE users.id = ${uid}`
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch for user with UID: ${uid}`);
   }
 }
