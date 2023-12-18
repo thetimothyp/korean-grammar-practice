@@ -2,7 +2,7 @@ import { getCurrentUser } from "@/app/lib/session";
 import EditLessonForm from "@/app/ui/edit-lesson-form";
 import { redirect } from "next/navigation";
 
-export default async function Dashboard() {
+export default async function NewLesson() {
   const user: any = await getCurrentUser();
 
   if (!user) {

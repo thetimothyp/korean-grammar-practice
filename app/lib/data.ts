@@ -258,6 +258,21 @@ export async function fetchUser(email: string) {
   }
 }
 
+export async function fetchLesson(id: string) {
+  try {
+    noStore();
+    const data = await sql<Lesson>`
+      SELECT *
+      FROM lessons
+      WHERE id = ${id}`;
+    if (data.rows.length === 0) throw new Error(`No lesson found with ID: ${id}`);
+    return data.rows[0];
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch lesson with ID: ${id}`);
+  }
+}
+
 export async function fetchLessonsForUser(uid: any) {
   try {
     noStore();
@@ -291,6 +306,20 @@ export async function createLesson(lesson: any, uid: string) {
     console.log(`Inserted 1 new lesson for user: ${uid}`);
   } catch (error) {
     console.error('Error creating new lesson:', error);
+    throw error;
+  }
+}
+
+export async function updateLesson(lesson: Lesson) {
+  try {
+    noStore();
+    await sql`
+      UPDATE lessons SET (title, summary, body) =
+      (${lesson.title}, ${lesson.summary}, ${lesson.body})
+      WHERE id = ${lesson.id}`;
+    console.log(`Updated lesson with ID: ${lesson.id}`);
+  } catch (error) {
+    console.error('Error creating updating lesson with ID: ' + lesson.id, error);
     throw error;
   }
 }

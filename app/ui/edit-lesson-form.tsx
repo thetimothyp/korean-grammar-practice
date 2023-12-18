@@ -6,12 +6,13 @@ import { type MDXEditorMethods } from "@mdxeditor/editor";
 import '@mdxeditor/editor/style.css';
 
 type EditLessonFormProps = {
+  id?: string;
   initialTitle?: string;
   initialSummary?: string;
   initialBody?: string;
 };
 
-export default function EditLessonForm({ initialTitle, initialSummary, initialBody } : EditLessonFormProps) {
+export default function EditLessonForm({ id, initialTitle, initialSummary, initialBody } : EditLessonFormProps) {
   const [title, setTitle] = useState(initialTitle || '');
   const [summary, setSummary] = useState(initialSummary || '');
   const [body, setBody] = useState(initialBody || '');
@@ -52,14 +53,26 @@ export default function EditLessonForm({ initialTitle, initialSummary, initialBo
   function handleSubmit() {
     setDidSubmit(true);
     if (isValid()) {
-      const req = async () => {
-        const response = await fetch('/api/lessons/new', {
-          method: 'POST',
-          body: JSON.stringify({ title, summary, body })
-        });
-        return response.json();
-      };
-      req().then(() => { alert('Success!'); });
+      // If this Lesson is new (there is no ID), use the `new` endpoint
+      if (!id) {
+        const req = async () => {
+          const response = await fetch('/api/lessons/new', {
+            method: 'POST',
+            body: JSON.stringify({ title, summary, body })
+          });
+          return response.json();
+        };
+        req().then(() => { alert('Success!'); });
+      } else {
+        const req = async () => {
+          const response = await fetch('/api/lessons/update', {
+            method: 'POST',
+            body: JSON.stringify({ id, title, summary, body })
+          });
+          return response.json();
+        };
+        req().then(() => { alert('Success!'); });
+      }
     }
   }
 
