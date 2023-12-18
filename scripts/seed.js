@@ -54,7 +54,7 @@ async function seedLessons(client) {
     // Create the "lessons" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS lessons (
-        id SERIAL PRIMARY KEY,
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         title VARCHAR NOT NULL UNIQUE,
         summary VARCHAR NOT NULL,
         body TEXT NOT NULL
@@ -290,7 +290,7 @@ async function seedUserLessons(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS user_lessons (
         user_id UUID,
-        lesson_id INT,
+        lesson_id UUID,
         PRIMARY KEY (user_id, lesson_id),
         CONSTRAINT fk_exercise FOREIGN KEY(user_id) REFERENCES users(id),
         CONSTRAINT fk_vocab FOREIGN KEY(lesson_id) REFERENCES lessons(id)
