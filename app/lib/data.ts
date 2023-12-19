@@ -31,6 +31,22 @@ export async function fetchExercise(id: string) {
   }
 }
 
+export async function fetchExercisesForUser(uid: string) {
+  try {
+    noStore();
+    const data = await sql<Exercise>`
+      SELECT *
+      FROM user_exercises
+      JOIN users ON user_exercises.user_id = users.id
+      JOIN exercises ON user_exercises.exercise_id = exercises.id
+      WHERE users.id = ${uid}`
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch exercises for user with UID: ${uid}`);
+  }
+}
+
 export async function fetchConceptsForExercise(exercise: Exercise) {
   try {
     // noStore();
