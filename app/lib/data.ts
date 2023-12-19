@@ -22,10 +22,15 @@ export async function fetchExercises() {
 export async function fetchExercise(id: string) {
   try {
     noStore();
-    const data = await sql<Exercise>`SELECT * FROM exercises WHERE id = ${id}`
-    if (data.rows.length === 0) throw new Error(`Failed to fetch exercise: ${id}`);
-    console.log(data.rows[0]);
-    return data.rows[0];
+    const data = await sql`
+      SELECT exercises.id eid, exercises.tl_text, exercises.nl_text, lesson_exercises.lesson_id lid, lessons.title lesson_title, lessons.summary lesson_summary
+      FROM exercises
+      JOIN lesson_exercises ON lesson_exercises.exercise_id = exercises.id
+      JOIN lessons ON lesson_exercises.lesson_id = lessons.id
+      WHERE exercises.id = ${id}
+      GROUP BY eid, lid, lesson_title, lesson_summary`
+    if (data.rows.length < 1) throw new Error(`Failed to fetch exercise: ${id}`);
+    return data.rows;
   } catch(error) {
     console.error('Database error:', error);
     throw new Error('Failed to fetch exercise!');

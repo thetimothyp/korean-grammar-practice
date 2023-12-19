@@ -1,40 +1,58 @@
 import { redirect } from 'next/navigation'
-import {
-  fetchConceptsForExercise,
-  fetchVocabForExercise,
-  fetchExercise,
-  fetchConcepts
-} from '../../../lib/data';
-import Accordion from '../../../ui/accordion';
-import ExerciseInput from '@/app/ui/exercise-input';
-import GrammarFilterDrawer from '@/app/ui/grammar-filter-drawer';
+import { fetchExercise } from '@/app/lib/data';
+import Link from 'next/link';
+
+// https://stackoverflow.com/a/58692591
+function flattenLessons(exercise: any[]): any {
+  const arrayObj = exercise.reduce((obj, row) => {
+    if (row.eid in obj) {
+      obj[row.eid].lessons.push({
+        id: row.lid,
+        title: row.lesson_title,
+        summary: row.lesson_summary
+      });
+    } else {
+      obj[row.eid] = {
+        id: row.eid,
+        nl_text: row.nl_text,
+        tl_text: row.tl_text,
+        lessons: [{
+          id: row.lid,
+          title: row.lesson_title,
+          summary: row.lesson_summary
+        }]
+      };
+    }
+    return obj;
+  }, {});
+  return Object.values(arrayObj)[0];
+}
 
 export default async function Home({ params }: { params: { id: string }}) {
   try {
     const exercise = await fetchExercise(params.id);
-    // const concepts = await fetchConceptsForExercise(exercise);
-    // const allConcepts = await fetchConcepts();
+    const flattenedExercise = flattenLessons(exercise);
   
     return (
       <main className="h-screen w-screen">
-        {/* <GrammarFilterDrawer concepts={allConcepts} /> */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-2/3 lg:w-2/5 xl:w-1/3">
-          <div className="text-2xl w-full text-center">
-            <span>{exercise.nl_text}</span>
+          <div className="text-3xl w-full text-center">
+            <span>{flattenedExercise.tl_text}</span>
           </div>
-  
-          <ExerciseInput answer={exercise.tl_text} id={params.id} />
-  
-          <div className="flex my-4 w-full">
-            <Accordion>
-                {/* {concepts.map((concept, index) => (
-                  <div className='mb-4' key={index}>
-                    <p className='text-base text-black font-bold'>{concept.text}</p>
-                    <p className='text-slate-600'>{concept.explanation}</p>
-                  </div>
-                ))} */}
-            </Accordion>
+          <div className="text-2xl text-zinc-500 w-full text-center mb-8 mt-2">
+            <span>{flattenedExercise.nl_text}</span>
           </div>
+          <h2 className="text-lg mt-4 font-bold border-b m-4 py-2">
+            This exercise practices {flattenedExercise.lessons.length} lesson{flattenedExercise.lessons.length != 1 ? 's' : ''}:
+          </h2>
+          {flattenedExercise.lessons.map((lesson: any, index: any) => (
+            <Link href={`/lessons/${lesson.id}/view`} key={index}>
+              <div className='hover:bg-stone-300/30 px-4 py-2 rounded-lg transition-colors'>
+                <p className='text-base text-black font-bold'>{lesson.title}</p>
+                <p className='text-slate-600'>{lesson.summary}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </main>
     )
