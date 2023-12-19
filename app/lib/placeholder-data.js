@@ -11,6 +11,18 @@ const lessons = [
     title: 'VERB + -고 있다',
     summary: 'SUBJECT is VERBing (present progressive)',
     body: '# This is a header!'
+  },
+  {
+    id: 'faf5a820-f476-477a-9544-75f35de79470',
+    title: 'Lesson #2',
+    summary: 'Lesson 2 summary',
+    body: 'Awesome!'
+  },
+  {
+    id: '9e59b929-2ffb-4272-8d5a-f2091e8fd0fd',
+    title: 'Lesson #1 for Collection #2',
+    summary: 'Lesson 1, Collection 2 summary',
+    body: 'Awesome!!!!'
   }
 ];
 
@@ -18,7 +30,15 @@ const userLessons = [
   {
     user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
     lesson_id: 'd99ad5d2-1643-44e9-b8fb-eb87991d10a1'
-  }
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    lesson_id: 'faf5a820-f476-477a-9544-75f35de79470'
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    lesson_id: '9e59b929-2ffb-4272-8d5a-f2091e8fd0fd'
+  },
 ];
 
 const exercises = [
@@ -42,21 +62,37 @@ const collections = [
   {
     id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
     name: "letspracticelanguageofficial’s Lessons",
-  }
+  },
+  {
+    id: '9c233e96-7818-4b92-a529-9096d44ab97a',
+    name: "Another collection",
+  },
 ];
 
 const userCollections = [
   {
     user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
     collection_id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
-  }
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    collection_id: '9c233e96-7818-4b92-a529-9096d44ab97a',
+  },
 ];
 
 const collectionLessons = [
   {
     collection_id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
     lesson_id: 'd99ad5d2-1643-44e9-b8fb-eb87991d10a1',
-  }
+  },
+  {
+    collection_id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
+    lesson_id: 'faf5a820-f476-477a-9544-75f35de79470',
+  },
+  {
+    collection_id: '9c233e96-7818-4b92-a529-9096d44ab97a',
+    lesson_id: '9e59b929-2ffb-4272-8d5a-f2091e8fd0fd',
+  },
 ];
 
 module.exports = {
