@@ -1,67 +1,31 @@
 'use client';
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useQueryState } from 'next-usequerystate';
 
 type ExerciseInputProps = {
-  id: any,
-  answer: string
+  answer: string,
+  goToNextExercise: () => void
 }
 
-export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
+export default function ExerciseInput({ answer, goToNextExercise }: ExerciseInputProps) {
   const [status, setStatus] = useState('pending');
-  const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState('');
-  const router = useRouter();
-  const [done, setDone] = useQueryState('done', { defaultValue: '' });
-  const [filter, _] = useQueryState('filter', { defaultValue: '' });
 
-  function doneString() {
-    if (done.length > 0) {
-      return `${[...decodeURIComponent(done).split(','), id].join(',')}`;
-    } else {
-      return id;
-    }
-  }
-
-  async function goToNextExercise() {
-    setIsLoading(true);
-
-    const getNextId = async () => {
-      const url = '/api/exercise/next?' + new URLSearchParams({
-        id,
-        filter,
-        done: doneString(),
-      });
-      const response = await fetch(url, { method: 'GET' });
-      return response.json();
-    }
-
-    setDone(doneString());
-    const urlParams = new URLSearchParams({
-      filter,
-      done: doneString(),
-    });
-
-    getNextId().then(res => {
-      if (res.reset) {
-        setDone('');
-        urlParams.set('done', '');
-      }
-      router.push(`/exercises/${res.nextId}?${urlParams.toString()}`)
-    });
+  function reset() {
+    setStatus('pending');
+    setResponse('');
   }
 
   function handleSubmit(e: any) {
     e.preventDefault();
 
     if (status === 'correct') {
+      reset();
       return goToNextExercise();
     }
     if (status === 'incorrect') {
-      setStatus('pending');
-      setResponse('');
+      // Try again
+      reset();
       return;
     }
 
@@ -100,11 +64,11 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
     const responseCharacterSet = new Set(response.replaceAll(/\s/g,''));
 
     let buffer: any = [];
-    Array.from(answer).forEach(c => {
+    Array.from(answer).forEach((c, index) => {
       if (!responseCharacterSet.has(c)) {
-        buffer.push(<span className="font-bold">{c}</span>);
+        buffer.push(<span key={index} className="font-bold">{c}</span>);
       } else {
-        buffer.push(<span>{c}</span>);
+        buffer.push(<span key={index}>{c}</span>);
       }
     });
     return buffer;
@@ -139,13 +103,9 @@ export default function ExerciseInput({ id, answer }: ExerciseInputProps) {
 
       <div className="flex flex-col gap-2 sm:flex-row sm:gap-0 items-end justify-end items-center mt-2 w-full">
         {status === 'incorrect' ? (
-          <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 hover:cursor-pointer transition-all"><a onClick={goToNextExercise}>Override: I’m close enough!</a></span>
+          <span className="mx-4 text-slate-900 opacity-50 hover:opacity-80 hover:cursor-pointer transition-all"><a onClick={() => {reset(); goToNextExercise();}}>Override: I’m close enough!</a></span>
         ) : status === 'correct' ? <span className="mx-4 text-slate-900">{randomCongrats()}</span> : ''}
         <button className={`${status === 'incorrect' ? 'bg-red-400 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} relative shadow-sm text-gray-900 p-2 px-4 rounded-lg transition-colors right-0`}>
-            <div className={`${isLoading ? 'opacity-100' : 'opacity-0'} w-full h-full rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-inherit transition-opacity`}>
-              <div className="mt-2 animate-spin inline-block w-6 h-6 border-[2px] border-white border-opacity-70 border-t-transparent rounded-full" role="status" aria-label="loading">
-              </div>
-            </div>
             <span className="font-bold tracking-wide text-white text-center antialiased">{buttonLabel()}</span>
         </button>
       </div>

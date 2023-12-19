@@ -23,7 +23,7 @@ export default function Accordion({ children }: AccordionProps) {
           aria-expanded={accordionOpen}
           aria-controls={`accordion-text-01`}
         >
-          <span>Show grammar patterns in this exercise</span>
+          <span>Show lessons practiced in this exercise</span>
           <svg className="fill-slate-700 shrink-0 ml-8" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
             <rect y="7" width="16" height="2" rx="1" className={`ttransform origin-center transition duration-200 ease-out ${accordionOpen && '!rotate-180'}`} />
             <rect y="7" width="16" height="2" rx="1" className={`transform origin-center rotate-90 transition duration-200 ease-out ${accordionOpen && '!rotate-180'}`} />
