@@ -1,8 +1,6 @@
 const { db } = require('@vercel/postgres');
 const {
-  concepts,
   exercises,
-  vocabs,
   users,
   lessons,
   userLessons,
@@ -43,44 +41,6 @@ async function seedUsers(client) {
     };
   } catch (error) {
     console.error('Error seeding users:', error);
-    throw error;
-  }
-}
-
-async function seedConcepts(client) {
-  try {
-    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    await client.sql`DROP TABLE IF EXISTS concepts CASCADE;`
-    // Create the "concepts" table if it doesn't exist
-    const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS concepts (
-        id SERIAL PRIMARY KEY,
-        text VARCHAR NOT NULL UNIQUE,
-        explanation VARCHAR NOT NULL
-      );
-    `;
-
-    console.log(`Created "concepts" table`);
-
-    // Insert data into the "concepts" table
-    const insertedConcepts = await Promise.all(
-      concepts.map(async (concept) => {
-        return client.sql`
-        INSERT INTO concepts (text, explanation)
-        VALUES (${concept.text}, ${concept.explanation})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-      }),
-    );
-
-    console.log(`Seeded ${insertedConcepts.length} concepts`);
-
-    return {
-      createTable,
-      concepts: insertedConcepts,
-    };
-  } catch (error) {
-    console.error('Error seeding concepts:', error);
     throw error;
   }
 }
@@ -157,44 +117,6 @@ async function seedUserLessons(client) {
     };
   } catch (error) {
     console.error('Error seeding user_lessons:', error);
-    throw error;
-  }
-}
-
-async function seedVocabs(client) {
-  try {
-    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    await client.sql`DROP TABLE IF EXISTS vocabs CASCADE;`
-    // Create the "vocab" table if it doesn't exist
-    const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS vocabs (
-        id SERIAL PRIMARY KEY,
-        en_text VARCHAR NOT NULL,
-        kr_text VARCHAR NOT NULL UNIQUE
-      );
-    `;
-
-    console.log(`Created "vocabs" table`);
-
-    // Insert data into the "vocab" table
-    const insertedVocabs = await Promise.all(
-      vocabs.map(async (vocab) => {
-        return client.sql`
-        INSERT INTO vocabs (en_text, kr_text)
-        VALUES (${vocab.enText}, ${vocab.krText})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-      }),
-    );
-
-    console.log(`Seeded ${insertedVocabs.length} vocabs`);
-
-    return {
-      createTable,
-      vocabs: insertedVocabs,
-    };
-  } catch (error) {
-    console.error('Error seeding vocabs:', error);
     throw error;
   }
 }
@@ -386,8 +308,6 @@ async function seedExerciseVocab(client) {
 async function main() {
   const client = await db.connect();
 
-  // await seedConcepts(client);
-  // await seedVocabs(client);
   // await seedExerciseConcept(client);
   // await seedExerciseVocab(client);
   await seedUsers(client);
