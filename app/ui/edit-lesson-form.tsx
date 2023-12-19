@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ForwardRefEditor } from "./MDXEditor/ForwardRefEditor";
 import { type MDXEditorMethods } from "@mdxeditor/editor";
 import '@mdxeditor/editor/style.css';
+import { redirect, useRouter } from "next/navigation";
 
 type EditLessonFormProps = {
   id?: string;
@@ -13,6 +14,8 @@ type EditLessonFormProps = {
 };
 
 export default function EditLessonForm({ id, initialTitle, initialSummary, initialBody } : EditLessonFormProps) {
+  const router = useRouter();
+
   const [title, setTitle] = useState(initialTitle || '');
   const [summary, setSummary] = useState(initialSummary || '');
   const [body, setBody] = useState(initialBody || '');
@@ -53,26 +56,26 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
   function handleSubmit() {
     setDidSubmit(true);
     if (isValid()) {
+      let req;
       // If this Lesson is new (there is no ID), use the `new` endpoint
       if (!id) {
-        const req = async () => {
+        req = async () => {
           const response = await fetch('/api/lessons/new', {
             method: 'POST',
             body: JSON.stringify({ title, summary, body })
           });
           return response.json();
         };
-        req().then(() => { alert('Success!'); });
       } else {
-        const req = async () => {
+        req = async () => {
           const response = await fetch('/api/lessons/update', {
             method: 'POST',
             body: JSON.stringify({ id, title, summary, body })
           });
           return response.json();
         };
-        req().then(() => { alert('Success!'); });
       }
+      req().then((res) => { router.push(`/lessons/${res.id}/view`) });
     }
   }
 
