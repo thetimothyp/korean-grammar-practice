@@ -11,9 +11,9 @@ export type Vocab = {
 };
 
 export type Exercise = {
-  id: number;
-  en_text: string;
-  kr_text: string;
+  id: string;
+  nl_text: string;
+  tl_text: string;
 };
 
 export type User = {
