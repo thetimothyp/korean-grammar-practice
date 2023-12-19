@@ -18,11 +18,12 @@ export async function fetchExercises() {
   }
 }
 
-export async function fetchExercise(id: number) {
+export async function fetchExercise(id: string) {
   try {
     noStore();
     const data = await sql<Exercise>`SELECT * FROM exercises WHERE id = ${id}`
     if (data.rows.length === 0) throw new Error(`Failed to fetch exercise: ${id}`);
+    console.log(data.rows[0]);
     return data.rows[0];
   } catch(error) {
     console.error('Database error:', error);

@@ -3,11 +3,10 @@ const {
   concepts,
   exercises,
   vocabs,
-  exerciseVocabs,
-  exerciseConcepts,
   users,
   lessons,
   userLessons,
+  userExercises,
 } = require('../app/lib/placeholder-data.js');
 
 async function seedUsers(client) {
@@ -209,15 +208,28 @@ async function seedExercises(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS exercises (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        en_text VARCHAR NOT NULL UNIQUE,
-        kr_text VARCHAR NOT NULL UNIQUE
+        nl_text VARCHAR NOT NULL UNIQUE,
+        tl_text VARCHAR NOT NULL UNIQUE
       );
     `;
 
     console.log(`Created "exercises" table`);
 
+    // Insert data into the "exercises" table
+    const insertedExercises = await Promise.all(
+      exercises.map(async (exercise) => {
+        return client.sql`
+        INSERT INTO exercises (id, nl_text, tl_text)
+        VALUES (${exercise.id}, ${exercise.nlText}, ${exercise.tlText});
+      `;
+      }),
+    );
+
+    console.log(`Seeded ${insertedExercises.length} exercises`);
+
     return {
       createTable,
+      insertedExercises,
     };
   } catch (error) {
     console.error('Error seeding exercises:', error);
@@ -243,8 +255,20 @@ async function seedUserExercises(client) {
 
     console.log(`Created "user_exercises" table`);
 
+    // Insert data into the "user_exercises" table
+    const insertedUserExercises = await Promise.all(
+      userExercises.map(async (userExercise) => {
+        return client.sql`
+          INSERT INTO user_exercises (user_id, exercise_id)
+          VALUES (${userExercise.user_id}, ${userExercise.exercise_id});
+        `;
+      }),
+    );
+    console.log(`Seeded ${insertedUserExercises.length} user_exercises`);
+
     return {
       createTable,
+      insertedUserExercises,
     };
   } catch (error) {
     console.error('Error seeding user_exercises:', error);
