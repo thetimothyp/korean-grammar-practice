@@ -17,7 +17,7 @@ export default async function Dashboard() {
 
   function ExerciseComponent({ exercise } : { exercise: Exercise }) {
     return (
-      <Link href={`/exercises/${exercise.id}`} className="row-span-5 shadow-sm flex flex-col justify-center items-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors text-center">
+      <Link href={`/exercises/${exercise.id}/view`} className="row-span-5 shadow-sm flex flex-col justify-center items-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors text-center">
         <h3 className="text-xl font-bold">{exercise.tl_text}</h3>
       </Link>
     )

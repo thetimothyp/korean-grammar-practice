@@ -4,8 +4,8 @@ import {
   fetchVocabForExercise,
   fetchExercise,
   fetchConcepts
-} from '../../lib/data';
-import Accordion from '../../ui/accordion';
+} from '../../../lib/data';
+import Accordion from '../../../ui/accordion';
 import ExerciseInput from '@/app/ui/exercise-input';
 import GrammarFilterDrawer from '@/app/ui/grammar-filter-drawer';
 
