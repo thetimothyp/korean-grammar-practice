@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ExerciseInput from "./exercise-input";
 import Accordion from "./accordion";
+import Link from "next/link";
 
 export default function ExerciseRunner({ exercises }: { exercises: any[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,10 +25,12 @@ export default function ExerciseRunner({ exercises }: { exercises: any[] }) {
         <div className="flex my-4 w-full">
           <Accordion>
               {exercises[currentIndex].lessons.map((lesson: any, index: any) => (
-                <div className='mb-4' key={index}>
-                  <p className='text-base text-black font-bold'>{lesson.title}</p>
-                  <p className='text-slate-600'>{lesson.summary}</p>
-                </div>
+                <Link href={`/lessons/${lesson.id}/view`} key={index}>
+                  <div className='hover:bg-stone-300/30 px-4 py-2 rounded-lg transition-colors'>
+                    <p className='text-base text-black font-bold'>{lesson.title}</p>
+                    <p className='text-slate-600'>{lesson.summary}</p>
+                  </div>
+                </Link>
               ))}
           </Accordion>
         </div>
