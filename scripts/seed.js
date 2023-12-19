@@ -276,29 +276,29 @@ async function seedUserExercises(client) {
   }
 }
 
-async function seedExerciseLessons(client) {
+async function seedLessonExercises(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    await client.sql`DROP TABLE IF EXISTS exercise_lessons CASCADE;`
+    await client.sql`DROP TABLE IF EXISTS lesson_exercises CASCADE;`
 
-    // Create the "exercise_lessons" table if it doesn't exist
+    // Create the "lesson_exercises" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS exercise_lessons (
-        exercise_id UUID,
+      CREATE TABLE IF NOT EXISTS lesson_exercises (
         lesson_id UUID,
-        PRIMARY KEY (exercise_id, lesson_id),
-        CONSTRAINT fk_exercise FOREIGN KEY(exercise_id) REFERENCES exercises(id),
-        CONSTRAINT fk_lesson FOREIGN KEY(lesson_id) REFERENCES lessons(id)
+        exercise_id UUID,
+        PRIMARY KEY (lesson_id, exercise_id),
+        CONSTRAINT fk_lesson FOREIGN KEY(lesson_id) REFERENCES lessons(id),
+        CONSTRAINT fk_exercise FOREIGN KEY(exercise_id) REFERENCES exercises(id)
       );
     `;
 
-    console.log(`Created "exercise_lessons" table`);
+    console.log(`Created "lesson_exercises" table`);
 
     return {
       createTable,
     };
   } catch (error) {
-    console.error('Error seeding exercise_lessons:', error);
+    console.error('Error seeding lesson_exercises:', error);
     throw error;
   }
 }
@@ -395,7 +395,7 @@ async function main() {
   await seedUserLessons(client);
   await seedExercises(client);
   await seedUserExercises(client);
-  await seedExerciseLessons(client);
+  await seedLessonExercises(client);
 
   await client.end();
 }
