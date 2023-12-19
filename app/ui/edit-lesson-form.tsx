@@ -15,6 +15,7 @@ type EditLessonFormProps = {
 
 export default function EditLessonForm({ id, initialTitle, initialSummary, initialBody } : EditLessonFormProps) {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [title, setTitle] = useState(initialTitle || '');
   const [summary, setSummary] = useState(initialSummary || '');
@@ -56,6 +57,7 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
   function handleSubmit() {
     setDidSubmit(true);
     if (isValid()) {
+      setIsLoading(true);
       let req;
       // If this Lesson is new (there is no ID), use the `new` endpoint
       if (!id) {
@@ -98,8 +100,11 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
         </div>
         <button
           onClick={handleSubmit}
-          className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-6 rounded-lg transition-colors"
+          className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-6 rounded-lg transition-colors relative"
         >
+          <div className={`${isLoading ? 'opacity-100' : 'opacity-0'} w-full h-full rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-inherit transition-opacity`}>
+            <div className="mt-2 animate-spin inline-block w-6 h-6 border-[2px] border-white border-opacity-70 border-t-transparent rounded-full" role="status" aria-label="loading" />
+          </div>
           <span className="font-bold tracking-wide text-white text-center antialiased">Save</span>
         </button>
       </div>
