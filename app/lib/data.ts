@@ -5,6 +5,7 @@ import {
   Exercise,
   Vocab,
   Lesson,
+  Collection,
 } from './definitions';
 
 export async function fetchExercises() {
@@ -302,7 +303,7 @@ export async function fetchLessonsForUser(uid: any) {
     return data.rows;
   } catch(error) {
     console.error('Database error:', error);
-    throw new Error(`Failed to fetch for user with UID: ${uid}`);
+    throw new Error(`Failed to fetch lessons for user with UID: ${uid}`);
   }
 }
 
@@ -341,5 +342,24 @@ export async function updateLesson(lesson: Lesson) {
   } catch (error) {
     console.error('Error creating updating lesson with ID: ' + lesson.id, error);
     throw error;
+  }
+}
+
+export async function fetchCollectionsForUser(uid: string) {
+  try {
+    noStore();
+    const data = await sql`
+      SELECT collections.id, collections.name, COUNT(lessons) lesson_count
+      FROM user_collections
+      JOIN users ON user_collections.user_id = users.id
+      JOIN collections ON user_collections.collection_id = collections.id
+      JOIN collection_lessons ON collection_lessons.collection_id = collections.id
+      JOIN lessons ON collection_lessons.lesson_id = lessons.id
+      WHERE users.id = ${uid}
+      GROUP BY collections.id`
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch collections for user with UID: ${uid}`);
   }
 }

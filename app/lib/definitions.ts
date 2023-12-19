@@ -29,3 +29,8 @@ export type Lesson = {
   summary: string;
   body: string;
 };
+
+export type Collection = {
+  id: string;
+  name: string;
+};
