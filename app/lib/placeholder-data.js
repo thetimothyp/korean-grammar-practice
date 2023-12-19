@@ -38,10 +38,18 @@ const userExercises = [
   }
 ];
 
+const collections = [
+  {
+    id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
+    name: "letspracticelanguageofficial’s Lessons"
+  }
+]
+
 module.exports = {
   exercises,
   users,
   lessons,
+  collections,
   userLessons,
   userExercises,
 };

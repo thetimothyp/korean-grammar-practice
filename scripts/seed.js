@@ -5,6 +5,7 @@ const {
   lessons,
   userLessons,
   userExercises,
+  collections,
 } = require('../app/lib/placeholder-data.js');
 
 async function seedUsers(client) {
@@ -225,6 +226,42 @@ async function seedLessonExercises(client) {
   }
 }
 
+async function seedCollections(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS collections CASCADE;`
+    // Create the "collections" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS collections (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        name VARCHAR NOT NULL
+      );
+    `;
+
+    console.log(`Created "collections" table`);
+
+    // Insert data into the "collections" table
+    const insertedCollections = await Promise.all(
+      collections.map(async (collection) => {
+        return client.sql`
+        INSERT INTO collections (id, name)
+        VALUES (${collection.id}, ${collection.name});
+      `;
+      }),
+    );
+
+    console.log(`Seeded ${insertedCollections.length} collections`);
+
+    return {
+      createTable,
+      insertedCollections,
+    };
+  } catch (error) {
+    console.error('Error seeding collections:', error);
+    throw error;
+  }
+}
+
 async function seedExerciseConcept(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -316,6 +353,7 @@ async function main() {
   await seedExercises(client);
   await seedUserExercises(client);
   await seedLessonExercises(client);
+  await seedCollections(client);
 
   await client.end();
 }
