@@ -1768,6 +1768,15 @@ const exerciseVocabs = [
   },
 ]
 
+const lessons = [
+  {
+    id: 'd99ad5d2-1643-44e9-b8fb-eb87991d10a1',
+    title: 'VERB + -고 있다',
+    summary: 'SUBJECT is VERBing (present progressive)',
+    body: '# This is a header!'
+  }
+]
+
 // To change password:
 // 1. Change password in this file and save. Do NOT commit the new password to GitHub!
 // 2. In `seed.js:main()`, comment out everything except seedUsers()
@@ -1776,10 +1785,15 @@ const exerciseVocabs = [
 const users = [
   {
     id: '410544b2-4001-4271-9855-fec4b6a6442a',
-    name: 'Tim',
     email: 'thetimothyp@gmail.com',
-    password: 'adminadmin',
   },
+];
+
+const userLessons = [
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    lesson_id: 'd99ad5d2-1643-44e9-b8fb-eb87991d10a1'
+  }
 ];
 
 module.exports = {
@@ -1789,4 +1803,6 @@ module.exports = {
   exerciseConcepts,
   exerciseVocabs,
   users,
+  lessons,
+  userLessons,
 };

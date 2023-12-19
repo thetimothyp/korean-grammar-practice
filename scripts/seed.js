@@ -6,6 +6,8 @@ const {
   exerciseVocabs,
   exerciseConcepts,
   users,
+  lessons,
+  userLessons,
 } = require('../app/lib/placeholder-data.js');
 
 async function seedUsers(client) {
@@ -100,8 +102,21 @@ async function seedLessons(client) {
 
     console.log(`Created "lessons" table`);
 
+    // Insert data into the "lessons" table
+    const insertedLessons = await Promise.all(
+      lessons.map(async (lesson) => {
+        return client.sql`
+        INSERT INTO lessons (id, title, summary, body)
+        VALUES (${lesson.id}, ${lesson.title}, ${lesson.summary}, ${lesson.body});
+      `;
+      }),
+    );
+
+    console.log(`Seeded ${insertedLessons.length} lessons`);
+
     return {
       createTable,
+      insertedLessons,
     };
   } catch (error) {
     console.error('Error seeding lessons:', error);
@@ -124,11 +139,22 @@ async function seedUserLessons(client) {
         CONSTRAINT fk_lesson FOREIGN KEY(lesson_id) REFERENCES lessons(id)
       );
     `;
-
     console.log(`Created "user_lessons" table`);
+
+    // Insert data into the "user_lessons" table
+    const insertedUserLessons = await Promise.all(
+      userLessons.map(async (userLesson) => {
+        return client.sql`
+          INSERT INTO user_lessons (user_id, lesson_id)
+          VALUES (${userLesson.user_id}, ${userLesson.lesson_id});
+        `;
+      }),
+    );
+    console.log(`Seeded ${insertedUserLessons.length} user_lessons`);
 
     return {
       createTable,
+      insertedUserLessons,
     };
   } catch (error) {
     console.error('Error seeding user_lessons:', error);
