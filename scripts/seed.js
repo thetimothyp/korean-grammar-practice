@@ -8,6 +8,7 @@ const {
   collections,
   userCollections,
   collectionLessons,
+  lessonExercises,
 } = require('../app/lib/placeholder-data.js');
 
 async function seedUsers(client) {
@@ -219,8 +220,20 @@ async function seedLessonExercises(client) {
 
     console.log(`Created "lesson_exercises" table`);
 
+    // Insert data into the "lesson_exercises" table
+    const insertedLessonExercises = await Promise.all(
+      lessonExercises.map(async (lessonExercise) => {
+        return client.sql`
+          INSERT INTO lesson_exercises (lesson_id, exercise_id)
+          VALUES (${lessonExercise.lesson_id}, ${lessonExercise.exercise_id});
+        `;
+      }),
+    );
+    console.log(`Seeded ${insertedLessonExercises.length} lesson_exercises`);
+
     return {
       createTable,
+      insertedLessonExercises,
     };
   } catch (error) {
     console.error('Error seeding lesson_exercises:', error);

@@ -1,7 +1,6 @@
 import { getCurrentUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 import { fetchCollectionsForUser, fetchExercisesForUser, fetchLessonsForUser } from "../lib/data";
-import { Exercise, Lesson } from "../lib/definitions";
 import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
@@ -22,7 +21,7 @@ export default async function Dashboard() {
     return (
       <Link href={`/collections/${collection.id}/view`} className="row-span-5 shadow-sm justify-center flex flex-col items-start py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <h3 className="text-xl font-bold">{collection.name}</h3>
-        <p className="text-zinc-500">{collection.lesson_count} lesson{collection.lesson_count != 1 ? 's' : ''}</p>
+        <p className="text-sm text-zinc-400">{collection.lesson_count} lesson{collection.lesson_count != 1 ? 's' : ''}</p>
       </Link>
     )
   }
@@ -36,11 +35,12 @@ export default async function Dashboard() {
     )
   }
 
-  function LessonComponent({ lesson } : { lesson: Lesson }) {
+  function LessonComponent({ lesson } : { lesson: { id: string, title: string, summary: string, exercise_count: number } }) {
     return (
       <Link href={`/lessons/${lesson.id}/view`} className="row-span-5 shadow-sm justify-center flex flex-col py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <h3 className="text-xl font-bold">{lesson.title}</h3>
         <p className="text-zinc-500">{lesson.summary}</p>
+        <p className="text-sm mt-1 text-zinc-400">{lesson.exercise_count} exercise{lesson.exercise_count != 1 ? 's' : ''}</p>
       </Link>
     )
   }
@@ -54,10 +54,11 @@ export default async function Dashboard() {
     )
   }
 
-  function ExerciseComponent({ exercise } : { exercise: Exercise }) {
+  function ExerciseComponent({ exercise } : { exercise: { id: string, tl_text: string, lesson_count: number } }) {
     return (
-      <Link href={`/exercises/${exercise.id}/view`} className="row-span-5 shadow-sm flex flex-col justify-center items-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors text-center">
+      <Link href={`/exercises/${exercise.id}/view`} className="row-span-5 shadow-sm flex flex-col justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <h3 className="text-xl font-bold">{exercise.tl_text}</h3>
+        <p className="text-sm text-zinc-400">{exercise.lesson_count} lesson{exercise.lesson_count != 1 ? 's' : ''}</p>
       </Link>
     )
   }
@@ -79,11 +80,11 @@ export default async function Dashboard() {
         <NewCollectionComponent />
 
         <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-4">Your lessons</h1>
-        {lessons.map(lesson => <LessonComponent key={lesson.id} lesson={lesson} />)}
+        {lessons.map((lesson: any) => <LessonComponent key={lesson.id} lesson={lesson} />)}
         <NewLessonComponent />
 
         <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-4">Your exercises</h1>
-        {exercises.map(exercise => <ExerciseComponent key={exercise.id} exercise={exercise} />)}
+        {exercises.map((exercise: any) => <ExerciseComponent key={exercise.id} exercise={exercise} />)}
         <NewExerciseComponent />
       </div>
     </main>

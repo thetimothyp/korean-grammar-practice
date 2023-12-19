@@ -14,8 +14,6 @@ export default async function Home({ params }: { params: { id: string }}) {
     const exercise = await fetchExercise(params.id);
     // const concepts = await fetchConceptsForExercise(exercise);
     // const allConcepts = await fetchConcepts();
-    // const vocabs = await fetchVocabForExercise(exercise);
-    // const vocabTip = vocabs.map(vocab => `${vocab.en_text} = ${vocab.kr_text}`).join(', ');
   
     return (
       <main className="h-screen w-screen">
@@ -24,13 +22,6 @@ export default async function Home({ params }: { params: { id: string }}) {
           <div className="text-2xl w-full text-center">
             <span>{exercise.nl_text}</span>
           </div>
-  
-          {/* {vocabs.length > 0 ? (
-            <div className="w-full text-center">
-              <p className="text-slate-900 opacity-50 text-sm my-2">({vocabTip})</p>
-            </div>
-          ) : ''
-          } */}
   
           <ExerciseInput answer={exercise.tl_text} id={params.id} />
   

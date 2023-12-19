@@ -35,12 +35,15 @@ export async function fetchExercise(id: string) {
 export async function fetchExercisesForUser(uid: string) {
   try {
     noStore();
-    const data = await sql<Exercise>`
-      SELECT *
+    const data = await sql`
+      SELECT exercises.id, exercises.tl_text, COUNT(lessons) lesson_count
       FROM user_exercises
       JOIN users ON user_exercises.user_id = users.id
       JOIN exercises ON user_exercises.exercise_id = exercises.id
-      WHERE users.id = ${uid}`
+      JOIN lesson_exercises ON lesson_exercises.exercise_id = exercises.id
+      JOIN lessons ON lesson_exercises.lesson_id = lessons.id
+      WHERE users.id = ${uid}
+      GROUP BY exercises.id`
     return data.rows;
   } catch(error) {
     console.error('Database error:', error);
@@ -294,12 +297,15 @@ export async function fetchLesson(id: string) {
 export async function fetchLessonsForUser(uid: any) {
   try {
     noStore();
-    const data = await sql<Lesson>`
-      SELECT *
+    const data = await sql`
+      SELECT lessons.id, lessons.title, lessons.summary, COUNT(exercises) exercise_count
       FROM user_lessons
       JOIN users ON user_lessons.user_id = users.id
       JOIN lessons ON user_lessons.lesson_id = lessons.id
-      WHERE users.id = ${uid}`
+      JOIN lesson_exercises ON lesson_exercises.lesson_id = lessons.id
+      JOIN exercises ON lesson_exercises.exercise_id = exercises.id
+      WHERE users.id = ${uid}
+      GROUP BY lessons.id`
     return data.rows;
   } catch(error) {
     console.error('Database error:', error);

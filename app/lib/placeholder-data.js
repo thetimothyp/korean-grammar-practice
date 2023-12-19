@@ -58,6 +58,17 @@ const userExercises = [
   }
 ];
 
+const lessonExercises = [
+  {
+    lesson_id: 'd99ad5d2-1643-44e9-b8fb-eb87991d10a1',
+    exercise_id: '33523680-88de-455e-b704-2353df1d1ab8',
+  },
+  {
+    lesson_id: '9e59b929-2ffb-4272-8d5a-f2091e8fd0fd',
+    exercise_id: '33523680-88de-455e-b704-2353df1d1ab8',
+  },
+];
+
 const collections = [
   {
     id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
@@ -101,6 +112,7 @@ module.exports = {
   userLessons,
   exercises,
   userExercises,
+  lessonExercises,
   collections,
   userCollections,
   collectionLessons,
