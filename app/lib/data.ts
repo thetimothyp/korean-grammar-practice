@@ -297,13 +297,14 @@ export async function fetchLesson(id: string) {
 export async function fetchLessonsForUser(uid: any) {
   try {
     noStore();
+    // https://stackoverflow.com/questions/57803167/sql-how-to-count-the-number-of-relations-between-two-tables-and-include-zeroes
     const data = await sql`
       SELECT lessons.id, lessons.title, lessons.summary, COUNT(exercises) exercise_count
       FROM user_lessons
       JOIN users ON user_lessons.user_id = users.id
       JOIN lessons ON user_lessons.lesson_id = lessons.id
-      JOIN lesson_exercises ON lesson_exercises.lesson_id = lessons.id
-      JOIN exercises ON lesson_exercises.exercise_id = exercises.id
+      LEFT JOIN lesson_exercises ON lesson_exercises.lesson_id = lessons.id
+      LEFT JOIN exercises ON lesson_exercises.exercise_id = exercises.id
       WHERE users.id = ${uid}
       GROUP BY lessons.id`
     return data.rows;
@@ -367,5 +368,24 @@ export async function fetchCollectionsForUser(uid: string) {
   } catch(error) {
     console.error('Database error:', error);
     throw new Error(`Failed to fetch collections for user with UID: ${uid}`);
+  }
+}
+
+export async function fetchExercisesForCollection(cid: string) {
+  try {
+    noStore();
+    const data = await sql`
+      SELECT exercises.id eid, exercises.nl_text, exercises.tl_text, lessons.id lid, lessons.title lesson_title, lessons.summary lesson_summary
+      FROM collection_lessons
+      JOIN collections ON collection_lessons.collection_id = collections.id
+      JOIN lessons ON collection_lessons.lesson_id = lessons.id
+      JOIN lesson_exercises ON lesson_exercises.lesson_id = lessons.id
+      JOIN exercises ON lesson_exercises.exercise_id = exercises.id
+      WHERE collections.id = ${cid}
+      GROUP BY eid, lid`
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch exercises for collection with ID: ${cid}`);
   }
 }
