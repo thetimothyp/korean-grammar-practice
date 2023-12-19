@@ -6,6 +6,8 @@ const {
   userLessons,
   userExercises,
   collections,
+  userCollections,
+  collectionLessons,
 } = require('../app/lib/placeholder-data.js');
 
 async function seedUsers(client) {
@@ -262,6 +264,82 @@ async function seedCollections(client) {
   }
 }
 
+async function seedUserCollections(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS user_collections CASCADE;`
+
+    // Create the "user_collections" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS user_collections (
+        user_id UUID,
+        collection_id UUID,
+        PRIMARY KEY (user_id, collection_id),
+        CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
+        CONSTRAINT fk_collection FOREIGN KEY(collection_id) REFERENCES collections(id)
+      );
+    `;
+    console.log(`Created "user_collections" table`);
+
+    // Insert data into the "user_collections" table
+    const insertedUserCollections = await Promise.all(
+      userCollections.map(async (userCollection) => {
+        return client.sql`
+          INSERT INTO user_collections (user_id, collection_id)
+          VALUES (${userCollection.user_id}, ${userCollection.collection_id});
+        `;
+      }),
+    );
+    console.log(`Seeded ${insertedUserCollections.length} user_collections`);
+
+    return {
+      createTable,
+      insertedUserCollections,
+    };
+  } catch (error) {
+    console.error('Error seeding user_collections:', error);
+    throw error;
+  }
+}
+
+async function seedCollectionLessons(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await client.sql`DROP TABLE IF EXISTS collection_lessons CASCADE;`
+
+    // Create the "collection_lessons" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS collection_lessons (
+        collection_id UUID,
+        lesson_id UUID,
+        PRIMARY KEY (collection_id, lesson_id),
+        CONSTRAINT fk_collection FOREIGN KEY(collection_id) REFERENCES collections(id),
+        CONSTRAINT fk_lesson FOREIGN KEY(lesson_id) REFERENCES lessons(id)
+      );
+    `;
+    console.log(`Created "collection_lessons" table`);
+
+    // Insert data into the "collection_lessons" table
+    const insertedCollectionLessons = await Promise.all(
+      collectionLessons.map(async (collectionLesson) => {
+        return client.sql`
+          INSERT INTO collection_lessons (collection_id, lesson_id)
+          VALUES (${collectionLesson.collection_id}, ${collectionLesson.lesson_id});
+        `;
+      }),
+    );
+    console.log(`Seeded ${insertedCollectionLessons.length} collection_lessons`);
+
+    return {
+      createTable,
+      insertedCollectionLessons,
+    };
+  } catch (error) {
+    console.error('Error seeding collection_lessons:', error);
+    throw error;
+  }
+}
+
 async function seedExerciseConcept(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -354,6 +432,8 @@ async function main() {
   await seedUserExercises(client);
   await seedLessonExercises(client);
   await seedCollections(client);
+  await seedUserCollections(client);
+  await seedCollectionLessons(client);
 
   await client.end();
 }

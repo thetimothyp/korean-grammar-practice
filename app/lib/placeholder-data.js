@@ -41,15 +41,31 @@ const userExercises = [
 const collections = [
   {
     id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
-    name: "letspracticelanguageofficial’s Lessons"
+    name: "letspracticelanguageofficial’s Lessons",
   }
-]
+];
+
+const userCollections = [
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    collection_id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
+  }
+];
+
+const collectionLessons = [
+  {
+    collection_id: 'fe00f9a8-2ed7-44f2-9bab-0cbf02ada78f',
+    lesson_id: 'd99ad5d2-1643-44e9-b8fb-eb87991d10a1',
+  }
+];
 
 module.exports = {
-  exercises,
   users,
   lessons,
-  collections,
   userLessons,
+  exercises,
   userExercises,
+  collections,
+  userCollections,
+  collectionLessons,
 };
