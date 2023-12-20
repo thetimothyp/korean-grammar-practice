@@ -56,6 +56,21 @@ export async function fetchExercisesForUser(uid: string) {
   }
 }
 
+export async function updateExercise(exercise: Exercise) {
+  try {
+    noStore();
+    const data = await sql`
+      UPDATE exercises SET (nl_text, tl_text) =
+      (${exercise.nl_text}, ${exercise.tl_text})
+      WHERE id = ${exercise.id} RETURNING id`;
+    console.log(`Updated exercise with ID: ${exercise.id}`);
+    return data.rows[0];
+  } catch (error) {
+    console.error('Error creating updating exercise with ID: ' + exercise.id, error);
+    throw error;
+  }
+}
+
 export async function fetchConceptsForExercise(exercise: Exercise) {
   try {
     // noStore();
