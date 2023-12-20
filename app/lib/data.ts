@@ -372,6 +372,20 @@ export async function updateLesson(lesson: Lesson) {
   }
 }
 
+export async function searchLessons(query: string) {
+  try {
+    const param = `%${query}%`;
+    const data = await sql<Lesson>`
+      SELECT *
+      FROM lessons
+      WHERE title ILIKE ${param}`
+    return data.rows;
+  } catch (error) {
+    console.error('Error fetching lesson search results:', error);
+    throw error;
+  }
+}
+
 export async function fetchCollectionsForUser(uid: string) {
   try {
     noStore();

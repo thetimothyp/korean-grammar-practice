@@ -1,61 +1,59 @@
 'use client';
 
-import { Concept, Exercise } from "@/app/lib/definitions";
+import { Lesson } from "@/app/lib/definitions";
 import { useState } from "react";
 import AsyncSelect from 'react-select/async';
 
-const grammarOptionsPromise = async (query: string) => {
-  const url = '/api/grammar/search?' + new URLSearchParams({ query })
+const lessonOptionsPromise = async (query: string) => {
+  const url = '/api/lessons/search?' + new URLSearchParams({ query })
   const response = await fetch(url, { method: 'GET' });
-  return response.json().then(data => data.map((c: Concept) => ({ value: c.id, label: c.text })));
+  return response.json().then(data => data.map((l: Lesson) => ({ value: l.id, label: l.title })));
 }
 
 type TagExerciseFormProps = {
-  exercise: Exercise;
-  concepts: Concept[];
+  eid: string;
+  lessons: any[];
 }
 
-export default function TagExerciseForm({ exercise, concepts }: TagExerciseFormProps) {
-  const defaultConcepts = concepts.map(c => ({ value: c.id, label: c.text }));
-
-  const [selectedConceptIds, setSelectedConceptIds] = useState(defaultConcepts.map(c => c.value));
+export default function TagExerciseForm({ eid, lessons }: TagExerciseFormProps) {
+  const defaultLessons = lessons.map(l => ({ value: l.id, label: l.title }));
+  const [selectedLessonIds, setSelectedLessonIds] = useState(defaultLessons.map(l => l.value));
 
   function handleSubmit(e: any) {
     e.preventDefault();
     
     const promises: Promise<any>[] = [];
     
-    const submitConceptTags = async () => {
-      const response = await fetch('/api/exercise/tag-with-concepts', {
-        method: 'POST',
-        body: JSON.stringify({ exerciseId: exercise.id, conceptIds: selectedConceptIds })
-      });
-      return response.json();
-    };
+    // const submitConceptTags = async () => {
+    //   const response = await fetch('/api/exercise/tag-with-concepts', {
+    //     method: 'POST',
+    //     body: JSON.stringify({ exerciseId: exercise.id, conceptIds: selectedConceptIds })
+    //   });
+    //   return response.json();
+    // };
 
-    promises.push(submitConceptTags());
+    // promises.push(submitConceptTags());
 
     Promise.all(promises).then(() => { alert('Success!'); });
   }
 
-  function handleConceptsSelect(selected: any) {
-    setSelectedConceptIds(selected.map((item: any) => item.value));
+  function handleLessonSelect(selected: any) {
+    setSelectedLessonIds(selected.map((item: any) => item.value));
   }
 
   return (
-    <div className='flex flex-col bg-none w-full justify-left gap-2'>
-      <h1 className="text-lg text-slate-900 opacity-50">Edit exercise tags</h1>
-      <h2 className="text-lg">Grammar concepts</h2>
+    <div className='flex flex-col bg-none w-4/5 lg:w-3/5 xl:w-2/5 justify-left gap-2 my-2'>
+      <h2 className="text-lg">Which lesson concepts does this exercise practice?</h2>
       <AsyncSelect
         isMulti 
-        instanceId="grammar-concepts-search" 
+        instanceId="lesson-search" 
         defaultOptions 
-        loadOptions={grammarOptionsPromise}
-        defaultValue={defaultConcepts}
-        onChange={handleConceptsSelect}
+        loadOptions={lessonOptionsPromise}
+        defaultValue={defaultLessons}
+        onChange={handleLessonSelect}
       />
       <button onClick={handleSubmit} className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-4 rounded-lg transition-colors">
-        <span className="font-bold tracking-wide text-white text-center antialiased">Submit</span>
+        <span className="font-bold tracking-wide text-white text-center antialiased">Save</span>
       </button>
     </div>
   )

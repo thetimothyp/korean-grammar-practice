@@ -32,7 +32,11 @@ export default async function EditExercise({ params }: { params: { id: string } 
   const flattenedExercise = flattenLessons(exercise);
   return (
     <main className="h-screen w-screen flex justify-center items-center">
-      <EditExerciseForm id={flattenedExercise.id} initialNlText={flattenedExercise.nl_text} initialTlText={flattenedExercise.tl_text} />
+      <EditExerciseForm
+        id={flattenedExercise.id}
+        initialNlText={flattenedExercise.nl_text}
+        initialTlText={flattenedExercise.tl_text}
+        lessons={flattenedExercise.lessons} />
     </main>
   )
 }
