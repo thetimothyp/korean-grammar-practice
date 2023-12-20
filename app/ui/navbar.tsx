@@ -1,14 +1,17 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import logoSvg from "@/public/logo.svg";
-import { headers } from 'next/headers';
+import { useCallback } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const heads = headers();
+  const pathname = usePathname();
 
-  function activeClass(pathname: string) {
-    return heads.get('next-url') == pathname ? 'active underline' : '';
-  }
+  const activeClass = useCallback((href: string) => {
+    return pathname.startsWith(href) ? 'active underline' : '';
+  }, [pathname]);
 
   return (
     <nav className="hidden md:block fixed z-50">
@@ -27,16 +30,16 @@ export default function Navbar() {
           <div className="ml-8">
             <ul className="flex gap-8">
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/dashboard')}`}>
-                <Link href='#'>Home</Link>
+                <Link href='/'>Home</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/collections')}`}>
-                <Link href='#'>Collections</Link>
+                <Link href='/'>Collections</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/lessons')}`}>
-                <Link href='#'>Lessons</Link>
+                <Link href='/'>Lessons</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/exercises')}`}>
-                <Link href='#'>Exercises</Link>
+                <Link href='/'>Exercises</Link>
               </li>
             </ul>
           </div>
