@@ -23,13 +23,33 @@ const config: Config = {
           css: {
             h1: {
               fontWeight: '700',
-              fontSize: '28pt',
+              fontSize: '2em',
               marginBottom: '0.5em',
               marginTop: '0.5em',
             },
             h2: {
               marginBottom: '.75em',
               marginTop: '.75em',
+            },
+            h3: {
+              marginTop: '1em',
+            },
+            a: {
+              color: 'rgb(59, 130, 246)',
+            }
+          }
+        },
+        lg: {
+          css: {
+            h1: {
+              fontWeight: '700',
+              fontSize: '2em',
+              marginBottom: '0.5em',
+              marginTop: '0.5em',
+            },
+            h2: {
+              marginBottom: '.5em',
+              marginTop: '1em',
             },
             h3: {
               marginTop: '1em',

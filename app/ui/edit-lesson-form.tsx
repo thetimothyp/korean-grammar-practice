@@ -83,7 +83,7 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
 
   return (
     <div className="flex flex-col items-center min-h-screen px-4 w-full md:w-4/5 xl:w-3/5">
-      <div className='flex w-full justify-between items-center border-b border-dashed py-4'>
+      <div className='flex w-full justify-between items-center bg-stone-50 mt-24 rounded-lg p-6'>
         <div className='flex flex-col w-4/5 justify-left'>
           <input
             name='title'
@@ -108,7 +108,7 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
           <span className="font-bold tracking-wide text-white text-center antialiased">Save</span>
         </button>
       </div>
-      <div className={`${bodyError ? 'bg-red-100' : ''} rounded-md w-full my-6 transition-colors`}>
+      <div className={`${bodyError ? 'bg-red-100' : ''} rounded-md w-full my-6 transition-colors bg-stone-50 p-6`}>
         <ForwardRefEditor placeholder="Write something!" className="max-w-none prose" ref={ref} markdown={body} onChange={setBody} />
       </div>
     </div>

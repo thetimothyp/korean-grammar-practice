@@ -14,7 +14,7 @@ export default async function EditLesson({ params }: { params: { id: string }}) 
   const lesson: Lesson = await fetchLesson(params.id);
 
   return (
-    <main className="flex min-h-screen flex-col w-screen bg-white items-center">
+    <main className="flex min-h-screen flex-col w-screen items-center">
       <EditLessonForm id={lesson.id} initialTitle={lesson.title} initialBody={lesson.body} initialSummary={lesson.summary} />
     </main>
   )

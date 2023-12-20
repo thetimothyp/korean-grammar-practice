@@ -8,13 +8,13 @@ export default async function ViewLesson({ params }: { params: { id: string } })
 
   return (
     <main className="flex min-h-screen flex-col w-screen items-center">
-        <div className="flex flex-col border-b border-dashed py-4 text-center">
+      <div className="flex flex-col w-1/2 bg-stone-50 px-20 py-24 m-24 rounded-lg">
+        <div className="flex flex-col border-b pb-4 mb-8 gap-2">
           <h1 className="text-3xl font-bold">{lesson.title}</h1>
           <h3 className="text-xl text-slate-900/70">{lesson.summary}</h3>
         </div>
-      <div className="flex flex-col w-1/2">
         <Markdown 
-          className="prose max-w-none py-8"
+          className="prose lg:prose-lg max-w-none"
           remarkPlugins={[remarkGfm]}
         >
           {lesson.body}
