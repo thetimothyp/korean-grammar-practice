@@ -30,10 +30,10 @@ export default function Navbar() {
           <div className="ml-8">
             <ul className="flex gap-8">
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/dashboard')}`}>
-                <Link href='/'>Home</Link>
+                <Link href='/dashboard'>Home</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/collections')}`}>
-                <Link href='/'>Collections</Link>
+                <Link href='/collections'>Collections</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/lessons')}`}>
                 <Link href='/lessons'>Lessons</Link>

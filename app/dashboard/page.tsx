@@ -31,7 +31,7 @@ export default async function Dashboard() {
         </h1>
         {collections.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
         <NewTile href='/collections/new' label='New collection' />
-        <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-purple-300/30 rounded-lg transition-colors" href='#'>
+        <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-purple-300/30 rounded-lg transition-colors" href='/collections'>
           <span className="text-lg font-bold">View all collections</span>
         </Link>
 
