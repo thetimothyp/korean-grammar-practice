@@ -4,7 +4,7 @@ import {
 } from '@/app/lib/data';
 import Accordion from '@/app/ui/accordion';
 import ExerciseInput from '@/app/ui/exercise-input';
-import GrammarFilterDrawer from '@/app/ui/grammar-filter-drawer';
+// import GrammarFilterDrawer from '@/app/ui/grammar-filter-drawer';
 import ExerciseRunner from '@/app/ui/exercise-runner';
 
 // https://stackoverflow.com/a/58692591
