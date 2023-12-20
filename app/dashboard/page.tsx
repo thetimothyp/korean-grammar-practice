@@ -2,7 +2,7 @@ import { getCurrentUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 import { fetchCollectionsForUser, fetchExercisesForUser, fetchLessonsForUser } from "../lib/data";
 import Link from "next/link";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, FolderIcon, LightBulbIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
 
 export default async function Dashboard() {
   const user: any = await getCurrentUser();
@@ -75,17 +75,38 @@ export default async function Dashboard() {
   return (
     <main className="flex min-h-screen flex-col p-6 w-screen justify-center items-center content-center">
       <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl">
-        <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-4">Your collections</h1>
+        <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-4 flex items-center">
+          <FolderIcon className="w-12 h-10 text-purple-500 inline p-2 mr-4 rounded-md bg-purple-200" />
+          Collections
+          <div className='border-t w-full ml-4' />
+        </h1>
         {collections.map((collection: any) => <CollectionComponent key={collection.id} collection={collection} />)}
         <NewCollectionComponent />
+        <Link className="sm:col-span-2 lg:col-span-3 row-span-2 flex justify-center p-4 bg-stone-300/20 hover:bg-purple-300/30 rounded-lg transition-colors" href='#'>
+          <span className="text-lg font-bold">View all collections</span>
+        </Link>
 
-        <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-4">Your lessons</h1>
+        <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-6 flex items-center">
+          <LightBulbIcon className="w-12 h-10 text-yellow-500 inline p-2 mr-4 rounded-md bg-yellow-200" />
+          Lessons
+          <div className='border-t w-full ml-4' />
+        </h1>
         {lessons.map((lesson: any) => <LessonComponent key={lesson.id} lesson={lesson} />)}
         <NewLessonComponent />
+        <Link className="sm:col-span-2 lg:col-span-3 row-span-2 flex justify-center p-4 bg-stone-300/20 hover:bg-yellow-300/30 rounded-lg transition-colors" href='#'>
+          <span className="text-lg font-bold">View all lessons</span>
+        </Link>
 
-        <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-4">Your exercises</h1>
+        <h1 className="text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-6 flex items-center">
+          <PuzzlePieceIcon className="w-12 h-10 text-green-500 inline p-2 mr-4 rounded-md bg-green-200" />
+          Exercises
+          <div className='border-t w-full ml-4' />
+        </h1>
         {exercises.map((exercise: any) => <ExerciseComponent key={exercise.id} exercise={exercise} />)}
         <NewExerciseComponent />
+        <Link className="sm:col-span-2 lg:col-span-3 row-span-2 flex justify-center p-4 bg-stone-300/20 hover:bg-green-300/30 rounded-lg transition-colors" href='#'>
+          <span className="text-lg font-bold">View all exercises</span>
+        </Link>
       </div>
     </main>
   )
