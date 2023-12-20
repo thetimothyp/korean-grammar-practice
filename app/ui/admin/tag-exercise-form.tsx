@@ -1,6 +1,6 @@
 'use client';
 
-import { Concept, Exercise, Vocab } from "@/app/lib/definitions";
+import { Concept, Exercise } from "@/app/lib/definitions";
 import { useState } from "react";
 import AsyncSelect from 'react-select/async';
 
@@ -10,24 +10,15 @@ const grammarOptionsPromise = async (query: string) => {
   return response.json().then(data => data.map((c: Concept) => ({ value: c.id, label: c.text })));
 }
 
-const vocabOptionsPromise = async (query: string) => {
-  const url = '/api/vocab/search?' + new URLSearchParams({ query })
-  const response = await fetch(url, { method: 'GET' });
-  return response.json().then(data => data.map((v: Vocab) => ({ value: v.id, label: v.kr_text })));
-}
-
 type TagExerciseFormProps = {
   exercise: Exercise;
   concepts: Concept[];
-  vocabs: Vocab[];
 }
 
-export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerciseFormProps) {
+export default function TagExerciseForm({ exercise, concepts }: TagExerciseFormProps) {
   const defaultConcepts = concepts.map(c => ({ value: c.id, label: c.text }));
-  const defaultVocab = vocabs.map(v => ({ value: v.id, label: v.kr_text }));
 
   const [selectedConceptIds, setSelectedConceptIds] = useState(defaultConcepts.map(c => c.value));
-  const [selectedVocabIds, setSelectedVocabIds] = useState(defaultVocab.map(v => v.value));
 
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -42,26 +33,13 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
       return response.json();
     };
 
-    const submitVocabTags = async () => {
-      const response = await fetch('/api/exercise/tag-with-vocab', {
-        method: 'POST',
-        body: JSON.stringify({ exerciseId: exercise.id, vocabIds: selectedVocabIds })
-      });
-      return response.json();
-    };
-
     promises.push(submitConceptTags());
-    promises.push(submitVocabTags());
 
     Promise.all(promises).then(() => { alert('Success!'); });
   }
 
   function handleConceptsSelect(selected: any) {
     setSelectedConceptIds(selected.map((item: any) => item.value));
-  }
-
-  function handleVocabSelect(selected: any) {
-    setSelectedVocabIds(selected.map((item: any) => item.value));
   }
 
   return (
@@ -75,15 +53,6 @@ export default function TagExerciseForm({ exercise, concepts, vocabs }: TagExerc
         loadOptions={grammarOptionsPromise}
         defaultValue={defaultConcepts}
         onChange={handleConceptsSelect}
-      />
-      <h2 className="text-lg">Vocabulary</h2>
-      <AsyncSelect
-        isMulti 
-        instanceId="vocab-search" 
-        defaultOptions 
-        loadOptions={vocabOptionsPromise}
-        defaultValue={defaultVocab}
-        onChange={handleVocabSelect}
       />
       <button onClick={handleSubmit} className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-4 rounded-lg transition-colors">
         <span className="font-bold tracking-wide text-white text-center antialiased">Submit</span>
