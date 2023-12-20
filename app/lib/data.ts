@@ -193,13 +193,23 @@ export async function createConcept(text: string, explanation: string) {
   }
 }
 
-export async function createExercise(enText: string, krText: string) {
+export async function createExercise(exercise: any, uid: string) {
   try {
-    await sql`
-      INSERT INTO exercises (en_text, kr_text)
-      VALUES (${enText}, ${krText});`
-    
-    console.log('Inserted 1 new exercise.')
+    const query = `
+    with rows as (
+      INSERT INTO exercises (tl_text, nl_text)
+      VALUES ($1, $2)
+      RETURNING id
+    )
+    INSERT INTO user_exercises (user_id, exercise_id)
+    SELECT $3, id FROM rows
+    RETURNING exercise_id AS id;`;
+    const params = [exercise.tl_text, exercise.nl_text, uid];
+    const client = await db.connect();
+    const data = await client.query(query, params);
+    client.release();
+    console.log(`Inserted 1 new exercise for user: ${uid}`);
+    return data.rows[0];
   } catch (error) {
     console.error('Error creating new exercise:', error);
     throw error;

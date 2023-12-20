@@ -7,9 +7,9 @@ import AsyncSelect from 'react-select/async';
 
 type EditExerciseFormProps = {
   id?: string;
-  initialTlText: string;
-  initialNlText: string;
-  lessons: any[];
+  initialTlText?: string;
+  initialNlText?: string;
+  lessons?: any[];
 };
 
 const lessonOptionsPromise = async (query: string) => {
@@ -29,7 +29,7 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
   const [tlText, setTlText] = useState(initialTlText || '');
   const [nlText, setNlText] = useState(initialNlText || '');
 
-  const defaultLessons = lessons.map(l => ({ value: l.id, label: l.title }));
+  const defaultLessons = lessons ? lessons.map(l => ({ value: l.id, label: l.title })) : [];
   const [selectedLessonIds, setSelectedLessonIds] = useState(defaultLessons.map(l => l.value));
 
   function validate() {
@@ -65,13 +65,25 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
     if (isValid())
     {
       setIsLoading(true);
-      const req = async () => {
-        const response = await fetch('/api/exercises/update', {
-          method: 'POST',
-          body: JSON.stringify({ id, nlText, tlText, lessonIds: selectedLessonIds })
-        });
-        return response.json();
-      };
+      let req;
+
+      if (!id) {
+        req = async () => {
+          const response = await fetch('/api/exercises/new', {
+            method: 'POST',
+            body: JSON.stringify({ nlText, tlText, lessonIds: selectedLessonIds })
+          });
+          return response.json();
+        };
+      } else {
+        req = async () => {
+          const response = await fetch('/api/exercises/update', {
+            method: 'POST',
+            body: JSON.stringify({ id, nlText, tlText, lessonIds: selectedLessonIds })
+          });
+          return response.json();
+        };
+      }
 
       req().then((res) => { router.push(`/exercises/${res.id}/view`) });
     }
