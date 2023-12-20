@@ -5,7 +5,7 @@ import { LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "../ui/grid-tiles/lesson-tile";
 import NewTile from "../ui/grid-tiles/new-tile";
 
-export default async function Dashboard() {
+export default async function Lessons() {
   const user: any = await getCurrentUser();
 
   if (!user) {

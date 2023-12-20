@@ -39,7 +39,7 @@ export default function Navbar() {
                 <Link href='/lessons'>Lessons</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/exercises')}`}>
-                <Link href='/'>Exercises</Link>
+                <Link href='/exercises'>Exercises</Link>
               </li>
             </ul>
           </div>

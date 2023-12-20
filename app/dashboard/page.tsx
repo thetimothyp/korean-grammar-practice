@@ -53,7 +53,7 @@ export default async function Dashboard() {
         </h1>
         {exercises.map((exercise: any) => <ExerciseTile key={exercise.id} exercise={exercise} />)}
         <NewTile href='/exercises/new' label='New exercise' />
-        <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-green-300/30 rounded-lg transition-colors" href='#'>
+        <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-green-300/30 rounded-lg transition-colors" href='/exercises'>
           <span className="text-lg font-bold">View all exercises</span>
         </Link>
       </div>
