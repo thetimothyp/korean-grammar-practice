@@ -19,7 +19,7 @@ export default async function Dashboard() {
 
   function CollectionComponent({ collection } : { collection: { id: string, name: string, lesson_count: number }}) {
     return (
-      <Link href={`/collections/${collection.id}/view`} className="row-span-5 shadow-sm justify-center flex flex-col items-start py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
+      <Link href={`/collections/${collection.id}/view`} className="row-span-4 shadow-sm justify-center flex flex-col items-start py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <h3 className="text-xl font-bold">{collection.name}</h3>
         <p className="text-sm text-zinc-400">{collection.lesson_count} lesson{collection.lesson_count != 1 ? 's' : ''}</p>
       </Link>
@@ -28,7 +28,7 @@ export default async function Dashboard() {
 
   function NewCollectionComponent() {
     return (
-      <Link href='/collections/new' className="row-span-5 flex items-center justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
+      <Link href='/collections/new' className="row-span-4 flex items-center justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <PlusIcon className="text-zinc-400 h-6 w-6" />
         <span className="text-zinc-400 ml-2">New collection</span>
       </Link>
@@ -37,7 +37,7 @@ export default async function Dashboard() {
 
   function LessonComponent({ lesson } : { lesson: { id: string, title: string, summary: string, exercise_count: number } }) {
     return (
-      <Link href={`/lessons/${lesson.id}/view`} className="row-span-5 shadow-sm justify-center flex flex-col py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
+      <Link href={`/lessons/${lesson.id}/view`} className="row-span-4 shadow-sm justify-center flex flex-col py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <h3 className="text-xl font-bold">{lesson.title}</h3>
         <p className="text-zinc-500">{lesson.summary}</p>
         <p className="text-sm mt-1 text-zinc-400">{lesson.exercise_count} exercise{lesson.exercise_count != 1 ? 's' : ''}</p>
@@ -47,7 +47,7 @@ export default async function Dashboard() {
 
   function NewLessonComponent() {
     return (
-      <Link href='/lessons/new' className="row-span-5 flex items-center justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
+      <Link href='/lessons/new' className="row-span-4 flex items-center justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <PlusIcon className="text-zinc-400 h-6 w-6" />
         <span className="text-zinc-400 ml-2">New lesson</span>
       </Link>
@@ -56,7 +56,7 @@ export default async function Dashboard() {
 
   function ExerciseComponent({ exercise } : { exercise: { id: string, tl_text: string, lesson_count: number } }) {
     return (
-      <Link href={`/exercises/${exercise.id}/view`} className="row-span-5 shadow-sm flex flex-col justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
+      <Link href={`/exercises/${exercise.id}/view`} className="row-span-4 shadow-sm flex flex-col justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <h3 className="text-xl font-bold">{exercise.tl_text}</h3>
         <p className="text-sm text-zinc-400">{exercise.lesson_count} lesson{exercise.lesson_count != 1 ? 's' : ''}</p>
       </Link>
@@ -65,7 +65,7 @@ export default async function Dashboard() {
 
   function NewExerciseComponent() {
     return (
-      <Link href='/exercises/new' className="row-span-5 flex items-center justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
+      <Link href='/exercises/new' className="row-span-4 flex items-center justify-center py-4 px-6 border border-zinc-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
         <PlusIcon className="text-zinc-400 h-6 w-6" />
         <span className="text-zinc-400 ml-2">New exercise</span>
       </Link>
@@ -82,7 +82,7 @@ export default async function Dashboard() {
         </h1>
         {collections.map((collection: any) => <CollectionComponent key={collection.id} collection={collection} />)}
         <NewCollectionComponent />
-        <Link className="sm:col-span-2 lg:col-span-3 row-span-2 flex justify-center p-4 bg-stone-300/20 hover:bg-purple-300/30 rounded-lg transition-colors" href='#'>
+        <Link className="sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-purple-300/30 rounded-lg transition-colors" href='#'>
           <span className="text-lg font-bold">View all collections</span>
         </Link>
 
@@ -93,7 +93,7 @@ export default async function Dashboard() {
         </h1>
         {lessons.map((lesson: any) => <LessonComponent key={lesson.id} lesson={lesson} />)}
         <NewLessonComponent />
-        <Link className="sm:col-span-2 lg:col-span-3 row-span-2 flex justify-center p-4 bg-stone-300/20 hover:bg-yellow-300/30 rounded-lg transition-colors" href='#'>
+        <Link className="sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-yellow-300/30 rounded-lg transition-colors" href='#'>
           <span className="text-lg font-bold">View all lessons</span>
         </Link>
 
@@ -104,7 +104,7 @@ export default async function Dashboard() {
         </h1>
         {exercises.map((exercise: any) => <ExerciseComponent key={exercise.id} exercise={exercise} />)}
         <NewExerciseComponent />
-        <Link className="sm:col-span-2 lg:col-span-3 row-span-2 flex justify-center p-4 bg-stone-300/20 hover:bg-green-300/30 rounded-lg transition-colors" href='#'>
+        <Link className="sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-green-300/30 rounded-lg transition-colors" href='#'>
           <span className="text-lg font-bold">View all exercises</span>
         </Link>
       </div>
