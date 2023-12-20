@@ -2,7 +2,11 @@ import { getCurrentUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 import { fetchCollectionsForUser, fetchExercisesForUser, fetchLessonsForUser } from "../lib/data";
 import Link from "next/link";
-import { PlusIcon, FolderIcon, LightBulbIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
+import { FolderIcon, LightBulbIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
+import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
+import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
+import ExerciseTile from "@/app/ui/grid-tiles/exercise-tile";
+import NewTile from "@/app/ui/grid-tiles/new-tile";
 
 export default async function Dashboard() {
   const user: any = await getCurrentUser();
@@ -17,77 +21,16 @@ export default async function Dashboard() {
     fetchCollectionsForUser(user.id)
   ]);
 
-  function CollectionComponent({ collection } : { collection: { id: string, name: string, lesson_count: number }}) {
-    return (
-        <Link
-          href={`/collections/${collection.id}/view`}
-          className="row-span-3 top-[6px] relative hover:top-0 hover:shadow-purple hover:cursor-pointer bg-stone-50 justify-center flex flex-col items-start py-4 px-6 border-2 border-stone-600 rounded-2xl transition-all">
-          <h3 className="text-xl font-bold">{collection.name}</h3>
-          <p className="text-sm text-zinc-400">{collection.lesson_count} lesson{collection.lesson_count != 1 ? 's' : ''}</p>
-        </Link>
-    )
-  }
-
-  function NewCollectionComponent() {
-    return (
-      <Link href='/collections/new' className="row-span-3 top-[6px] relative flex items-center justify-center py-4 px-6 border border-stone-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
-        <PlusIcon className="text-zinc-400 h-6 w-6" />
-        <span className="text-zinc-400 ml-2">New collection</span>
-      </Link>
-    )
-  }
-
-  function LessonComponent({ lesson } : { lesson: { id: string, title: string, summary: string, exercise_count: number } }) {
-    return (
-      <Link
-        href={`/lessons/${lesson.id}/view`}
-        className="row-span-3 top-[6px] relative hover:top-0 hover:shadow-yellow hover:cursor-pointer bg-stone-50 justify-center flex flex-col items-start py-4 px-6 border-2 border-stone-600 rounded-2xl transition-all">
-        <h3 className="text-xl font-bold">{lesson.title}</h3>
-        <p className="text-zinc-500">{lesson.summary}</p>
-        <p className="text-sm mt-1 text-zinc-400">{lesson.exercise_count} exercise{lesson.exercise_count != 1 ? 's' : ''}</p>
-      </Link>
-    )
-  }
-
-  function NewLessonComponent() {
-    return (
-      <Link href='/lessons/new' className="row-span-3 top-[6px] relative flex items-center justify-center py-4 px-6 border border-stone-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
-        <PlusIcon className="text-zinc-400 h-6 w-6" />
-        <span className="text-zinc-400 ml-2">New lesson</span>
-      </Link>
-    )
-  }
-
-  function ExerciseComponent({ exercise } : { exercise: { id: string, tl_text: string, lesson_count: number } }) {
-    return (
-      <Link
-        href={`/exercises/${exercise.id}/view`}
-        className="row-span-3 top-[6px] relative hover:top-0 hover:shadow-green hover:cursor-pointer bg-stone-50 justify-center flex flex-col items-start py-4 px-6 border-2 border-stone-600 rounded-2xl transition-all">
-        <h3 className="text-xl font-bold">{exercise.tl_text}</h3>
-        <p className="text-sm text-zinc-400">{exercise.lesson_count} lesson{exercise.lesson_count != 1 ? 's' : ''}</p>
-      </Link>
-    )
-  }
-
-  function NewExerciseComponent() {
-    return (
-      <Link href='/exercises/new' className="row-span-3 top-[6px] relative flex items-center justify-center py-4 px-6 border border-stone-300 rounded-2xl hover:cursor-pointer hover:bg-stone-300/20 transition-colors">
-        <PlusIcon className="text-zinc-400 h-6 w-6" />
-        <span className="text-zinc-400 ml-2">New exercise</span>
-      </Link>
-    )
-  }
-
   return (
-    <main className="flex min-h-screen flex-col p-6 w-screen justify-center items-center content-center">
+    <main className="flex min-h-screen flex-col p-6 w-screen items-center">
       <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl pb-[6px]">
         <h1 className="top-[6px] relative text-2xl font-bold sm:col-span-2 lg:col-span-3 row-span-2 mt-4 flex items-center">
           <FolderIcon className="w-12 h-10 text-purple-500 inline p-2 mr-4 rounded-md bg-purple-200" />
           Collections
           <div className='border-t w-full ml-4' />
         </h1>
-        {collections.map((collection: any) => <CollectionComponent key={collection.id} collection={collection} />)}
-        <NewCollectionComponent />
+        {collections.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
+        <NewTile href='/collections/new' label='New collection' />
         <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-purple-300/30 rounded-lg transition-colors" href='#'>
           <span className="text-lg font-bold">View all collections</span>
         </Link>
@@ -97,9 +40,9 @@ export default async function Dashboard() {
           Lessons
           <div className='border-t w-full ml-4' />
         </h1>
-        {lessons.map((lesson: any) => <LessonComponent key={lesson.id} lesson={lesson} />)}
-        <NewLessonComponent />
-        <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-yellow-300/30 rounded-lg transition-colors" href='#'>
+        {lessons.map((lesson: any) => <LessonTile key={lesson.id} lesson={lesson} />)}
+        <NewTile href='/lessons/new' label='New lesson' />
+        <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-yellow-300/30 rounded-lg transition-colors" href='/lessons'>
           <span className="text-lg font-bold">View all lessons</span>
         </Link>
 
@@ -108,8 +51,8 @@ export default async function Dashboard() {
           Exercises
           <div className='border-t w-full ml-4' />
         </h1>
-        {exercises.map((exercise: any) => <ExerciseComponent key={exercise.id} exercise={exercise} />)}
-        <NewExerciseComponent />
+        {exercises.map((exercise: any) => <ExerciseTile key={exercise.id} exercise={exercise} />)}
+        <NewTile href='/exercises/new' label='New exercise' />
         <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center p-2 bg-stone-300/20 hover:bg-green-300/30 rounded-lg transition-colors" href='#'>
           <span className="text-lg font-bold">View all exercises</span>
         </Link>

@@ -36,7 +36,7 @@ export default function Navbar() {
                 <Link href='/'>Collections</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/lessons')}`}>
-                <Link href='/'>Lessons</Link>
+                <Link href='/lessons'>Lessons</Link>
               </li>
               <li className={`hover:underline decoration-2 underline-offset-8 ${activeClass('/exercises')}`}>
                 <Link href='/'>Exercises</Link>
