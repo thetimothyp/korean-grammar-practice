@@ -24,6 +24,7 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
   const [didSubmit, setDidSubmit] = useState(false);
   const [nlTextError, setNlTextError] = useState(false);
   const [tlTextError, setTlTextError] = useState(false);
+  const [lessonTagsError, setLessonTagsError] = useState(false);
 
   const [tlText, setTlText] = useState(initialTlText || '');
   const [nlText, setNlText] = useState(initialNlText || '');
@@ -43,13 +44,18 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
       } else {
         setTlTextError(false);
       }
+      if (selectedLessonIds.length == 0) {
+        setLessonTagsError(true);
+      } else {
+        setLessonTagsError(false);
+      }
     }
   }
 
-  useEffect(validate, [nlText, tlText, didSubmit]);
+  useEffect(validate, [nlText, tlText, selectedLessonIds, didSubmit]);
 
   function isValid() {
-    return nlText.length > 0 && tlText.length > 0;
+    return nlText.length > 0 && tlText.length > 0 && selectedLessonIds.length > 0;
   }
 
   function handleSubmit(e: any) {
@@ -103,6 +109,7 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
             loadOptions={lessonOptionsPromise}
             defaultValue={defaultLessons}
             onChange={handleLessonSelect}
+            classNames={lessonTagsError ? { control: () => '!bg-red-100', container: () => '!bg-red-100' } : {}}
           />
           <button className="bg-green-500 hover:bg-green-600 lg:w-1/5 self-end shadow-sm p-2 px-4 rounded-lg transition-colors relative mt-4">
             <div className={`${isLoading ? 'opacity-100' : 'opacity-0'} w-full h-full rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-inherit transition-opacity`}>
