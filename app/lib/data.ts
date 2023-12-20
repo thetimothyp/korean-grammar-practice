@@ -71,6 +71,35 @@ export async function updateExercise(exercise: Exercise) {
   }
 }
 
+export async function tagExerciseWithLessons(exerciseId: string, lessonIds: string[]) {
+  // https://github.com/orgs/vercel/discussions/3682
+  const valuesString = lessonIds.map((_, index) => `($${index * 2 + 1}, $${index * 2 + 2})`).join(',');
+  const query = `
+    INSERT INTO lesson_exercises (lesson_id, exercise_id)
+    VALUES ${valuesString}
+    ON CONFLICT DO NOTHING`
+  const params: any[] = [];
+  lessonIds.forEach(l => {
+    params.push(l);
+    params.push(exerciseId);
+  });
+
+  try {
+    const client = await db.connect();
+    // Lazy way, drop all existing rows to delete tags that are removed in UI
+    await client.sql`DELETE FROM lesson_exercises WHERE exercise_id = ${exerciseId}`;
+    console.log('Deleted lesson_exercises for exercise: ' + exerciseId);
+    if (lessonIds.length > 0) {
+      await client.query(query, params);
+    }
+    client.release();
+    console.log(`Updated exercise ${exerciseId} with ${lessonIds.length} lessons!`);
+  } catch (error) {
+    console.error('Error tagging exercise with lessons:', error);
+    throw error;
+  }
+}
+
 export async function fetchConceptsForExercise(exercise: Exercise) {
   try {
     // noStore();

@@ -62,10 +62,11 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
       const req = async () => {
         const response = await fetch('/api/exercises/update', {
           method: 'POST',
-          body: JSON.stringify({ id, nlText, tlText })
+          body: JSON.stringify({ id, nlText, tlText, lessonIds: selectedLessonIds })
         });
         return response.json();
       };
+
       req().then((res) => { router.push(`/exercises/${res.id}/view`) });
     }
   }
