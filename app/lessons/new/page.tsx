@@ -10,7 +10,7 @@ export default async function NewLesson() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col w-screen bg-white items-center">
+    <main className="flex min-h-screen flex-col w-screen items-center">
       <EditLessonForm  />
     </main>
   )
