@@ -5,6 +5,8 @@ import Link from "next/link";
 import logoSvg from "@/public/logo.svg";
 import { useCallback } from "react";
 import { usePathname } from "next/navigation";
+import { Dropdown } from 'flowbite-react';
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -12,6 +14,24 @@ export default function Navbar() {
   const activeClass = useCallback((href: string) => {
     return pathname.startsWith(href) ? 'active underline' : '';
   }, [pathname]);
+
+
+  function AccountMenu() {
+    return (
+      <Dropdown className="w-[200px] bg-stone-50" label="" renderTrigger={() => <UserCircleIcon className="h-10 w-10 text-stone-600 hover:cursor-pointer" />}>
+        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors">
+          <Link href='#'>Profile</Link>
+        </Dropdown.Item>
+        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors">
+          <Link href='#'>Settings</Link>
+        </Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors">
+          Log out
+        </Dropdown.Item>
+      </Dropdown>
+    );
+  }
 
   return (
     <nav className="hidden md:block fixed z-50">
@@ -44,6 +64,7 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
+        <AccountMenu />
       </div>
     </nav>
   )
