@@ -3,7 +3,6 @@ import { Lato } from 'next/font/google'
 import './globals.css'
 import Navbar from './ui/navbar'
 import Scroll from './lib/components/scroll'
-import { Toaster } from 'react-hot-toast';
 
 const lato = Lato({ weight: ['100', '300', '400', '700', '900'], subsets: ['latin'] })
 
@@ -22,7 +21,6 @@ export default function RootLayout({
       <Scroll />
       <body className={lato.className}>
         <Navbar />
-        <Toaster position='bottom-center' />
         <div className="pt-20">
           {children}
         </div>
