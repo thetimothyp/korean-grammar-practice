@@ -23,7 +23,7 @@ export default async function Collections() {
           <div className='border-t w-full ml-4' />
         </h1>
         {collections.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
-        <CreateCollectionModal uid={user.id} />
+        <CreateCollectionModal />
       </div>
     </main>
   )

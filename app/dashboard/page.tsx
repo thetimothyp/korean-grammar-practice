@@ -22,6 +22,8 @@ export default async function Dashboard() {
     fetchCollectionsForUser(user.id)
   ]);
 
+  console.log(collections);
+
   return (
     <main className="flex min-h-screen flex-col p-6 w-screen items-center">
       <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl pb-[6px]">
@@ -31,7 +33,7 @@ export default async function Dashboard() {
           <div className='border-t w-full ml-4' />
         </h1>
         {collections.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
-        <CreateCollectionModal uid={user.id} />
+        <CreateCollectionModal />
         <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center items-center bg-stone-300/20 hover:bg-purple-300/50 rounded-lg transition-colors" href='/collections'>
           <span className="text-lg font-bold">View all collections</span>
         </Link>
