@@ -3,6 +3,7 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { Button, Modal } from 'flowbite-react';
 import { useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 export default function CreateCollectionModal({ uid }: { uid: string }) {
   const [openModal, setOpenModal] = useState(false);
@@ -22,7 +23,21 @@ export default function CreateCollectionModal({ uid }: { uid: string }) {
     const req = async () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
-    req().then(onCloseModal);
+    req().then(() => {
+      onCloseModal();
+      toast(t => (
+        <div className='text-center flex flex-col gap-2'>
+          <span><strong>Collection created!</strong></span>
+          <span>Time to <a className='underline decoration-2 underline-offset-4 hover:cursor-pointer'>add some content to it.</a></span>
+          <a className='text-sm text-stone-400 p-2 hover:cursor-pointer' onClick={() => toast.dismiss(t.id)}>Maybe later</a>
+        </div>
+      ), {
+        position: 'bottom-center',
+        style: {
+          border: '2px solid black'
+        }
+      });
+    });
   }
 
   const customTheme = {
