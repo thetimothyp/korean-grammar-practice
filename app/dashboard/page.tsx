@@ -7,6 +7,7 @@ import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
 import ExerciseTile from "@/app/ui/grid-tiles/exercise-tile";
 import NewTile from "@/app/ui/grid-tiles/new-tile";
+import CreateCollectionModal from "../ui/create-collection-modal";
 
 export default async function Dashboard() {
   const user: any = await getCurrentUser();
@@ -30,7 +31,7 @@ export default async function Dashboard() {
           <div className='border-t w-full ml-4' />
         </h1>
         {collections.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
-        <NewTile href='/collections/new' label='New collection' />
+        <CreateCollectionModal uid={user.id} />
         <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center items-center bg-stone-300/20 hover:bg-purple-300/50 rounded-lg transition-colors" href='/collections'>
           <span className="text-lg font-bold">View all collections</span>
         </Link>
