@@ -19,14 +19,14 @@ export default function Navbar() {
   function AccountMenu() {
     return (
       <Dropdown className="w-[200px] bg-stone-50" label="" renderTrigger={() => <UserCircleIcon className="h-10 w-10 text-stone-600 hover:cursor-pointer" />}>
-        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors">
+        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
           <Link href='#'>Profile</Link>
         </Dropdown.Item>
-        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors">
+        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
           <Link href='#'>Settings</Link>
         </Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors">
+        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
           Log out
         </Dropdown.Item>
       </Dropdown>
