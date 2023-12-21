@@ -22,8 +22,6 @@ export default async function Dashboard() {
     fetchCollectionsForUser(user.id)
   ]);
 
-  console.log(collections);
-
   return (
     <main className="flex min-h-screen flex-col p-6 w-screen items-center">
       <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl pb-[6px]">

@@ -294,3 +294,36 @@ export async function createCollection(collection: any, uid: string) {
     throw error;
   }
 }
+
+export async function fetchCollection(id: string) {
+  try {
+    noStore();
+    const data = await sql<Collection>`
+      SELECT *
+      FROM collections
+      WHERE id = ${id}`;
+    if (data.rows.length === 0) throw new Error(`No collection found with ID: ${id}`);
+    return data.rows[0];
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch collection with ID: ${id}`);
+  }
+}
+
+export async function fetchLessonsForCollection(cid: string) {
+  try {
+    noStore();
+    const data = await sql`
+      SELECT lessons.id, lessons.title, lessons.summary, COUNT(lesson_exercises) exercise_count 
+      FROM collection_lessons
+      JOIN collections ON collection_lessons.collection_id = collections.id
+      JOIN lessons ON collection_lessons.lesson_id = lessons.id
+      JOIN lesson_exercises ON lesson_exercises.lesson_id = lessons.id
+      WHERE collections.id = ${cid}
+      GROUP BY lessons.id`
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch exercises for collection with ID: ${cid}`);
+  }
+}
