@@ -234,7 +234,7 @@ export async function searchLessons(query: string) {
   }
 }
 
-export async function fetchCollectionsForUser(uid: string) {
+export async function fetchCollectionsForUser(uid: string, limit: number = 100) {
   try {
     noStore();
     const data = await sql`
@@ -245,7 +245,8 @@ export async function fetchCollectionsForUser(uid: string) {
       LEFT JOIN collection_lessons ON collection_lessons.collection_id = collections.id
       LEFT JOIN lessons ON collection_lessons.lesson_id = lessons.id
       WHERE users.id = ${uid}
-      GROUP BY collections.id`
+      GROUP BY collections.id
+      LIMIT ${limit}`
     return data.rows;
   } catch(error) {
     console.error('Database error:', error);

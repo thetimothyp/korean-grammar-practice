@@ -19,7 +19,7 @@ export default async function Dashboard() {
   const [exercises, lessons, collections] = await Promise.all([
     fetchExercisesForUser(user.id),
     fetchLessonsForUser(user.id),
-    fetchCollectionsForUser(user.id)
+    fetchCollectionsForUser(user.id, 5)
   ]);
 
   return (
