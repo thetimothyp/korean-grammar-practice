@@ -296,6 +296,39 @@ export async function createCollection(collection: any, uid: string) {
   }
 }
 
+export async function updateCollectionLessons(cid: string, lidsToInsert: string[], lidsToDelete: string[]) {
+  const deleteParamsStr = lidsToDelete.map((_, index) => `$${index + 2}`).join(',')
+  const deleteQuery = `
+    DELETE FROM collection_lessons
+    WHERE collection_id = $1
+    AND lesson_id IN (${deleteParamsStr})`
+  const deleteValues: string[] = [cid];
+  lidsToDelete.forEach(lid => {
+    deleteValues.push(lid);
+  });
+
+  const insertParamsStr = lidsToInsert.map((_, index) => `($${index * 2 + 1}, $${index * 2 + 2})`).join(',');
+  const insertQuery = `
+    INSERT INTO collection_lessons (collection_id, lesson_id)
+    VALUES ${insertParamsStr}
+    ON CONFLICT DO NOTHING`
+  const insertValues: string[] = [];
+  lidsToInsert.forEach(lid => {
+    insertValues.push(cid);
+    insertValues.push(lid);
+  });
+
+  try {
+    const client = await db.connect();
+    if (lidsToDelete.length > 0) await client.query(deleteQuery, deleteValues);
+    if (lidsToInsert.length > 0) await client.query(insertQuery, insertValues);
+    client.release();
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to update collection with ID: ${cid}`);
+  }
+}
+
 export async function fetchCollection(id: string) {
   try {
     noStore();

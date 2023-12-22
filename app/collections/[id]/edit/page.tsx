@@ -35,7 +35,7 @@ export default async function EditCollection({ params }: { params: { id: string 
             </h1>
             <p className="text-lg">{lessons.length} lesson{lessons.length != 1 ? 's' : ''}</p>
           </div>
-          <AddOrRemoveLessonsModal selectedLessons={lessons} />
+          <AddOrRemoveLessonsModal selectedLessons={lessons} cid={params.id} />
         </div>
         <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full pb-[6px]">
           <h3 className="top-[6px] relative text-lg font-bold sm:col-span-2 lg:col-span-3 mt-4 flex items-center">

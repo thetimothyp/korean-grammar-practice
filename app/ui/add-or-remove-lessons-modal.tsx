@@ -23,7 +23,7 @@ const customTheme = {
   }
 }
 
-export default function AddOrRemoveLessonsModal({ selectedLessons }: { selectedLessons: any[] }) {
+export default function AddOrRemoveLessonsModal({ selectedLessons, cid }: { selectedLessons: any[], cid: string }) {
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,9 +38,12 @@ export default function AddOrRemoveLessonsModal({ selectedLessons }: { selectedL
 
   function handleSubmit() {
     const req = async () => {
-      await new Promise(resolve => {
-        setTimeout(resolve, 1000);
+      const initialLessonIds = selectedLessons.map(l => l.id);
+      const response = await fetch('/api/collections/update', {
+        method: 'POST',
+        body: JSON.stringify({ cid, initialLessonIds, selectedLessonIds })
       });
+      return response.json();
     }
     setIsLoading(true);
     req().then(() => {

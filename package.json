@@ -13,6 +13,7 @@
     "@heroicons/react": "^2.0.18",
     "@mdxeditor/editor": "^1.13.5",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/underscore": "^1.11.15",
     "@vercel/postgres": "^0.5.1",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
@@ -27,6 +28,7 @@
     "react-modern-drawer": "^1.2.2",
     "react-select": "^5.8.0",
     "remark-gfm": "^4.0.0",
+    "underscore": "^1.13.6",
     "zod": "^3.22.4"
   },
   "devDependencies": {
