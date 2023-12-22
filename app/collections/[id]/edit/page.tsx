@@ -4,8 +4,9 @@ import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
 import { fetchCollection, fetchLessonsForCollection } from "@/app/lib/data";
+import AddOrRemoveLessonsModal from "@/app/ui/add-or-remove-lessons-modal";
 
-export default async function ViewCollection({ params }: { params: { id: string } }) {
+export default async function EditCollection({ params }: { params: { id: string } }) {
   const user: any = await getCurrentUser();
 
   if (!user) {
@@ -34,12 +35,7 @@ export default async function ViewCollection({ params }: { params: { id: string 
             </h1>
             <p className="text-lg">{lessons.length} lesson{lessons.length != 1 ? 's' : ''}</p>
           </div>
-          <Link
-            href={`/collections/${params.id}/practice`}
-            className='rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 p-2 px-6 transition-colors border-2 border-stone-800'
-          >
-            Practice this collection
-          </Link>
+          <AddOrRemoveLessonsModal selectedLessons={lessons} />
         </div>
         <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full pb-[6px]">
           <h3 className="top-[6px] relative text-lg font-bold sm:col-span-2 lg:col-span-3 mt-4 flex items-center">

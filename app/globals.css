@@ -21,3 +21,8 @@ body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
 }
+
+input {
+  /* Disable Tailwind's focus ring */
+  --tw-ring-shadow: 0 0 #000 !important;
+}

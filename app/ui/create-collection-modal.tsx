@@ -54,7 +54,7 @@ export default function CreateCollectionModal() {
         <PlusIcon className="text-zinc-400 h-6 w-6" />
         <span className="text-zinc-400 ml-2">New collection</span>
       </button>
-      <Modal dismissible   show={openModal} onClose={onCloseModal} className='bg-stone-400' theme={customTheme} initialFocus={inputRef}>
+      <Modal dismissible show={openModal} onClose={onCloseModal} className='bg-stone-400' theme={customTheme} initialFocus={inputRef}>
         <Modal.Header className=''>Create a new collection</Modal.Header>
         <Modal.Body>
           <div className="flex flex-col">
