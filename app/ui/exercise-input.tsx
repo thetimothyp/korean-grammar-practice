@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 
 type ExerciseInputProps = {
   answer: string,
   goToNextExercise: () => void
 }
 
-export default function ExerciseInput({ answer, goToNextExercise }: ExerciseInputProps) {
+export default forwardRef<HTMLTextAreaElement, ExerciseInputProps>(({ answer, goToNextExercise }: ExerciseInputProps, ref) => {
   const [status, setStatus] = useState('pending');
   const [response, setResponse] = useState('');
 
@@ -78,6 +78,7 @@ export default function ExerciseInput({ answer, goToNextExercise }: ExerciseInpu
     <form onSubmit={handleSubmit}>
       <div className="flex my-4 w-full h-1/8">
         <textarea 
+          ref={ref}
           name="response" 
           value={response}
           onChange={e => setResponse(e.target.value)}
@@ -111,4 +112,4 @@ export default function ExerciseInput({ answer, goToNextExercise }: ExerciseInpu
       </div>
     </form>
   )
-}
+});

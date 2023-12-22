@@ -1,16 +1,23 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ExerciseInput from "./exercise-input";
 import Accordion from "./accordion";
 import Link from "next/link";
 
 export default function ExerciseRunner({ exercises }: { exercises: any[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   function goToNextExercise() {
     setCurrentIndex((currentIndex + 1) % exercises.length);
   }
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [currentIndex]);
 
   return (
     <main className="h-screen w-screen">
@@ -20,7 +27,7 @@ export default function ExerciseRunner({ exercises }: { exercises: any[] }) {
           <span>{exercises[currentIndex].nl_text}</span>
         </div>
 
-        <ExerciseInput answer={exercises[currentIndex].tl_text} goToNextExercise={goToNextExercise} />
+        <ExerciseInput ref={inputRef} answer={exercises[currentIndex].tl_text} goToNextExercise={goToNextExercise} />
 
         <div className="flex my-4 w-full">
           <Accordion>
