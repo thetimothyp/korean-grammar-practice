@@ -5,6 +5,8 @@ import { Modal } from 'flowbite-react';
 import { useState } from "react";
 import { CSSObjectWithLabel, ClassNamesConfig } from "react-select";
 import AsyncSelect from 'react-select/async';
+import { toast } from 'react-hot-toast';
+import { useRouter } from "next/navigation";
 
 const lessonOptionsPromise = async (query: string) => {
   const url = '/api/lessons/search?' + new URLSearchParams({ query })
@@ -27,6 +29,7 @@ export default function AddOrRemoveLessonsModal({ selectedLessons }: { selectedL
 
   const defaultLessons = selectedLessons ? selectedLessons.map(l => ({ value: l.id, label: l.title })) : [];
   const [selectedLessonIds, setSelectedLessonIds] = useState(defaultLessons.map(l => l.value));
+  const router = useRouter();
 
   function onCloseModal() {
     setOpenModal(false);
@@ -40,7 +43,20 @@ export default function AddOrRemoveLessonsModal({ selectedLessons }: { selectedL
       });
     }
     setIsLoading(true);
-    req().then(onCloseModal);
+    req().then(() => {
+      onCloseModal();
+      toast(t => (
+        <span className="p-2">
+          <strong>Collection saved!</strong>{' '}
+          <a
+            onClick={router.refresh}
+            className="underline hover:cursor-pointer"
+          >
+            Refresh to see changes.
+          </a>
+        </span>
+      ), { position: 'bottom-center', style: { border: '2px solid rgb(41, 37, 36)'}})
+    });
   }
 
   function handleLessonSelect(selected: any) {
