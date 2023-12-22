@@ -7,7 +7,7 @@ type ExerciseInputProps = {
   goToNextExercise: () => void
 }
 
-export default forwardRef<HTMLTextAreaElement, ExerciseInputProps>(({ answer, goToNextExercise }: ExerciseInputProps, ref) => {
+const ExerciseInput = forwardRef<HTMLTextAreaElement, ExerciseInputProps>(({ answer, goToNextExercise }: ExerciseInputProps, ref) => {
   const [status, setStatus] = useState('pending');
   const [response, setResponse] = useState('');
 
@@ -113,3 +113,6 @@ export default forwardRef<HTMLTextAreaElement, ExerciseInputProps>(({ answer, go
     </form>
   )
 });
+
+ExerciseInput.displayName = 'ExerciseInput';
+export default ExerciseInput;

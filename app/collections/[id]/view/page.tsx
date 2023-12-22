@@ -20,14 +20,9 @@ export default async function ViewCollection({ params }: { params: { id: string 
     fetchLessonsForCollection(params.id)
   ]);
 
-  const totalExercises = lessons.reduce((sum, lesson) => {
-    sum += parseInt(lesson.exercise_count);
-    return sum;
-  }, 0);
-
   return (
-    <main className="flex items-center justify-center">
-      <div className="flex flex-col p-6 max-w-5xl items-center gap-4">
+    <main className="flex flex-col items-center w-screen min-h-screen p-6">
+      <div className="flex flex-col items-center 2xl:w-3/5 gap-4">
         <span className="self-start flex items-center gap-4">
           <Link href="/collections" className="underline">
             Collections
@@ -49,7 +44,7 @@ export default async function ViewCollection({ params }: { params: { id: string 
             Practice this collection
           </Link>
         </div>
-        <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl pb-[6px]">
+        <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full pb-[6px]">
           <h3 className="top-[6px] relative text-lg font-bold sm:col-span-2 lg:col-span-3 mt-4 flex items-center">
             <LightBulbIcon className="w-12 h-10 text-yellow-500 inline p-2 mr-4 rounded-md bg-yellow-200" />
             Lessons
