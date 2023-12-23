@@ -5,6 +5,7 @@ import Navbar from './ui/navbar'
 import Scroll from './lib/components/scroll'
 import { Toaster } from 'react-hot-toast';
 import NextTopLoader from 'nextjs-toploader';
+import MobileNavbar from './ui/mobile-navbar'
 
 const lato = Lato({ weight: ['100', '300', '400', '700', '900'], subsets: ['latin'] })
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           shadow='none'
           color='rgb(79, 70, 229)'/>
         <Navbar />
+        <MobileNavbar />
         <Toaster />
         <div className="pt-20">
           {children}
