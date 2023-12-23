@@ -1,4 +1,6 @@
-import { getCurrentUser } from "@/app/lib/session";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/database.types';
+import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import { fetchCollectionsForUser, fetchExercisesForUser, fetchLessonsForUser } from "../lib/data";
 import Link from "next/link";
@@ -10,11 +12,17 @@ import NewTile from "@/app/ui/grid-tiles/new-tile";
 import CreateCollectionModal from "../ui/create-collection-modal";
 
 export default async function Dashboard() {
-  const user: any = await getCurrentUser();
+  const supabase = createServerComponentClient<Database>({ cookies });
 
-  if (!user) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session?.user) {
     redirect('/login');
   }
+
+  const user = session.user;
 
   const [exercises, lessons, collections] = await Promise.all([
     fetchExercisesForUser(user.id),
