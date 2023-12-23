@@ -12,8 +12,8 @@ export default async function ViewLesson({ params }: { params: { id: string } })
   const lesson = await fetchLesson(params.id);
 
   return (
-    <main className="flex flex-col items-center w-screen min-h-screen p-6">
-      <div className="flex flex-col items-center 2xl:w-3/5 gap-8">
+    <main className="flex flex-col items-center w-screen min-h-screen p-2 md:p-6">
+      <div className="flex flex-col items-center 2xl:w-3/5 gap-4 md:gap-8">
         <span className="self-start flex items-center gap-4">
           <Link href="/lessons" className="underline">
             Lessons
@@ -45,7 +45,7 @@ export default async function ViewLesson({ params }: { params: { id: string } })
             <AddOrRemoveCollectionsModal lid={params.id} />
           </div>
         </div>
-        <div className="flex flex-col w-full bg-stone-50 px-20 py-24 rounded-lg border-2 border-stone-800">
+        <div className="flex flex-col w-full bg-stone-50 px-8 py-10 lg:px-20 lg:py-24 rounded-lg border-2 border-stone-800">
           <Markdown 
             className="prose lg:prose-lg max-w-none"
             remarkPlugins={[remarkGfm]}
