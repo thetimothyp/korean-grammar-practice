@@ -36,9 +36,9 @@ export default async function ViewCollection({ params }: { params: { id: string 
               user?.id == collection.user_id ? (
                 <Link
                   href={`/collections/${params.id}/edit`}
-                  className='rounded-lg bg-stone-50 hover:bg-stone-200 py-2 pr-4 pl-3 transition-colors border-2 border-stone-800'
+                  className='flex justify-center rounded-lg bg-stone-50 hover:bg-stone-200 py-2 pr-4 pl-3 transition-colors border-2 border-stone-800'
                 >
-                  <div className="flex gap-1">
+                  <div className="flex items-center gap-1">
                     <PencilSquareIcon className="h-6 w-6" />
                     <span>Edit collection</span>
                   </div>

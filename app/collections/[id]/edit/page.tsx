@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ChevronRightIcon, LightBulbIcon } from "@heroicons/react/24/outline";
+import { ChevronRightIcon, LightBulbIcon, EyeIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
 import { fetchCollection, fetchLessonsForCollection } from "@/app/lib/data";
 import AddOrRemoveLessonsModal from "@/app/ui/add-or-remove-lessons-modal";
@@ -28,14 +28,22 @@ export default async function EditCollection({ params }: { params: { id: string 
           <ChevronRightIcon className="w-3 h-3" />
           <span>{collection.name}</span>
         </span>
-        <div className="w-full flex justify-between items-center bg-stone-50 border-2 border-stone-800 rounded-xl px-6 py-4">
-          <div className="flex flex-col">
+        <div className="w-full flex flex-col md:flex-row justify-between items-center bg-stone-50 border-2 border-stone-800 rounded-xl px-6 py-4 gap-4">
+          <div className="flex flex-col items-center md:items-start">
             <h1 className="text-2xl font-bold ">
               {collection.name}
             </h1>
             <p className="text-lg">{lessons.length} lesson{lessons.length != 1 ? 's' : ''}</p>
           </div>
-          <AddOrRemoveLessonsModal selectedLessons={lessons} cid={params.id} />
+          <div className="flex flex-col md:flex-row gap-2">
+            <Link
+              href={`/collections/${params.id}/view`}
+              className='flex justify-center rounded-lg bg-stone-50 hover:bg-stone-200 py-2 px-4 transition-colors border-2 border-stone-800'
+            >
+              View collection
+            </Link>
+            <AddOrRemoveLessonsModal selectedLessons={lessons} cid={params.id} />
+          </div>
         </div>
         <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full pb-[6px]">
           <h3 className="top-[6px] relative text-lg font-bold sm:col-span-2 lg:col-span-3 mt-4 flex items-center">
