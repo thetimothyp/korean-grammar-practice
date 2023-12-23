@@ -9,10 +9,30 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      lessons: {
+        Row: {
+          body: string
+          id: string
+          summary: string
+          title: string
+        }
+        Insert: {
+          body: string
+          id?: string
+          summary: string
+          title: string
+        }
+        Update: {
+          body?: string
+          id?: string
+          summary?: string
+          title?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
-          email: string | null
           full_name: string | null
           id: string
           updated_at: string | null
@@ -20,7 +40,6 @@ export interface Database {
         }
         Insert: {
           avatar_url?: string | null
-          email?: string | null
           full_name?: string | null
           id: string
           updated_at?: string | null
@@ -28,7 +47,6 @@ export interface Database {
         }
         Update: {
           avatar_url?: string | null
-          email?: string | null
           full_name?: string | null
           id?: string
           updated_at?: string | null
