@@ -6,17 +6,6 @@ import {
   Collection,
 } from './definitions';
 
-export async function fetchExercises() {
-  try {
-    // noStore();
-    const data = await sql<Exercise>`SELECT * from exercises`;
-    return data.rows;
-  } catch(error) {
-    console.error('Database error:', error);
-    throw new Error('Failed to fetch exercises');
-  }
-}
-
 export async function fetchExercise(id: string) {
   try {
     noStore();
