@@ -1,4 +1,3 @@
-import { fetchLesson } from "@/app/lib/data";
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
@@ -15,15 +14,25 @@ export default async function EditLesson({ params }: { params: { id: string }}) 
   }
   const user = session.user;
 
-  const lesson = await fetchLesson(params.id);
+  const { data: results, error } = await supabase
+    .from('lesson_with_owner_view')
+    .select()
+    .eq('lid', params.id);
 
-  if (user.id == lesson.user_id) {
+  if (error) {
+    console.error(error);
+    return <></>;
+  }
+
+  const lesson = results[0];
+
+  if (user.id != lesson.uid) {
     redirect('/login');
   }
 
   return (
     <main className="flex min-h-screen flex-col w-screen items-center">
-      <EditLessonForm id={lesson.id} initialTitle={lesson.title} initialBody={lesson.body} initialSummary={lesson.summary} />
+      <EditLessonForm id={lesson.uid} initialTitle={lesson.title} initialBody={lesson.body} initialSummary={lesson.summary} />
     </main>
   )
 }

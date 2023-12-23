@@ -1,4 +1,3 @@
-import { fetchLesson } from "@/app/lib/data";
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
@@ -13,8 +12,18 @@ export default async function ViewLesson({ params }: { params: { id: string } })
   const {
     data: { session },
   } = await supabase.auth.getSession();
+  const { data: results, error } = await supabase
+    .from('lesson_with_owner_view')
+    .select()
+    .eq('lid', params.id);
+
+  if (error) {
+    console.error(error);
+    return <></>;
+  }
+
+  const lesson = results[0];
   const user = session?.user;
-  const lesson = await fetchLesson(params.id);
 
   return (
     <main className="flex flex-col items-center w-screen min-h-screen p-2 md:p-6">
@@ -35,7 +44,7 @@ export default async function ViewLesson({ params }: { params: { id: string } })
           </div>
           <div className="flex flex-col md:flex-row gap-2">
             { 
-              user?.id == lesson.user_id ? (
+              user?.id == lesson.uid ? (
                 <Link
                   href={`/lessons/${params.id}/edit`}
                   className='flex justify-center rounded-lg bg-stone-50 hover:bg-stone-200 py-2 pr-4 pl-3 transition-colors border-2 border-stone-800'

@@ -8,9 +8,9 @@ import { redirect, useRouter } from "next/navigation";
 
 type EditLessonFormProps = {
   id?: string;
-  initialTitle?: string;
-  initialSummary?: string;
-  initialBody?: string;
+  initialTitle?: string | null;
+  initialSummary?: string | null;
+  initialBody?: string | null;
 };
 
 export default function EditLessonForm({ id, initialTitle, initialSummary, initialBody } : EditLessonFormProps) {
