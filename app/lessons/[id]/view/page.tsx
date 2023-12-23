@@ -1,5 +1,7 @@
 import { fetchLesson } from "@/app/lib/data";
 import { Lesson } from "@/app/lib/definitions";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -7,18 +9,37 @@ export default async function ViewLesson({ params }: { params: { id: string } })
   const lesson: Lesson = await fetchLesson(params.id);
 
   return (
-    <main className="flex min-h-screen flex-col w-screen items-center">
-      <div className="flex flex-col w-1/2 bg-stone-50 px-20 py-24 m-24 rounded-lg">
-        <div className="flex flex-col border-b pb-4 mb-8 gap-2">
-          <h1 className="text-3xl font-bold">{lesson.title}</h1>
-          <h3 className="text-xl text-slate-900/70">{lesson.summary}</h3>
+    <main className="flex flex-col items-center w-screen min-h-screen p-6">
+      <div className="flex flex-col items-center 2xl:w-3/5 gap-8">
+        <span className="self-start flex items-center gap-4">
+          <Link href="/lessons" className="underline">
+            Lessons
+          </Link>
+          <ChevronRightIcon className="w-3 h-3" />
+          <span>{lesson.title}</span>
+        </span>
+        <div className="w-full flex justify-between items-center bg-stone-50 border-2 border-stone-800 rounded-xl px-6 py-4">
+          <div className="flex flex-col">
+            <h1 className="text-2xl font-bold ">
+              {lesson.title}
+            </h1>
+            <p className="">{lesson.summary}</p>
+          </div>
+          <Link
+            href={`/collections/${params.id}/practice`}
+            className='rounded-lg bg-purple-500 text-white hover:bg-purple-600 p-2 px-6 transition-colors border-2 border-stone-800'
+          >
+            Add to collection
+          </Link>
         </div>
-        <Markdown 
-          className="prose lg:prose-lg max-w-none"
-          remarkPlugins={[remarkGfm]}
-        >
-          {lesson.body}
-        </Markdown>
+        <div className="flex flex-col w-full bg-stone-50 px-20 py-24 rounded-lg border-2 border-stone-800">
+          <Markdown 
+            className="prose lg:prose-lg max-w-none"
+            remarkPlugins={[remarkGfm]}
+          >
+            {lesson.body}
+          </Markdown>
+        </div>
       </div>
     </main>
   )
