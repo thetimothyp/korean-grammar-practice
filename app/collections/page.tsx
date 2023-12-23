@@ -2,7 +2,6 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
-import { fetchCollectionsForUser } from "@/app/lib/data";
 import { FolderIcon } from "@heroicons/react/24/outline";
 import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
 import CreateCollectionModal from "@/app/ui/create-collection-modal";
@@ -18,8 +17,10 @@ export default async function Collections() {
     redirect('/login');
   }
 
-  const user = session.user;
-  const collections = await fetchCollectionsForUser(user.id);
+  const { data: collections, error } = await supabase.rpc('fetch_collections_for_user');
+  if (error) {
+    console.error('Error:', error);
+  }
 
   return (
     <main className="flex min-h-screen flex-col p-6 w-screen items-center">
@@ -29,7 +30,7 @@ export default async function Collections() {
           Collections
           <div className='border-t w-full ml-4' />
         </h1>
-        {collections.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
+        {collections?.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
         <CreateCollectionModal />
       </div>
     </main>

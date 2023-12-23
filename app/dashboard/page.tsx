@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
-import { fetchCollectionsForUser, fetchExercisesForUser, fetchLessonsForUser } from "../lib/data";
+import { fetchExercisesForUser, fetchLessonsForUser } from "../lib/data";
 import Link from "next/link";
 import { FolderIcon, LightBulbIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
 import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
@@ -21,10 +21,14 @@ export default async function Dashboard() {
   }
   const user = session.user;
 
-  const [exercises, lessons, collections] = await Promise.all([
+  const { data: collections, error } = await supabase.rpc('fetch_collections_for_user');
+  if (error) {
+    console.error('Error:', error);
+  }
+
+  const [exercises, lessons] = await Promise.all([
     fetchExercisesForUser(user.id),
-    fetchLessonsForUser(user.id),
-    fetchCollectionsForUser(user.id, 5)
+    fetchLessonsForUser(user.id)
   ]);
 
   return (
@@ -35,7 +39,7 @@ export default async function Dashboard() {
           Collections
           <div className='border-t w-full ml-4' />
         </h1>
-        {collections.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
+        {collections?.map((collection: any) => <CollectionTile key={collection.id} collection={collection} />)}
         <CreateCollectionModal />
         <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center items-center bg-stone-300/20 hover:bg-purple-300/50 rounded-lg transition-colors" href='/collections'>
           <span className="text-lg font-bold">View all collections</span>

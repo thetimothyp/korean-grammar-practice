@@ -273,26 +273,6 @@ export async function searchLessons(query: string) {
   }
 }
 
-export async function fetchCollectionsForUser(uid: string, limit: number = 100) {
-  try {
-    noStore();
-    const data = await sql`
-      SELECT collections.id, collections.name, COUNT(lessons) lesson_count
-      FROM user_collections
-      JOIN users ON user_collections.user_id = users.id
-      JOIN collections ON user_collections.collection_id = collections.id
-      LEFT JOIN collection_lessons ON collection_lessons.collection_id = collections.id
-      LEFT JOIN lessons ON collection_lessons.lesson_id = lessons.id
-      WHERE users.id = ${uid}
-      GROUP BY collections.id
-      LIMIT ${limit}`
-    return data.rows;
-  } catch(error) {
-    console.error('Database error:', error);
-    throw new Error(`Failed to fetch collections for user with UID: ${uid}`);
-  }
-}
-
 export async function fetchExercisesForCollection(cid: string) {
   try {
     noStore();
@@ -309,29 +289,6 @@ export async function fetchExercisesForCollection(cid: string) {
   } catch(error) {
     console.error('Database error:', error);
     throw new Error(`Failed to fetch exercises for collection with ID: ${cid}`);
-  }
-}
-
-export async function createCollection(collection: any, uid: string) {
-  try {
-    const query = `
-    with rows as (
-      INSERT INTO collections (name)
-      VALUES ($1)
-      RETURNING id
-    )
-    INSERT INTO user_collections (user_id, collection_id)
-    SELECT $2, id FROM rows
-    RETURNING collection_id AS id;`;
-    const params = [collection.name, uid];
-    const client = await db.connect();
-    const data = await client.query(query, params);
-    client.release();
-    console.log(`Inserted 1 new collection for user: ${uid}`);
-    return data.rows[0];
-  } catch (error) {
-    console.error('Error creating new collection:', error);
-    throw error;
   }
 }
 

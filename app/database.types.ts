@@ -264,6 +264,14 @@ export interface Database {
             }
             Returns: string
           }
+      fetch_collections_for_user: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          name: string
+          lesson_count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

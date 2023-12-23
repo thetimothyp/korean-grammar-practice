@@ -1,4 +1,4 @@
-import { createCollection, updateCollectionLessons } from "@/app/lib/data";
+import { updateCollectionLessons } from "@/app/lib/data";
 import { getCurrentUser } from "@/app/lib/session";
 import { NextRequest, NextResponse } from "next/server";
 import { difference } from 'underscore';
