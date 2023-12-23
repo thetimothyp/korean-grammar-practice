@@ -12,17 +12,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(null, { status: 401, statusText: 'Unauthorized' });
   }
 
-  const user = session.user;
   const body = await request.json();
   console.log('received request: ' + JSON.stringify(body));
 
-  let { data, error } = await supabase
-  .rpc('create_collection', {
-    name: body.name, 
-    user_id: user.id
-  })
-  if (error) console.error(error)
-  else console.log('data:', data)
+  let { data, error } = await supabase.rpc('create_collection', { name: body.name })
+  if (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
 
   return NextResponse.json({ id: data }, { status: 200 });
 }
