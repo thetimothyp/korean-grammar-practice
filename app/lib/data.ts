@@ -172,29 +172,6 @@ export async function fetchLessonsForUser(uid: any) {
   }
 }
 
-export async function createLesson(lesson: any, uid: string) {
-  try {
-    const query = `
-    with rows as (
-      INSERT INTO lessons (title, summary, body)
-      VALUES ($1, $2, $3)
-      RETURNING id
-    )
-    INSERT INTO user_lessons (user_id, lesson_id)
-    SELECT $4, id FROM rows
-    RETURNING lesson_id AS id;`;
-    const params = [lesson.title, lesson.summary, lesson.body, uid];
-    const client = await db.connect();
-    const data = await client.query(query, params);
-    client.release();
-    console.log(`Inserted 1 new lesson for user: ${uid}`);
-    return data.rows[0];
-  } catch (error) {
-    console.error('Error creating new lesson:', error);
-    throw error;
-  }
-}
-
 export async function updateLesson(lesson: Lesson) {
   try {
     noStore();

@@ -1,15 +1,25 @@
-import { createLesson } from "@/app/lib/data";
-import { getCurrentUser } from "@/app/lib/session";
+import { Database } from '@/app/database.types'
+import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const user = await getCurrentUser();
-  const data = await request.json();
-  console.log('received request: ' + JSON.stringify(data));
-  const res = await createLesson({
-    title: data.title,
-    summary: data.summary,
-    body: data.body
-  }, user.id);
-  return NextResponse.json(res);
+  const supabase = createRouteHandlerClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
+    return NextResponse.json(null, { status: 401, statusText: 'Unauthorized' });
+  }
+
+  const reqBody = await request.json();
+  console.log('received request: ' + JSON.stringify(reqBody));
+
+  const { title, summary, body } = reqBody;
+  let { data, error } = await supabase.rpc('create_lesson', { title, summary, body })
+  if (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+
+  return NextResponse.json({ id: data }, { status: 200 });
 }

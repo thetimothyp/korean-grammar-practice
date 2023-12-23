@@ -308,6 +308,14 @@ export interface Database {
             }
             Returns: string
           }
+      create_lesson: {
+        Args: {
+          title: string
+          summary: string
+          body: string
+        }
+        Returns: string
+      }
       fetch_collections_for_user: {
         Args: Record<PropertyKey, never>
         Returns: {
