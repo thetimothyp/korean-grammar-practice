@@ -9,6 +9,99 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      collection_lessons: {
+        Row: {
+          cid: string
+          lid: string
+        }
+        Insert: {
+          cid: string
+          lid: string
+        }
+        Update: {
+          cid?: string
+          lid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_collection"
+            columns: ["cid"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      collections: {
+        Row: {
+          id: string
+          name: string
+        }
+        Insert: {
+          id?: string
+          name: string
+        }
+        Update: {
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      exercises: {
+        Row: {
+          id: string
+          question: string
+          solution: string
+        }
+        Insert: {
+          id?: string
+          question: string
+          solution: string
+        }
+        Update: {
+          id?: string
+          question?: string
+          solution?: string
+        }
+        Relationships: []
+      }
+      lesson_exercises: {
+        Row: {
+          eid: string
+          lid: string
+        }
+        Insert: {
+          eid: string
+          lid: string
+        }
+        Update: {
+          eid?: string
+          lid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_exercise"
+            columns: ["eid"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       lessons: {
         Row: {
           body: string
@@ -58,6 +151,96 @@ export interface Database {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_collections: {
+        Row: {
+          cid: string
+          uid: string
+        }
+        Insert: {
+          cid: string
+          uid: string
+        }
+        Update: {
+          cid?: string
+          uid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_collection"
+            columns: ["cid"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_exercises: {
+        Row: {
+          eid: string
+          uid: string
+        }
+        Insert: {
+          eid: string
+          uid: string
+        }
+        Update: {
+          eid?: string
+          uid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_exercise"
+            columns: ["eid"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_lessons: {
+        Row: {
+          lid: string
+          uid: string
+        }
+        Insert: {
+          lid: string
+          uid: string
+        }
+        Update: {
+          lid?: string
+          uid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
