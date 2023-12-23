@@ -64,18 +64,18 @@ export interface Database {
       exercises: {
         Row: {
           id: string
-          question: string
-          solution: string
+          side_a: string
+          side_b: string
         }
         Insert: {
           id?: string
-          question: string
-          solution: string
+          side_a: string
+          side_b: string
         }
         Update: {
           id?: string
-          question?: string
-          solution?: string
+          side_a?: string
+          side_b?: string
         }
         Relationships: []
       }
