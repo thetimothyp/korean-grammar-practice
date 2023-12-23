@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from './ui/navbar'
 import Scroll from './lib/components/scroll'
 import { Toaster } from 'react-hot-toast';
+import NextTopLoader from 'nextjs-toploader';
 
 const lato = Lato({ weight: ['100', '300', '400', '700', '900'], subsets: ['latin'] })
 
@@ -21,6 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <Scroll />
       <body className={lato.className}>
+        <NextTopLoader 
+          showSpinner={false}
+          shadow='none'
+          color='rgb(79, 70, 229)'/>
         <Navbar />
         <Toaster />
         <div className="pt-20">
