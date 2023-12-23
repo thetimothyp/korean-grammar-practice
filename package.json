@@ -7,11 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node -r dotenv/config ./scripts/seed.js"
+    "seed": "node -r dotenv/config ./scripts/seed.js",
+    "generate-types": "npx supabase gen types typescript --project-id uyumlynjrgspddbkitnl --schema public > app/database.types.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@mdxeditor/editor": "^1.13.5",
+    "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@supabase/auth-ui-react": "^0.4.6",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.39.1",
     "@tailwindcss/typography": "^0.5.10",
     "@types/underscore": "^1.11.15",
     "@vercel/postgres": "^0.5.1",
