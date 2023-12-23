@@ -41,6 +41,13 @@ export interface Database {
             foreignKeyName: "fk_lesson"
             columns: ["lid"]
             isOneToOne: false
+            referencedRelation: "lesson_with_owner_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
             referencedRelation: "lessons"
             referencedColumns: ["id"]
           }
@@ -98,6 +105,13 @@ export interface Database {
             columns: ["eid"]
             isOneToOne: false
             referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lesson_with_owner_view"
             referencedColumns: ["id"]
           },
           {
@@ -247,6 +261,13 @@ export interface Database {
             foreignKeyName: "fk_lesson"
             columns: ["lid"]
             isOneToOne: false
+            referencedRelation: "lesson_with_owner_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
             referencedRelation: "lessons"
             referencedColumns: ["id"]
           },
@@ -292,6 +313,39 @@ export interface Database {
           }
         ]
       }
+      lesson_with_owner_view: {
+        Row: {
+          body: string | null
+          id: string | null
+          lid: string | null
+          summary: string | null
+          title: string | null
+          uid: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lesson_with_owner_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Functions: {
       create_collection:
@@ -322,6 +376,15 @@ export interface Database {
           id: string
           name: string
           lesson_count: number
+        }[]
+      }
+      fetch_lessons_for_user: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          title: string
+          summary: string
+          exercise_count: string
         }[]
       }
     }

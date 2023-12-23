@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
-import { fetchExercisesForUser, fetchLessonsForUser } from "../lib/data";
+import { fetchExercisesForUser } from "../lib/data";
 import Link from "next/link";
 import { FolderIcon, LightBulbIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
 import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
@@ -21,14 +21,13 @@ export default async function Dashboard() {
   }
   const user = session.user;
 
-  const { data: collections, error } = await supabase.rpc('fetch_collections_for_user');
-  if (error) {
-    console.error('Error:', error);
-  }
+  const [{ data: collections }, { data: lessons }] = await Promise.all([
+    supabase.rpc('fetch_collections_for_user'),
+    supabase.rpc('fetch_lessons_for_user'),
+  ]);
 
-  const [exercises, lessons] = await Promise.all([
-    fetchExercisesForUser(user.id),
-    fetchLessonsForUser(user.id)
+  const [exercises] = await Promise.all([
+    fetchExercisesForUser(user.id)
   ]);
 
   return (
@@ -50,7 +49,7 @@ export default async function Dashboard() {
           Lessons
           <div className='border-t w-full ml-4' />
         </h1>
-        {lessons.map((lesson: any) => <LessonTile key={lesson.id} lesson={lesson} />)}
+        {lessons?.map((lesson: any) => <LessonTile key={lesson.id} lesson={lesson} />)}
         <NewTile href='/lessons/new' label='New lesson' />
         <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center items-center bg-stone-300/20 hover:bg-yellow-300/50 rounded-lg transition-colors" href='/lessons'>
           <span className="text-lg font-bold">View all lessons</span>

@@ -2,7 +2,6 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
-import { fetchLessonsForUser } from "../lib/data";
 import { LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "../ui/grid-tiles/lesson-tile";
 import NewTile from "../ui/grid-tiles/new-tile";
@@ -15,9 +14,11 @@ export default async function Lessons() {
   if (!session?.user) {
     redirect('/login');
   }
-  const user = session.user;
 
-  const lessons = await fetchLessonsForUser(user.id);
+  const { data: lessons, error } = await supabase.rpc('fetch_lessons_for_user');
+  if (error) {
+    console.error('Error:', error);
+  }
 
   return (
     <main className="flex min-h-screen flex-col p-6 w-screen items-center">
@@ -27,7 +28,7 @@ export default async function Lessons() {
           Lessons
           <div className='border-t w-full ml-4' />
         </h1>
-        {lessons.map((lesson: any) => <LessonTile key={lesson.id} lesson={lesson} />)}
+        {lessons?.map((lesson: any) => <LessonTile key={lesson.id} lesson={lesson} />)}
         <NewTile href='/lessons/new' label='New lesson' />
       </div>
     </main>
