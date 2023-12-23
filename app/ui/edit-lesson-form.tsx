@@ -83,7 +83,7 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
 
   return (
     <div className="flex flex-col items-center min-h-screen px-4 w-full md:w-4/5 xl:w-3/5">
-      <div className='flex w-full justify-between items-center bg-stone-50 mt-24 rounded-lg p-6'>
+      <div className='flex w-full flex-col md:flex-row justify-between md:items-center bg-stone-50 mt-24 rounded-lg p-6 border-2 border-stone-800 gap-4'>
         <div className='flex flex-col w-4/5 justify-left'>
           <input
             name='title'
@@ -100,7 +100,7 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
         </div>
         <button
           onClick={handleSubmit}
-          className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-6 rounded-lg transition-colors relative"
+          className="bg-green-500 hover:bg-green-600 shadow-sm p-2 px-6 rounded-lg transition-colors relative border-2 border-stone-800"
         >
           <div className={`${isLoading ? 'opacity-100' : 'opacity-0'} w-full h-full rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-inherit transition-opacity`}>
             <div className="mt-2 animate-spin inline-block w-6 h-6 border-[2px] border-white border-opacity-70 border-t-transparent rounded-full" role="status" aria-label="loading" />
@@ -108,7 +108,7 @@ export default function EditLessonForm({ id, initialTitle, initialSummary, initi
           <span className="font-bold tracking-wide text-white text-center antialiased">Save</span>
         </button>
       </div>
-      <div className={`${bodyError ? 'bg-red-100' : ''} rounded-md w-full my-6 transition-colors bg-stone-50 p-6`}>
+      <div className={`${bodyError ? 'bg-red-100' : ''} rounded-md w-full my-6 transition-colors bg-stone-50 p-6 border-stone-800 border-2`}>
         <ForwardRefEditor placeholder="Write something!" className="max-w-none prose" ref={ref} markdown={body} onChange={setBody} />
       </div>
     </div>

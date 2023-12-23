@@ -1,17 +1,15 @@
 import { fetchLesson } from "@/app/lib/data";
-import { Lesson } from "@/app/lib/definitions";
 import { getCurrentUser } from "@/app/lib/session";
 import EditLessonForm from "@/app/ui/edit-lesson-form";
 import { redirect } from "next/navigation";
 
 export default async function EditLesson({ params }: { params: { id: string }}) {
   const user: any = await getCurrentUser();
+  const lesson = await fetchLesson(params.id);
 
-  if (!user) {
+  if (!user?.id == lesson.user_id) {
     redirect('/login');
   }
-
-  const lesson: Lesson = await fetchLesson(params.id);
 
   return (
     <main className="flex min-h-screen flex-col w-screen items-center">
