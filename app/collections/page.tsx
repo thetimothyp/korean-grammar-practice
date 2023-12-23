@@ -1,4 +1,6 @@
-import { getCurrentUser } from "@/app/lib/session";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/database.types';
+import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import { fetchCollectionsForUser } from "@/app/lib/data";
 import { FolderIcon } from "@heroicons/react/24/outline";
@@ -6,12 +8,17 @@ import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
 import CreateCollectionModal from "@/app/ui/create-collection-modal";
 
 export default async function Collections() {
-  const user: any = await getCurrentUser();
+  const supabase = createServerComponentClient<Database>({ cookies });
 
-  if (!user) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session?.user) {
     redirect('/login');
   }
 
+  const user = session.user;
   const collections = await fetchCollectionsForUser(user.id);
 
   return (
