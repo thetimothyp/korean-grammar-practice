@@ -31,7 +31,7 @@ export default function CreateCollectionModal() {
     }
     req().then((res) => { 
       setIsLoading(false);
-      router.push(`/collections/${res.id}/view`);
+      router.push(`/collections/${res.id}/edit`);
       onCloseModal();
     });
   }
