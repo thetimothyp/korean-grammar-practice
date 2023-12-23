@@ -1,5 +1,6 @@
 import { fetchLesson } from "@/app/lib/data";
 import { Lesson } from "@/app/lib/definitions";
+import AddOrRemoveCollectionsModal from "@/app/ui/add-or-remove-collections-modal";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Markdown from 'react-markdown';
@@ -25,12 +26,7 @@ export default async function ViewLesson({ params }: { params: { id: string } })
             </h1>
             <p className="">{lesson.summary}</p>
           </div>
-          <Link
-            href={`/collections/${params.id}/practice`}
-            className='rounded-lg bg-purple-500 text-white hover:bg-purple-600 p-2 px-6 transition-colors border-2 border-stone-800'
-          >
-            Add to collection
-          </Link>
+          <AddOrRemoveCollectionsModal lid={params.id} />
         </div>
         <div className="flex flex-col w-full bg-stone-50 px-20 py-24 rounded-lg border-2 border-stone-800">
           <Markdown 

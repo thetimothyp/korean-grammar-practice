@@ -220,6 +220,44 @@ export async function updateLesson(lesson: Lesson) {
   }
 }
 
+/*
+  To be used when updating collections associated with a given lesson;
+  see `updateCollectionLessons` for updating lessons associated
+  with a given collection.
+*/
+export async function updateLessonCollections(lid: string, cidsToInsert: string[], cidsToDelete: string[]) {
+  const deleteParamsStr = cidsToDelete.map((_, index) => `$${index + 2}`).join(',')
+  const deleteQuery = `
+    DELETE FROM collection_lessons
+    WHERE lesson_id = $1
+    AND collection_id IN (${deleteParamsStr})`
+  const deleteValues: string[] = [lid];
+  cidsToDelete.forEach(cid => {
+    deleteValues.push(cid);
+  });
+
+  const insertParamsStr = cidsToInsert.map((_, index) => `($${index * 2 + 1}, $${index * 2 + 2})`).join(',');
+  const insertQuery = `
+    INSERT INTO collection_lessons (collection_id, lesson_id)
+    VALUES ${insertParamsStr}
+    ON CONFLICT DO NOTHING`
+  const insertValues: string[] = [];
+  cidsToInsert.forEach(cid => {
+    insertValues.push(cid);
+    insertValues.push(lid);
+  });
+
+  try {
+    const client = await db.connect();
+    if (cidsToDelete.length > 0) await client.query(deleteQuery, deleteValues);
+    if (cidsToInsert.length > 0) await client.query(insertQuery, insertValues);
+    client.release();
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to update lesson with ID: ${lid}`);
+  }
+}
+
 export async function searchLessons(query: string) {
   try {
     const param = `%${query}%`;
@@ -296,6 +334,11 @@ export async function createCollection(collection: any, uid: string) {
   }
 }
 
+/*
+  To be used when updating lessons associated with a given collection;
+  see `updateLessonCollections` for updating collections associated
+  with a given lesson.
+*/
 export async function updateCollectionLessons(cid: string, lidsToInsert: string[], lidsToDelete: string[]) {
   const deleteParamsStr = lidsToDelete.map((_, index) => `$${index + 2}`).join(',')
   const deleteQuery = `
@@ -341,6 +384,35 @@ export async function fetchCollection(id: string) {
   } catch(error) {
     console.error('Database error:', error);
     throw new Error(`Failed to fetch collection with ID: ${id}`);
+  }
+}
+
+/*
+  Fetches all the user's collections that contain a given lesson
+*/
+export async function fetchUserCollectionsWithLesson(uid: string, lid: string) {
+  try {
+    noStore();
+    const data = await sql`
+      with has_collection as (
+        SELECT user_collections.collection_id, collections.name c_name, collection_lessons.lesson_id
+        FROM user_collections
+        JOIN collections ON user_collections.collection_id = collections.id
+        LEFT JOIN collection_lessons ON user_collections.collection_id = collection_lessons.collection_id
+        WHERE user_collections.user_id = ${uid}
+        AND collection_lessons.lesson_id = ${lid}
+      )
+      SELECT user_collections.collection_id cid, collections.name c_name, null lid
+      FROM user_collections
+      JOIN collections ON user_collections.collection_id = collections.id
+      WHERE user_collections.user_id = ${uid}
+      AND user_collections.collection_id NOT IN (SELECT collection_id FROM has_collection)
+      UNION SELECT * FROM has_collection
+    `
+    return data.rows;
+  } catch(error) {
+    console.error('Database error:', error);
+    throw new Error(`Failed to fetch user collections for user ${uid} containing lesson ${lid}`);
   }
 }
 
