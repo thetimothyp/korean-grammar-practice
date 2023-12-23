@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
-import { fetchCollection, fetchLessonsForCollection } from "@/app/lib/data";
+import { fetchLessonsForCollection } from "@/app/lib/data";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default async function ViewCollection({ params }: { params: { id: string } }) {
@@ -14,8 +14,17 @@ export default async function ViewCollection({ params }: { params: { id: string 
   } = await supabase.auth.getSession();
   const user = session?.user;
   
-  const [collection, lessons] = await Promise.all([
-    fetchCollection(params.id),
+  const { data: results, error } = await supabase
+    .from('collection_with_owner_view')
+    .select()
+    .eq('cid', params.id);
+
+  if (!results) {
+    return <></>
+  }
+  const collection = results[0];
+
+  const [lessons] = await Promise.all([
     fetchLessonsForCollection(params.id)
   ]);
 
@@ -38,7 +47,7 @@ export default async function ViewCollection({ params }: { params: { id: string 
           </div>
           <div className="flex flex-col md:flex-row gap-2">
             { 
-              user?.id == collection.user_id ? (
+              user?.id == collection.uid ? (
                 <Link
                   href={`/collections/${params.id}/edit`}
                   className='flex justify-center rounded-lg bg-stone-50 hover:bg-stone-200 py-2 pr-4 pl-3 transition-colors border-2 border-stone-800'

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon, EyeIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
-import { fetchCollection, fetchLessonsForCollection } from "@/app/lib/data";
+import { fetchLessonsForCollection } from "@/app/lib/data";
 import AddOrRemoveLessonsModal from "@/app/ui/add-or-remove-lessons-modal";
 
 export default async function EditCollection({ params }: { params: { id: string } }) {
@@ -20,13 +20,22 @@ export default async function EditCollection({ params }: { params: { id: string 
   }
 
   const user = session.user;
+
+  const { data: results, error } = await supabase
+    .from('collection_with_owner_view')
+    .select()
+    .eq('cid', params.id);
+
+  if (!results) {
+    return <></>
+  }
+  const collection = results[0];
   
-  const [collection, lessons] = await Promise.all([
-    fetchCollection(params.id),
+  const [lessons] = await Promise.all([
     fetchLessonsForCollection(params.id)
   ]);
 
-  if (user.id == collection.user_id) {
+  if (user.id != collection.uid) {
     redirect('/login');
   }
 

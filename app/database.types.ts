@@ -27,6 +27,13 @@ export interface Database {
             foreignKeyName: "fk_collection"
             columns: ["cid"]
             isOneToOne: false
+            referencedRelation: "collection_with_owner_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_collection"
+            columns: ["cid"]
+            isOneToOne: false
             referencedRelation: "collections"
             referencedColumns: ["id"]
           },
@@ -173,6 +180,13 @@ export interface Database {
             foreignKeyName: "fk_collection"
             columns: ["cid"]
             isOneToOne: false
+            referencedRelation: "collection_with_owner_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_collection"
+            columns: ["cid"]
+            isOneToOne: false
             referencedRelation: "collections"
             referencedColumns: ["id"]
           },
@@ -247,7 +261,37 @@ export interface Database {
       }
     }
     Views: {
-      [_ in never]: never
+      collection_with_owner_view: {
+        Row: {
+          cid: string | null
+          id: string | null
+          name: string | null
+          uid: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_collection"
+            columns: ["cid"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_collection"
+            columns: ["cid"]
+            isOneToOne: false
+            referencedRelation: "collection_with_owner_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Functions: {
       create_collection:
