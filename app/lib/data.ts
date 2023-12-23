@@ -150,9 +150,10 @@ export async function fetchUser(email: string) {
 export async function fetchLesson(id: string) {
   try {
     noStore();
-    const data = await sql<Lesson>`
+    const data = await sql`
       SELECT *
       FROM lessons
+      JOIN user_lessons ON user_lessons.lesson_id = lessons.id
       WHERE id = ${id}`;
     if (data.rows.length === 0) throw new Error(`No lesson found with ID: ${id}`);
     return data.rows[0];

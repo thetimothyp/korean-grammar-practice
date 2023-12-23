@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/app/lib/session";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
