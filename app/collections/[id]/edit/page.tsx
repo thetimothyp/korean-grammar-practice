@@ -8,15 +8,15 @@ import AddOrRemoveLessonsModal from "@/app/ui/add-or-remove-lessons-modal";
 
 export default async function EditCollection({ params }: { params: { id: string } }) {
   const user: any = await getCurrentUser();
-
-  if (!user) {
-    redirect('/login');
-  }
   
   const [collection, lessons] = await Promise.all([
     fetchCollection(params.id),
     fetchLessonsForCollection(params.id)
   ]);
+
+  if (!user?.id == collection.user_id) {
+    redirect('/login');
+  }
 
   return (
     <main className="flex flex-col items-center w-screen min-h-screen p-6">
