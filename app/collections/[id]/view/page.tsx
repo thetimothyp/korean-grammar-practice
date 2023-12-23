@@ -4,13 +4,10 @@ import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
 import { fetchCollection, fetchLessonsForCollection } from "@/app/lib/data";
+import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default async function ViewCollection({ params }: { params: { id: string } }) {
   const user: any = await getCurrentUser();
-
-  if (!user) {
-    redirect('/login');
-  }
   
   const [collection, lessons] = await Promise.all([
     fetchCollection(params.id),
@@ -27,19 +24,35 @@ export default async function ViewCollection({ params }: { params: { id: string 
           <ChevronRightIcon className="w-3 h-3" />
           <span>{collection.name}</span>
         </span>
-        <div className="w-full flex justify-between items-center bg-stone-50 border-2 border-stone-800 rounded-xl px-6 py-4">
-          <div className="flex flex-col">
+        <div className="w-full flex flex-col md:flex-row justify-between items-center bg-stone-50 border-2 border-stone-800 rounded-xl px-6 py-4 gap-4">
+          <div className="flex flex-col items-center md:items-start">
             <h1 className="text-2xl font-bold ">
               {collection.name}
             </h1>
             <p className="text-lg">{lessons.length} lesson{lessons.length != 1 ? 's' : ''}</p>
           </div>
-          <Link
-            href={`/collections/${params.id}/practice`}
-            className='rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 p-2 px-6 transition-colors border-2 border-stone-800'
-          >
-            Practice this collection
-          </Link>
+          <div className="flex flex-col md:flex-row gap-2">
+            { 
+              user?.id == collection.user_id ? (
+                <Link
+                  href={`/collections/${params.id}/edit`}
+                  className='rounded-lg bg-stone-50 hover:bg-stone-200 py-2 pr-4 pl-3 transition-colors border-2 border-stone-800'
+                >
+                  <div className="flex gap-1">
+                    <PencilSquareIcon className="h-6 w-6" />
+                    <span>Edit collection</span>
+                  </div>
+                </Link>
+              ) : ''
+            }
+            
+            <Link
+              href={`/collections/${params.id}/practice`}
+              className='rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 p-2 px-6 transition-colors border-2 border-stone-800'
+            >
+              Practice this collection
+            </Link>
+          </div>
         </div>
         <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full pb-[6px]">
           <h3 className="top-[6px] relative text-lg font-bold sm:col-span-2 lg:col-span-3 mt-4 flex items-center">

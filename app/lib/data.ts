@@ -375,9 +375,10 @@ export async function updateCollectionLessons(cid: string, lidsToInsert: string[
 export async function fetchCollection(id: string) {
   try {
     noStore();
-    const data = await sql<Collection>`
+    const data = await sql`
       SELECT *
       FROM collections
+      JOIN user_collections ON user_collections.collection_id = ${id}
       WHERE id = ${id}`;
     if (data.rows.length === 0) throw new Error(`No collection found with ID: ${id}`);
     return data.rows[0];
