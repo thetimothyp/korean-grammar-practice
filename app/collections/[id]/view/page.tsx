@@ -1,4 +1,6 @@
-import { getCurrentUser } from "@/app/lib/session";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/database.types';
+import { cookies } from 'next/headers';
 import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
@@ -6,7 +8,11 @@ import { fetchCollection, fetchLessonsForCollection } from "@/app/lib/data";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default async function ViewCollection({ params }: { params: { id: string } }) {
-  const user: any = await getCurrentUser();
+  const supabase = createServerComponentClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user;
   
   const [collection, lessons] = await Promise.all([
     fetchCollection(params.id),

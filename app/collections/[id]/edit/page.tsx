@@ -1,4 +1,6 @@
-import { getCurrentUser } from "@/app/lib/session";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/database.types';
+import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon, EyeIcon } from "@heroicons/react/24/outline";
@@ -7,14 +9,24 @@ import { fetchCollection, fetchLessonsForCollection } from "@/app/lib/data";
 import AddOrRemoveLessonsModal from "@/app/ui/add-or-remove-lessons-modal";
 
 export default async function EditCollection({ params }: { params: { id: string } }) {
-  const user: any = await getCurrentUser();
+  const supabase = createServerComponentClient<Database>({ cookies });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session?.user) {
+    redirect('/login');
+  }
+
+  const user = session.user;
   
   const [collection, lessons] = await Promise.all([
     fetchCollection(params.id),
     fetchLessonsForCollection(params.id)
   ]);
 
-  if (!user?.id == collection.user_id) {
+  if (user.id == collection.user_id) {
     redirect('/login');
   }
 

@@ -1,4 +1,6 @@
-import { getCurrentUser } from "@/app/lib/session";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/database.types';
+import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import { fetchExercisesForUser } from "../lib/data";
 import { PuzzlePieceIcon } from "@heroicons/react/24/outline";
@@ -6,11 +8,14 @@ import ExerciseTile from "@/app/ui/grid-tiles/exercise-tile";
 import NewTile from "@/app/ui/grid-tiles/new-tile";
 
 export default async function Exercises() {
-  const user: any = await getCurrentUser();
-
-  if (!user) {
+  const supabase = createServerComponentClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
     redirect('/login');
   }
+  const user = session.user;
 
   const exercises = await fetchExercisesForUser(user.id);
 

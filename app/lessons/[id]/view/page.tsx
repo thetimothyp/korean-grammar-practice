@@ -1,6 +1,7 @@
 import { fetchLesson } from "@/app/lib/data";
-import { Lesson } from "@/app/lib/definitions";
-import { getCurrentUser } from "@/app/lib/session";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/database.types';
+import { cookies } from 'next/headers';
 import AddOrRemoveCollectionsModal from "@/app/ui/add-or-remove-collections-modal";
 import { ChevronRightIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -8,7 +9,11 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 export default async function ViewLesson({ params }: { params: { id: string } }) {
-  const user: any = await getCurrentUser();
+  const supabase = createServerComponentClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user;
   const lesson = await fetchLesson(params.id);
 
   return (
