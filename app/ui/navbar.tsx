@@ -4,12 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import logoSvg from "@/public/logo.svg";
 import { useCallback } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Dropdown } from 'flowbite-react';
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/app/database.types'
 
 export default function Navbar() {
+  const supabase = createClientComponentClient<Database>();
   const pathname = usePathname();
+  const router = useRouter();
 
   const activeClass = useCallback((href: string) => {
     return pathname.startsWith(href) ? 'active underline' : '';
@@ -17,6 +21,10 @@ export default function Navbar() {
 
 
   function AccountMenu() {
+    function signOut() {
+      supabase.auth.signOut().then(router.refresh)
+    }
+
     return (
       <Dropdown className="w-[200px] bg-stone-50" label="" renderTrigger={() => <UserCircleIcon className="h-10 w-10 text-stone-600 hover:cursor-pointer" />}>
         <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
@@ -26,8 +34,10 @@ export default function Navbar() {
           <Link href='/account'>Account Settings</Link>
         </Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
-          Log out
+        <Dropdown.Item as="div" className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
+          <button onClick={signOut}>
+            Sign out
+          </button>
         </Dropdown.Item>
       </Dropdown>
     );

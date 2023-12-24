@@ -18,9 +18,9 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
   function validate() {
     if (didSubmit) {
+      setUsernameCollisionError(false);
       if (username && username.length > 3) {
         setUsernameValidationError(false);
-        setUsernameCollisionError(false);
       } else {
         setUsernameValidationError(true);
       }
