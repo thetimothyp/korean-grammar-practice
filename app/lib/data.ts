@@ -122,21 +122,6 @@ export async function fetchUser(email: string) {
   }
 }
 
-export async function updateLesson(lesson: Lesson) {
-  try {
-    noStore();
-    const data = await sql`
-      UPDATE lessons SET (title, summary, body) =
-      (${lesson.title}, ${lesson.summary}, ${lesson.body})
-      WHERE id = ${lesson.id} RETURNING id`;
-    console.log(`Updated lesson with ID: ${lesson.id}`);
-    return data.rows[0];
-  } catch (error) {
-    console.error('Error creating updating lesson with ID: ' + lesson.id, error);
-    throw error;
-  }
-}
-
 export async function fetchExercisesForCollection(cid: string) {
   try {
     noStore();

@@ -32,7 +32,7 @@ export default async function EditLesson({ params }: { params: { id: string }}) 
 
   return (
     <main className="flex min-h-screen flex-col w-screen items-center">
-      <EditLessonForm id={lesson.uid} initialTitle={lesson.title} initialBody={lesson.body} initialSummary={lesson.summary} />
+      <EditLessonForm id={lesson.lid!} initialTitle={lesson.title} initialBody={lesson.body} initialSummary={lesson.summary} />
     </main>
   )
 }
