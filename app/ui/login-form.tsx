@@ -14,7 +14,7 @@ export default function AuthForm() {
       appearance={{ theme: ThemeSupa }}
       showLinks={false}
       providers={['google']}
-      redirectTo="http://localhost:3000/auth/callback"
+      redirectTo={`${window.location.origin}/auth/callback`}
     />
   )
 }
