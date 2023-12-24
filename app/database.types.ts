@@ -302,6 +302,7 @@ export interface Database {
           id: string | null
           name: string | null
           uid: string | null
+          username: string | null
         }
         Relationships: [
           {
@@ -369,6 +370,7 @@ export interface Database {
           summary: string | null
           title: string | null
           uid: string | null
+          username: string | null
         }
         Relationships: [
           {
@@ -431,6 +433,7 @@ export interface Database {
           id: string
           name: string
           lesson_count: number
+          author: string
         }[]
       }
       fetch_exercises_for_collection: {
@@ -473,6 +476,7 @@ export interface Database {
           title: string
           summary: string
           exercise_count: string
+          author: string
         }[]
       }
       fetch_user_collections_with_lesson:

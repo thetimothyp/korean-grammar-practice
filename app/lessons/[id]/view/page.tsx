@@ -40,6 +40,9 @@ export default async function ViewLesson({ params }: { params: { id: string } })
         </span>
         <div className="w-full flex flex-col md:flex-row justify-between items-center bg-stone-50 border-2 border-stone-800 rounded-xl px-6 py-4 gap-4">
           <div className="flex flex-col items-center md:items-start">
+            <h2 className='text-xl font-bold'>
+              {lesson.username}
+            </h2>
             <h1 className="text-2xl font-bold ">
               {lesson.title}
             </h1>
