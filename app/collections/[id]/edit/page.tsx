@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon, EyeIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
-import { fetchLessonsForCollection } from "@/app/lib/data";
 import AddOrRemoveLessonsModal from "@/app/ui/add-or-remove-lessons-modal";
 
 export default async function EditCollection({ params }: { params: { id: string } }) {
@@ -26,18 +25,22 @@ export default async function EditCollection({ params }: { params: { id: string 
     .select()
     .eq('cid', params.id);
 
-  if (!results) {
+  if (error) {
+    console.error('Error fetching collection:', error);
     return <></>
   }
   const collection = results[0];
   
-  const [lessons] = await Promise.all([
-    fetchLessonsForCollection(params.id)
-  ]);
-
   if (user.id != collection.uid) {
     redirect('/login');
   }
+
+  const { data: lessons, error: fetchLessonsError } = await supabase.rpc('fetch_lessons_for_collection', { cid: params.id });
+  if (fetchLessonsError) {
+    console.error('Error fetching lessons:', fetchLessonsError);
+    return <></>
+  }
+
 
   return (
     <main className="flex flex-col items-center w-screen min-h-screen p-6">

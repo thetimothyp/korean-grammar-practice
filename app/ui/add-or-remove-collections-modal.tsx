@@ -48,8 +48,8 @@ export default function AddToCollectionDropdown({ lid }: { lid: string }) {
       
       return response.json()
         .then(data => data.map(
-          ({ c_name, cid, lid }: { cid: string, c_name: string, lid: string | null }) => 
-            ({ value: cid, label: c_name, hasLesson: !!lid })
+          ({ name, cid, lid }: { cid: string, name: string, lid: string | null }) => 
+            ({ value: cid, label: name, hasLesson: !!lid })
         ));
     }
     setIsLoadingOptions(true);

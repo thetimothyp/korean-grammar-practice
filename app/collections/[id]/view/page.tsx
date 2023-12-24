@@ -4,7 +4,6 @@ import { cookies } from 'next/headers';
 import Link from "next/link";
 import { ChevronRightIcon, LightBulbIcon } from "@heroicons/react/24/outline";
 import LessonTile from "@/app/ui/grid-tiles/lesson-tile";
-import { fetchLessonsForCollection } from "@/app/lib/data";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default async function ViewCollection({ params }: { params: { id: string } }) {
@@ -19,14 +18,18 @@ export default async function ViewCollection({ params }: { params: { id: string 
     .select()
     .eq('cid', params.id);
 
-  if (!results) {
+  if (error) {
+    console.error('Error fetching collection:', error);
     return <></>
   }
   const collection = results[0];
 
-  const [lessons] = await Promise.all([
-    fetchLessonsForCollection(params.id)
-  ]);
+  const { data: lessons, error: fetchLessonsError } = await supabase.rpc('fetch_lessons_for_collection', { cid: params.id });
+  if (fetchLessonsError) {
+    console.error('Error fetching lessons:', fetchLessonsError);
+    return <></>
+  }
+  console.log(lessons);
 
   return (
     <main className="flex flex-col items-center w-screen min-h-screen p-6">

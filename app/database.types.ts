@@ -378,6 +378,17 @@ export interface Database {
           lesson_count: number
         }[]
       }
+      fetch_lessons_for_collection: {
+        Args: {
+          cid: string
+        }
+        Returns: {
+          id: string
+          title: string
+          summary: string
+          exercise_count: number
+        }[]
+      }
       fetch_lessons_for_user: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -387,6 +398,28 @@ export interface Database {
           exercise_count: string
         }[]
       }
+      fetch_user_collections_with_lesson:
+        | {
+            Args: {
+              lesson_id: string
+            }
+            Returns: {
+              cid: string
+              name: string
+              lid: string
+            }[]
+          }
+        | {
+            Args: {
+              lesson_id: string
+              user_id: string
+            }
+            Returns: {
+              cid: string
+              name: string
+              lid: string
+            }[]
+          }
     }
     Enums: {
       [_ in never]: never
