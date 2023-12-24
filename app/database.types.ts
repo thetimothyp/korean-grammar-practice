@@ -58,34 +58,43 @@ export interface Database {
           created_at: string | null
           id: string
           name: string
+          updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           id?: string
           name: string
+          updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           id?: string
           name?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
       exercises: {
         Row: {
+          created_at: string | null
           id: string
           side_a: string
           side_b: string
+          updated_at: string | null
         }
         Insert: {
+          created_at?: string | null
           id?: string
           side_a: string
           side_b: string
+          updated_at?: string | null
         }
         Update: {
+          created_at?: string | null
           id?: string
           side_a?: string
           side_b?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -136,27 +145,34 @@ export interface Database {
       lessons: {
         Row: {
           body: string
+          created_at: string | null
           id: string
           summary: string
           title: string
+          updated_at: string | null
         }
         Insert: {
           body: string
+          created_at?: string | null
           id?: string
           summary: string
           title: string
+          updated_at?: string | null
         }
         Update: {
           body?: string
+          created_at?: string | null
           id?: string
           summary?: string
           title?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
       profiles: {
         Row: {
           avatar_url: string | null
+          created_at: string | null
           full_name: string | null
           id: string
           updated_at: string | null
@@ -164,6 +180,7 @@ export interface Database {
         }
         Insert: {
           avatar_url?: string | null
+          created_at?: string | null
           full_name?: string | null
           id: string
           updated_at?: string | null
@@ -171,6 +188,7 @@ export interface Database {
         }
         Update: {
           avatar_url?: string | null
+          created_at?: string | null
           full_name?: string | null
           id?: string
           updated_at?: string | null
@@ -306,6 +324,7 @@ export interface Database {
           id: string | null
           name: string | null
           uid: string | null
+          updated_at: string | null
           username: string | null
         }
         Relationships: [
@@ -369,11 +388,13 @@ export interface Database {
       lesson_with_owner_view: {
         Row: {
           body: string | null
+          created_at: string | null
           id: string | null
           lid: string | null
           summary: string | null
           title: string | null
           uid: string | null
+          updated_at: string | null
           username: string | null
         }
         Relationships: [
