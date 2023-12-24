@@ -23,7 +23,7 @@ export default function Navbar() {
           <Link href='#'>Profile</Link>
         </Dropdown.Item>
         <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
-          <Link href='#'>Settings</Link>
+          <Link href='/account'>Account Settings</Link>
         </Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Item className="px-6 py-4 hover:bg-stone-300/20 transition-colors text-md">
