@@ -4,7 +4,7 @@ import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/app/database.types'
 
-export default function AuthForm() {
+export default function AuthForm({ redirectTo }: { redirectTo: string }) {
   const supabase = createClientComponentClient<Database>()
 
   return (
@@ -14,7 +14,7 @@ export default function AuthForm() {
       appearance={{ theme: ThemeSupa }}
       showLinks={false}
       providers={['google']}
-      redirectTo={`${window.location.origin}/auth/callback`}
+      redirectTo={redirectTo}
     />
   )
 }
