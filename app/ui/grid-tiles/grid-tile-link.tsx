@@ -9,7 +9,7 @@ export default function GridTileLink({ href, color, children } : { href: string,
       // https://stackoverflow.com/a/68020542 
 
       // hover:shadow-green hover:shadow-yellow hover:shadow-purple
-      className={`row-span-3 top-[6px] min-h-[12rem] relative hover:top-0 hover:shadow-${color} hover:cursor-pointer bg-stone-50 justify-center flex flex-col items-start py-4 px-6 border-2 border-stone-600 rounded-2xl transition-all`}>
+      className={`row-span-3 top-[6px] min-h-[12rem] relative hover:top-0 hover:shadow-${color} hover:cursor-pointer bg-stone-50 justify-between flex flex-col items-start py-6 px-6 border-2 border-stone-600 rounded-2xl transition-all`}>
       {children}
     </Link>
   )
