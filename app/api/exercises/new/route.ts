@@ -1,18 +1,29 @@
-import { createExercise, tagExerciseWithLessons } from "@/app/lib/data";
-import { getCurrentUser } from "@/app/lib/session";
+import { Database } from '@/app/database.types'
+import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const user = await getCurrentUser();
-  const data = await request.json();
-  console.log('received request: ' + JSON.stringify(data));
+  const body = await request.json();
+  console.log('received request: ' + JSON.stringify(body));
 
-  const res = await createExercise({
-    nl_text: data.nlText,
-    tl_text: data.tlText,
-  }, user.id);
-  
-  await tagExerciseWithLessons(res.id, data.lessonIds);
+  const supabase = createRouteHandlerClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
+    return NextResponse.json(null, { status: 401, statusText: 'Unauthorized' });
+  }
 
-  return NextResponse.json(res);
+  const { data: createRes, error } = await supabase.rpc('create_exercise', { side_a: body.sideAText, side_b: body.sideBText });
+
+  if (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+
+  await supabase
+    .from('lesson_exercises')
+    .insert(body.lessonIds.map((lid: string) => ({ eid: createRes, lid })))
+
+  return NextResponse.json({ id: createRes }, { status: 200 });
 }

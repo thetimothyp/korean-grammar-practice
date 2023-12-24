@@ -362,6 +362,13 @@ export interface Database {
             }
             Returns: string
           }
+      create_exercise: {
+        Args: {
+          side_a: string
+          side_b: string
+        }
+        Returns: string
+      }
       create_lesson: {
         Args: {
           title: string

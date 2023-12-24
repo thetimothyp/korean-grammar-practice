@@ -7,8 +7,8 @@ import AsyncSelect from 'react-select/async';
 
 type EditExerciseFormProps = {
   id?: string;
-  initialTlText?: string;
-  initialNlText?: string;
+  initialSideAText?: string;
+  initialSideBText?: string;
   lessons?: any[];
 };
 
@@ -18,31 +18,31 @@ const lessonOptionsPromise = async (query: string) => {
   return response.json().then(data => data.map((l: Lesson) => ({ value: l.id, label: l.title })));
 }
 
-export default function EditExerciseForm({ id, initialTlText, initialNlText, lessons } : EditExerciseFormProps) {
+export default function EditExerciseForm({ id, initialSideAText, initialSideBText, lessons } : EditExerciseFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
-  const [nlTextError, setNlTextError] = useState(false);
-  const [tlTextError, setTlTextError] = useState(false);
+  const [sideATextError, setSideATextError] = useState(false);
+  const [sideBTextError, setSideBTextError] = useState(false);
   const [lessonTagsError, setLessonTagsError] = useState(false);
 
-  const [tlText, setTlText] = useState(initialTlText || '');
-  const [nlText, setNlText] = useState(initialNlText || '');
+  const [sideAText, setSideAText] = useState(initialSideAText || '');
+  const [sideBText, setSideBText] = useState(initialSideBText || '');
 
   const defaultLessons = lessons ? lessons.map(l => ({ value: l.id, label: l.title })) : [];
   const [selectedLessonIds, setSelectedLessonIds] = useState(defaultLessons.map(l => l.value));
 
   function validate() {
     if (didSubmit) {
-      if (nlText.length == 0) {
-        setNlTextError(true);
+      if (sideBText.length == 0) {
+        setSideBTextError(true);
       } else {
-        setNlTextError(false);
+        setSideBTextError(false);
       }
-      if (tlText.length == 0) {
-        setTlTextError(true);
+      if (sideAText.length == 0) {
+        setSideATextError(true);
       } else {
-        setTlTextError(false);
+        setSideATextError(false);
       }
       if (selectedLessonIds.length == 0) {
         setLessonTagsError(true);
@@ -52,10 +52,10 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
     }
   }
 
-  useEffect(validate, [nlText, tlText, selectedLessonIds, didSubmit]);
+  useEffect(validate, [sideBText, sideAText, selectedLessonIds, didSubmit]);
 
   function isValid() {
-    return nlText.length > 0 && tlText.length > 0 && selectedLessonIds.length > 0;
+    return sideBText.length > 0 && sideAText.length > 0 && selectedLessonIds.length > 0;
   }
 
   function handleSubmit(e: any) {
@@ -71,7 +71,7 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
         req = async () => {
           const response = await fetch('/api/exercises/new', {
             method: 'POST',
-            body: JSON.stringify({ nlText, tlText, lessonIds: selectedLessonIds })
+            body: JSON.stringify({ sideBText, sideAText, lessonIds: selectedLessonIds })
           });
           return response.json();
         };
@@ -79,7 +79,7 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
         req = async () => {
           const response = await fetch('/api/exercises/update', {
             method: 'POST',
-            body: JSON.stringify({ id, nlText, tlText, lessonIds: selectedLessonIds })
+            body: JSON.stringify({ id, sideBText, sideAText, lessonIds: selectedLessonIds })
           });
           return response.json();
         };
@@ -97,19 +97,19 @@ export default function EditExerciseForm({ id, initialTlText, initialNlText, les
     <div className="flex flex-col w-full h-full justify-center items-center">
       <form className='flex flex-col bg-none w-4/5 lg:w-3/5 xl:w-2/5 justify-left gap-2 my-2' onSubmit={handleSubmit}>
           <h1 className="text-xl">{!id ? 'Create a new exercise' : 'Edit exercise'}</h1>
-          <label htmlFor="nlText" className="text-sm text-zinc-400">Native language text</label>
+          <label htmlFor="sideBText" className="text-sm text-zinc-400">Native language text</label>
           <input
-            name='nlText'
-            value={nlText}
-            onChange={e => setNlText(e.target.value)}
-            className={`${nlTextError ? 'bg-red-100' : ''} p-4 rounded-md mb-4 text-lg border-zinc-400/60 hover:border-zinc-400/90 transition-colors border`}
+            name='sideBText'
+            value={sideBText}
+            onChange={e => setSideBText(e.target.value)}
+            className={`${sideBTextError ? 'bg-red-100' : ''} p-4 rounded-md mb-4 text-lg border-zinc-400/60 hover:border-zinc-400/90 transition-colors border`}
             placeholder="Enter target language text" />
-          <label htmlFor="tlText" className="text-sm text-zinc-400">Target language text</label>
+          <label htmlFor="sideAText" className="text-sm text-zinc-400">Target language text</label>
           <input
-            name='tlText'
-            value={tlText}
-            onChange={e => setTlText(e.target.value)}
-            className={`${tlTextError ? 'bg-red-100' : ''} p-4 rounded-md mb-4 text-lg border-zinc-400/60 hover:border-zinc-400/90 transition-colors border`}
+            name='sideAText'
+            value={sideAText}
+            onChange={e => setSideAText(e.target.value)}
+            className={`${sideATextError ? 'bg-red-100' : ''} p-4 rounded-md mb-4 text-lg border-zinc-400/60 hover:border-zinc-400/90 transition-colors border`}
             placeholder="Enter native language text" />
 
           <label htmlFor="lessons" className="text-sm text-zinc-400">Which lesson concepts does this exercise practice?</label>
