@@ -55,14 +55,17 @@ export interface Database {
       }
       collections: {
         Row: {
+          created_at: string | null
           id: string
           name: string
         }
         Insert: {
+          created_at?: string | null
           id?: string
           name: string
         }
         Update: {
+          created_at?: string | null
           id?: string
           name?: string
         }
@@ -299,6 +302,7 @@ export interface Database {
       collection_with_owner_view: {
         Row: {
           cid: string | null
+          created_at: string | null
           id: string | null
           name: string | null
           uid: string | null
