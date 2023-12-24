@@ -1,9 +1,7 @@
 'use client';
 
-import { Lesson } from "@/app/lib/definitions";
 import { Modal } from 'flowbite-react';
 import { useState } from "react";
-import { CSSObjectWithLabel, ClassNamesConfig } from "react-select";
 import AsyncSelect from 'react-select/async';
 import { toast } from 'react-hot-toast';
 import { useRouter } from "next/navigation";

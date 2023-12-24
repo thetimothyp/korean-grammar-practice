@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Lesson } from "@/app/lib/definitions";
 import AsyncSelect from 'react-select/async';
 
 type EditExerciseFormProps = {
@@ -15,7 +14,7 @@ type EditExerciseFormProps = {
 const lessonOptionsPromise = async (query: string) => {
   const url = '/api/lessons/search?' + new URLSearchParams({ query })
   const response = await fetch(url, { method: 'GET' });
-  return response.json().then(data => data.map((l: Lesson) => ({ value: l.id, label: l.title })));
+  return response.json().then(data => data.map((l: any) => ({ value: l.id, label: l.title })));
 }
 
 export default function EditExerciseForm({ id, initialSideAText, initialSideBText, lessons } : EditExerciseFormProps) {
