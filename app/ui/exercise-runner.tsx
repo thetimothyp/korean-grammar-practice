@@ -24,10 +24,10 @@ export default function ExerciseRunner({ exercises }: { exercises: any[] }) {
       {/* <GrammarFilterDrawer concepts={allConcepts} /> */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-2/3 lg:w-2/5 xl:w-1/3">
         <div className="text-2xl w-full text-center">
-          <span>{exercises[currentIndex].nl_text}</span>
+          <span>{exercises[currentIndex].side_a}</span>
         </div>
 
-        <ExerciseInput ref={inputRef} answer={exercises[currentIndex].tl_text} goToNextExercise={goToNextExercise} />
+        <ExerciseInput ref={inputRef} answer={exercises[currentIndex].side_b} goToNextExercise={goToNextExercise} />
 
         <div className="flex my-4 w-full">
           <Accordion>

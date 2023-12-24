@@ -433,6 +433,19 @@ export interface Database {
           lesson_count: number
         }[]
       }
+      fetch_exercises_for_collection: {
+        Args: {
+          collection_id: string
+        }
+        Returns: {
+          eid: string
+          side_b: string
+          side_a: string
+          lid: string
+          lesson_title: string
+          lesson_summary: string
+        }[]
+      }
       fetch_exercises_for_user: {
         Args: Record<PropertyKey, never>
         Returns: {

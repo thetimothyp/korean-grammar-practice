@@ -1,9 +1,7 @@
 import { redirect } from 'next/navigation'
-import {
-  fetchExercisesForCollection
-} from '@/app/lib/data';
-import Accordion from '@/app/ui/accordion';
-import ExerciseInput from '@/app/ui/exercise-input';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/database.types';
+import { cookies } from 'next/headers';
 // import GrammarFilterDrawer from '@/app/ui/grammar-filter-drawer';
 import ExerciseRunner from '@/app/ui/exercise-runner';
 
@@ -19,8 +17,8 @@ function flattenExerciseLessons(exercises: any[]) {
     } else {
       obj[exercise.eid] = {
         id: exercise.eid,
-        nl_text: exercise.nl_text,
-        tl_text: exercise.tl_text,
+        side_b: exercise.side_b,
+        side_a: exercise.side_a,
         lessons: [{
           id: exercise.lid,
           title: exercise.lesson_title,
@@ -35,8 +33,15 @@ function flattenExerciseLessons(exercises: any[]) {
 
 export default async function Home({ params }: { params: { id: string }}) {
   try {
+    const supabase = createServerComponentClient<Database>({ cookies });
+    const { data: exercises, error } = await supabase.rpc('fetch_exercises_for_collection', { collection_id: params.id });
+    // const exercises = await fetchExercisesForCollection(params.id);
 
-    const exercises = await fetchExercisesForCollection(params.id);
+    if (error) {
+      console.error(error);
+      return <></>;
+    }
+
     const flattenedExercises = flattenExerciseLessons(exercises);
   
     return (
@@ -48,7 +53,7 @@ export default async function Home({ params }: { params: { id: string }}) {
   } catch(error: any) {
     console.log(error.message);
     if (error.message === 'Failed to fetch exercise!') {
-      redirect('/exercises/1');
+      redirect('/dashboard');
     }
   }
 }
