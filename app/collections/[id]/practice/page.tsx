@@ -32,6 +32,9 @@ function flattenExerciseLessons(exercises: any[]) {
 }
 
 export default async function Home({ params }: { params: { id: string }}) {
+  // https://github.com/vercel/next.js/issues/56630#issuecomment-1755473286
+  cookies().getAll(); // Keep cookies in the JS execution context for Next.js build
+  
   try {
     const supabase = createServerComponentClient<Database>({ cookies });
     const { data: exercises, error } = await supabase.rpc('fetch_exercises_for_collection', { collection_id: params.id });

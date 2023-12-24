@@ -7,6 +7,9 @@ import ExerciseTile from "@/app/ui/grid-tiles/exercise-tile";
 import NewTile from "@/app/ui/grid-tiles/new-tile";
 
 export default async function Exercises() {
+  // https://github.com/vercel/next.js/issues/56630#issuecomment-1755473286
+  cookies().getAll(); // Keep cookies in the JS execution context for Next.js build
+  
   const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },

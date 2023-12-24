@@ -7,6 +7,9 @@ import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
 import CreateCollectionModal from "@/app/ui/create-collection-modal";
 
 export default async function Collections() {
+  // https://github.com/vercel/next.js/issues/56630#issuecomment-1755473286
+  cookies().getAll(); // Keep cookies in the JS execution context for Next.js build
+  
   const supabase = createServerComponentClient<Database>({ cookies });
 
   const {

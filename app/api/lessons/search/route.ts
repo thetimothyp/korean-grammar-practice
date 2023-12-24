@@ -4,6 +4,8 @@ import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 
 export async function GET(request: NextRequest) {
+  // https://github.com/vercel/next.js/issues/56630#issuecomment-1755473286
+  cookies().getAll(); // Keep cookies in the JS execution context for Next.js build
   const { searchParams } = new URL(request.url);
   const supabase = createRouteHandlerClient<Database>({ cookies });
 

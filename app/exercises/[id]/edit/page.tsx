@@ -32,6 +32,9 @@ function flattenLessons(exercise: any[]): any {
 }
 
 export default async function EditExercise({ params }: { params: { id: string } }) {
+  // https://github.com/vercel/next.js/issues/56630#issuecomment-1755473286
+  cookies().getAll(); // Keep cookies in the JS execution context for Next.js build
+  
   const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },
