@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logoSvg from "@/public/logo.svg";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dropdown } from 'flowbite-react';
 import { UserCircleIcon } from "@heroicons/react/24/outline";
@@ -14,11 +14,19 @@ export default function Navbar() {
   const supabase = createClientComponentClient<Database>();
   const pathname = usePathname();
   const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data, error }) => {
+      if (data.user) {
+        setUser(data.user);
+      }
+    });
+  }, []);
 
   const activeClass = useCallback((href: string) => {
     return pathname.startsWith(href) ? 'active underline' : '';
   }, [pathname]);
-
 
   function AccountMenu() {
     function signOut() {
@@ -74,7 +82,7 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
-        <AccountMenu />
+        { user == null ? '' : <AccountMenu /> }
       </div>
     </nav>
   )
