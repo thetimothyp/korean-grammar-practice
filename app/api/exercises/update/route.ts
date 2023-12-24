@@ -1,29 +1,39 @@
-import { tagExerciseWithLessons, updateExercise } from "@/app/lib/data";
-import { getCurrentUser } from "@/app/lib/session";
+import { Database } from '@/app/database.types'
+import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { NextRequest, NextResponse } from "next/server";
+import { difference } from 'underscore';
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-  console.log('received request: ' + JSON.stringify(data));
-  const promises: Promise<any>[] = [];
+  const body = await request.json();
+  console.log('received request: ' + JSON.stringify(body));
+  const { initialLessonIds, selectedLessonIds } = body;
 
-  const updateExercisesTable = async () => {
-    const res = await updateExercise({
-      id: data.id,
-      nl_text: data.nlText,
-      tl_text: data.tlText,
-    });
-    return res;
+  const supabase = createRouteHandlerClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
+    return NextResponse.json(null, { status: 401, statusText: 'Unauthorized' });
   }
 
-  const updateLessonExercisesTable = async () => {
-    await tagExerciseWithLessons(data.id, data.lessonIds);
+  const added: string[] = difference(selectedLessonIds, initialLessonIds);
+  const removed: string[] = difference(initialLessonIds, selectedLessonIds);
+
+  if (removed.length > 0) {
+    await supabase
+      .from('lesson_exercises')
+      .delete()
+      .eq('eid', body.id)
+      .in('lid', removed);
   }
 
-  promises.push(updateExercisesTable());
-  promises.push(updateLessonExercisesTable());
+  if (added.length > 0) {
+    await supabase
+      .from('lesson_exercises')
+      .insert(added.map(lid => ({ eid: body.id, lid })))
+  }
 
-  const res = await Promise.all(promises);
   // Return the id of the updated exercise
-  return NextResponse.json(res[0]);
+  return NextResponse.json({ id: body.id }, { status: 200 });
 }

@@ -104,6 +104,13 @@ export interface Database {
             foreignKeyName: "fk_exercise"
             columns: ["eid"]
             isOneToOne: false
+            referencedRelation: "exercise_with_lessons"
+            referencedColumns: ["eid"]
+          },
+          {
+            foreignKeyName: "fk_exercise"
+            columns: ["eid"]
+            isOneToOne: false
             referencedRelation: "exercises"
             referencedColumns: ["id"]
           },
@@ -231,6 +238,13 @@ export interface Database {
             foreignKeyName: "fk_exercise"
             columns: ["eid"]
             isOneToOne: false
+            referencedRelation: "exercise_with_lessons"
+            referencedColumns: ["eid"]
+          },
+          {
+            foreignKeyName: "fk_exercise"
+            columns: ["eid"]
+            isOneToOne: false
             referencedRelation: "exercises"
             referencedColumns: ["id"]
           },
@@ -313,6 +327,40 @@ export interface Database {
           }
         ]
       }
+      exercise_with_lessons: {
+        Row: {
+          eid: string | null
+          lesson_summary: string | null
+          lesson_title: string | null
+          lid: string | null
+          side_a: string | null
+          side_b: string | null
+          uid: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_lesson"
+            columns: ["lid"]
+            isOneToOne: false
+            referencedRelation: "lesson_with_owner_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       lesson_with_owner_view: {
         Row: {
           body: string | null
@@ -383,6 +431,15 @@ export interface Database {
           id: string
           name: string
           lesson_count: number
+        }[]
+      }
+      fetch_exercises_for_user: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          side_a: string
+          side_b: string
+          lesson_count: string
         }[]
       }
       fetch_lessons_for_collection: {

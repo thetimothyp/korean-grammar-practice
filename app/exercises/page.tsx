@@ -2,7 +2,6 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
-import { fetchExercisesForUser } from "../lib/data";
 import { PuzzlePieceIcon } from "@heroicons/react/24/outline";
 import ExerciseTile from "@/app/ui/grid-tiles/exercise-tile";
 import NewTile from "@/app/ui/grid-tiles/new-tile";
@@ -17,7 +16,11 @@ export default async function Exercises() {
   }
   const user = session.user;
 
-  const exercises = await fetchExercisesForUser(user.id);
+  const { data: exercises, error } = await supabase.rpc('fetch_exercises_for_user');
+  if (error) {
+    console.error(error);
+    return <></>
+  }
 
   return (
     <main className="flex min-h-screen flex-col p-6 w-screen items-center">

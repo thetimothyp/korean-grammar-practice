@@ -30,6 +30,7 @@ export default function EditExerciseForm({ id, initialSideAText, initialSideBTex
   const [sideBText, setSideBText] = useState(initialSideBText || '');
 
   const defaultLessons = lessons ? lessons.map(l => ({ value: l.id, label: l.title })) : [];
+  const initialLessonIds = defaultLessons.map(l => l.value);
   const [selectedLessonIds, setSelectedLessonIds] = useState(defaultLessons.map(l => l.value));
 
   function validate() {
@@ -79,7 +80,7 @@ export default function EditExerciseForm({ id, initialSideAText, initialSideBTex
         req = async () => {
           const response = await fetch('/api/exercises/update', {
             method: 'POST',
-            body: JSON.stringify({ id, sideBText, sideAText, lessonIds: selectedLessonIds })
+            body: JSON.stringify({ id, sideBText, sideAText, initialLessonIds, selectedLessonIds })
           });
           return response.json();
         };

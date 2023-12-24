@@ -2,7 +2,6 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
-import { fetchExercisesForUser } from "../lib/data";
 import Link from "next/link";
 import { FolderIcon, LightBulbIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
 import CollectionTile from "@/app/ui/grid-tiles/collection-tile";
@@ -21,13 +20,10 @@ export default async function Dashboard() {
   }
   const user = session.user;
 
-  const [{ data: collections }, { data: lessons }] = await Promise.all([
+  const [{ data: collections }, { data: lessons }, { data: exercises }] = await Promise.all([
     supabase.rpc('fetch_collections_for_user'),
     supabase.rpc('fetch_lessons_for_user'),
-  ]);
-
-  const [exercises] = await Promise.all([
-    fetchExercisesForUser(user.id)
+    supabase.rpc('fetch_exercises_for_user'),
   ]);
 
   return (
@@ -60,7 +56,7 @@ export default async function Dashboard() {
           Exercises
           <div className='border-t w-full ml-4' />
         </h1>
-        {exercises.map((exercise: any) => <ExerciseTile key={exercise.id} exercise={exercise} />)}
+        {exercises?.map((exercise: any) => <ExerciseTile key={exercise.id} exercise={exercise} />)}
         <NewTile href='/exercises/new' label='New exercise' />
         <Link className="top-[6px] relative sm:col-span-2 lg:col-span-3 flex justify-center items-center bg-stone-300/20 hover:bg-green-300/50 rounded-lg transition-colors" href='/exercises'>
           <span className="text-lg font-bold">View all exercises</span>
