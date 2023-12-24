@@ -11,6 +11,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
   const [avatar_url, setAvatarUrl] = useState<string | null>(null)
 
   const [usernameValidationError, setUsernameValidationError] = useState(false);
+  const [usernameCollisionError, setUsernameCollisionError] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
 
   const user = session?.user
@@ -19,6 +20,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
     if (didSubmit) {
       if (username && username.length > 3) {
         setUsernameValidationError(false);
+        setUsernameCollisionError(false);
       } else {
         setUsernameValidationError(true);
       }
@@ -85,8 +87,12 @@ export default function AccountForm({ session }: { session: Session | null }) {
       })
       if (error) throw error
       alert('Profile updated!')
-    } catch (error) {
-      alert('Error updating the data!')
+    } catch (error: any) {
+      if (error.code == '23505') {
+        setUsernameCollisionError(true);
+      } else {
+        console.error('Error setting username:', error);
+      }
     } finally {
       setLoading(false)
     }
@@ -123,6 +129,10 @@ export default function AccountForm({ session }: { session: Session | null }) {
             />
             { usernameValidationError ? (
                 <span className='text-sm text-red-500'>Username must be longer than 3 characters.</span>
+              ) : ''
+            }
+            { usernameCollisionError ? (
+                <span className='text-sm text-red-500'>Username is already taken.</span>
               ) : ''
             }
           </div>
