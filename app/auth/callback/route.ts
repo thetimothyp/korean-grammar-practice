@@ -14,5 +14,14 @@ export async function GET(req: NextRequest) {
     await supabase.auth.exchangeCodeForSession(code)
   }
 
-  return NextResponse.redirect(new URL('/account', req.url))
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profiles, error } = await supabase.from('profiles').select().eq('id', user?.id);
+  if (error) console.error('Error fetching profile for user:', user?.id);
+  if (profiles == null) {
+    return NextResponse.redirect(new URL('/account', req.url));
+  }
+  if (profiles[0].username != null) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+  return NextResponse.redirect(new URL('/welcome', req.url));
 }
