@@ -26,10 +26,10 @@ export default async function Collections() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col p-6 w-screen items-center">
-      <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 2xl:w-3/5 pb-[6px]">
+    <main className="flex min-h-screen flex-col p-4 md:p-6 w-screen items-center">
+      <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full lg:w-4/5 2xl:w-3/5 pb-[6px]">
         <h1 className="top-[6px] relative text-2xl font-bold sm:col-span-2 lg:col-span-3 mt-4 flex items-center">
-          <FolderIcon className="w-12 h-10 text-purple-500 inline p-2 mr-4 rounded-md bg-purple-200" />
+          <FolderIcon className="w-16 lg:w-12 h-10 text-purple-500 inline p-2 mr-4 rounded-md bg-purple-200" />
           Collections
           <div className='border-t w-full ml-4' />
         </h1>

@@ -30,7 +30,7 @@ export default function MobileNavbar() {
   }, [pathname]);
 
   return (
-    <div className='absolute left-0 top-0 py-8 px-8 md:hidden'>
+    <div className='absolute left-0 top-0 py-8 px-2 md:hidden'>
       <button className='text-slate-900 opacity-70 hover:opacity-90 transition-opacity' onClick={toggleDrawer}>
         <Bars3BottomLeftIcon className='inline ml-1 h-8 w-8' />
       </button>

@@ -35,8 +35,8 @@ export default async function ViewCollection({ params }: { params: { id: string 
   console.log(lessons);
 
   return (
-    <main className="flex flex-col items-center w-screen min-h-screen p-6">
-      <div className="flex flex-col items-center 2xl:w-3/5 gap-4">
+    <main className="flex flex-col items-center w-screen min-h-screen p-4 md:p-6">
+      <div className="flex flex-col items-center w-full 2xl:w-3/5 gap-4">
         <span className="self-start flex items-center gap-4">
           <Link href="/collections" className="underline">
             Collections

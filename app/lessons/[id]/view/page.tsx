@@ -29,7 +29,7 @@ export default async function ViewLesson({ params }: { params: { id: string } })
   const user = session?.user;
 
   return (
-    <main className="flex flex-col items-center w-screen min-h-screen p-2 md:p-6">
+    <main className="flex flex-col items-center w-screen min-h-screen p-4 md:p-6">
       <div className="flex flex-col items-center 2xl:w-3/5 gap-4 md:gap-8">
         <span className="self-start flex items-center gap-4">
           <Link href="/lessons" className="underline">
