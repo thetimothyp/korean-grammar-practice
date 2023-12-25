@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
-import CollectionTileGrid from '@/app/ui/grid-tiles/collection-tile-grid';
+import TileGrid from '@/app/ui/grid-tiles/tile-grid';
 
 // Page size must be divisible by 2 AND 3 for various screen sizes
 const PAGE_SIZE = 24;
@@ -21,7 +21,7 @@ export default async function ExploreCollections() {
 
   return (
     <main className="flex min-h-screen flex-col p-4 md:p-6 w-screen items-center">
-      <CollectionTileGrid initialCollections={initialCollections} pageSize={PAGE_SIZE} />
+      <TileGrid initialItems={initialCollections} pageSize={PAGE_SIZE} fetchHandlerOptions={{ tableName: 'collections', orderBy: 'created_at' }} />
     </main>
   )
 }

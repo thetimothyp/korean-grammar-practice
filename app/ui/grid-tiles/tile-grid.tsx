@@ -6,10 +6,23 @@ import { useEffect, useRef, useState } from "react";
 import CollectionTile from "./collection-tile";
 import { debounce } from 'underscore';
 import { motion } from 'framer-motion';
+import LessonTile from './lesson-tile';
 
-export default function CollectionTileGrid({ initialCollections, pageSize }: { initialCollections: any[] | null, pageSize: number }) {
+type FetchHandlerOptions = {
+  tableName: string,
+  orderBy: string,
+};
+
+type TileGridProps = {
+  initialItems: any[] | null,
+  pageSize: number,
+  fetchHandlerOptions: FetchHandlerOptions,
+}
+
+export default function TileGrid({ initialItems, pageSize, fetchHandlerOptions }: TileGridProps) {
+  // Generic version of CollectionTileGrid
   const supabase = createClientComponentClient<Database>();
-  const [loadedCollections, setLoadedCollections] = useState(initialCollections || []);
+  const [loadedItems, setLoadedItems] = useState(initialItems || []);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(1);
@@ -31,29 +44,29 @@ export default function CollectionTileGrid({ initialCollections, pageSize }: { i
     return () => window.removeEventListener('scroll', handleScrollDebounced);
   }, [])
 
-  async function fetchCollections(offset: number, limit: number) {
+  async function fetchItems(offset: number, limit: number) {
     const from = offset * pageSize;
     const to = from + pageSize - 1;
 
     const { data, error } = await supabase
-        .from('collections')
+        .from(fetchHandlerOptions.tableName)
         .select()
         .range(from, to)
-        .order('created_at', { ascending: true });
+        .order(fetchHandlerOptions.orderBy, { ascending: true });
 
-    if (error) console.error('Error fetching additional collection pages:', error);
+    if (error) console.error('Error fetching additional item pages:', error);
     return data;
   }
 
   async function loadMore(offset: number) {
     // Every time we fetch, we want to increase
-    // the offset to load fresh tickets
+    // the offset to load fresh items
     setOffset((prev) => prev + 1);
-    const newCollections = await fetchCollections(offset, pageSize) || [];
-    if (newCollections.length < pageSize) {
+    const newItems = await fetchItems(offset, pageSize) || [];
+    if (newItems.length < pageSize) {
       setIsLast(true);
     }
-    setLoadedCollections(prev => [...prev, ...newCollections]);
+    setLoadedItems(prev => [...prev, ...newItems]);
   }
 
   useEffect(() => {
@@ -63,13 +76,13 @@ export default function CollectionTileGrid({ initialCollections, pageSize }: { i
   }, [isInView])
 
   return (
-    <div ref={containerRef} className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full lg:w-4/5 2xl:w-3/5 pb-[6px]">
-      {loadedCollections?.map((collection: any, index: number) =>
-        {
+    <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full lg:w-4/5 2xl:w-3/5 pb-[6px]" ref={containerRef}>
+      {
+        loadedItems?.map((item: any, index: number) => {
           const recalculatedDelay = index >= pageSize ? (index - pageSize * (offset - 1)) / 15 : index / 15
           return (
             <motion.div
-              key={collection.id}
+              key={item.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -78,11 +91,11 @@ export default function CollectionTileGrid({ initialCollections, pageSize }: { i
                 delay: recalculatedDelay,
               }}
             >
-              <CollectionTile collection={collection} />
+              { fetchHandlerOptions.tableName === 'collections' ? <CollectionTile key={index} collection={item} /> : <LessonTile key={index} lesson={item} /> }
             </motion.div>
           )
-        }
-      )}
+        })
+      }
     </div>
-  );
+  )
 }
