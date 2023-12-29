@@ -98,6 +98,64 @@ export interface Database {
         }
         Relationships: []
       }
+      exerciseset_exercises: {
+        Row: {
+          eid: string
+          esid: string
+        }
+        Insert: {
+          eid: string
+          esid: string
+        }
+        Update: {
+          eid?: string
+          esid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_exercise"
+            columns: ["eid"]
+            isOneToOne: false
+            referencedRelation: "exercise_with_lessons"
+            referencedColumns: ["eid"]
+          },
+          {
+            foreignKeyName: "fk_exercise"
+            columns: ["eid"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_exerciseset"
+            columns: ["esid"]
+            isOneToOne: false
+            referencedRelation: "exercisesets"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      exercisesets: {
+        Row: {
+          created_at: string | null
+          id: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       lesson_exercises: {
         Row: {
           eid: string
@@ -267,6 +325,36 @@ export interface Database {
             columns: ["eid"]
             isOneToOne: false
             referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_exercisesets: {
+        Row: {
+          esid: string
+          uid: string
+        }
+        Insert: {
+          esid: string
+          uid: string
+        }
+        Update: {
+          esid?: string
+          uid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_exerciseset"
+            columns: ["esid"]
+            isOneToOne: false
+            referencedRelation: "exercisesets"
             referencedColumns: ["id"]
           },
           {
@@ -526,12 +614,24 @@ export interface Database {
               lid: string
             }[]
           }
+      insert_user_exerciseset_and_exercises: {
+        Args: {
+          p_exerciseset_title: string
+          p_exercises: Database["public"]["CompositeTypes"]["exercise_type"][]
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      exercise_type: {
+        id: string
+        side_a: string
+        side_b: string
+        lesson_ids: unknown
+      }
     }
   }
 }

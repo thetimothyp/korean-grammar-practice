@@ -1,8 +1,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
-import EditExerciseForm from "@/app/ui/edit-exercise-form";
 import { redirect } from "next/navigation";
+import CreateExerciseSetForm from '@/app/ui/create-exercise-set-form';
 
 export default async function NewExercise() {
   // https://github.com/vercel/next.js/issues/56630#issuecomment-1755473286
@@ -19,8 +19,8 @@ export default async function NewExercise() {
   }
 
   return (
-    <main className="h-screen w-screen flex justify-center items-center">
-      <EditExerciseForm />
+    <main className="min-h-screen w-screen">
+      <CreateExerciseSetForm />
     </main>
   )
 }
