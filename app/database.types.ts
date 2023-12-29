@@ -403,13 +403,12 @@ export interface Database {
           lesson_summary: string
         }[]
       }
-      fetch_exercises_for_user: {
+      fetch_exercisesets_for_user: {
         Args: Record<PropertyKey, never>
         Returns: {
           id: string
-          side_a: string
-          side_b: string
-          lesson_count: string
+          title: string
+          exercise_count: number
         }[]
       }
       fetch_lessons_for_collection: {

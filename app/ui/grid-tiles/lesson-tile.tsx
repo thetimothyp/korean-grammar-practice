@@ -17,7 +17,6 @@ export default function LessonTile({ lesson } : { lesson: { id: string, title: s
       <div className="flex flex-col">
         <h3 className="text-xl font-bold">{lesson.title}</h3>
         <p className="text-zinc-500">{lesson.summary}</p>
-        <p className="text-sm mt-1 text-zinc-400">{lesson.exercise_count} exercise{lesson.exercise_count != 1 ? 's' : ''}</p>
       </div>
       <p className="text-lg font-bold">
         {lesson.author}

@@ -3,7 +3,7 @@ import { Database } from '@/app/database.types';
 import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import { PuzzlePieceIcon } from "@heroicons/react/24/outline";
-import ExerciseTile from "@/app/ui/grid-tiles/exercise-tile";
+import ExerciseTile from "@/app/ui/grid-tiles/exercise-set-tile";
 import NewTile from "@/app/ui/grid-tiles/new-tile";
 
 export default async function Exercises() {
@@ -19,7 +19,7 @@ export default async function Exercises() {
   }
   const user = session.user;
 
-  const { data: exercises, error } = await supabase.rpc('fetch_exercises_for_user');
+  const { data: exerciseSets, error } = await supabase.rpc('fetch_exercisesets_for_user');
   if (error) {
     console.error(error);
     return <></>
@@ -30,11 +30,10 @@ export default async function Exercises() {
       <div className="grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full lg:w-4/5 2xl:w-3/5 pb-[6px]">
         <h1 className="top-[6px] relative text-2xl font-bold sm:col-span-2 lg:col-span-3 mt-4 flex items-center">
           <PuzzlePieceIcon className="w-16 md:w-12 h-10 text-green-500 inline p-2 mr-4 rounded-md bg-green-200" />
-          Exercises
-          <div className='border-t w-full ml-4' />
+          Exercise sets
         </h1>
-        {exercises.map((exercise: any) => <ExerciseTile key={exercise.id} exercise={exercise} />)}
-        <NewTile href='/exercises/new' label='New exercise' />
+        {exerciseSets.map((exerciseSet: any) => <ExerciseTile key={exerciseSet.id} exerciseSet={exerciseSet} />)}
+        <NewTile href='/exercises/new' label='New exercise set' />
       </div>
     </main>
   )
