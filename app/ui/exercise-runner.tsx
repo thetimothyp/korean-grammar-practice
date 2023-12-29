@@ -29,18 +29,21 @@ export default function ExerciseRunner({ exercises }: { exercises: any[] }) {
 
         <ExerciseInput ref={inputRef} answer={exercises[currentIndex].side_b} goToNextExercise={goToNextExercise} />
 
-        <div className="flex my-4 w-full">
-          <Accordion>
-              {exercises[currentIndex].lessons.map((lesson: any, index: any) => (
-                <Link href={`/lessons/${lesson.id}/view`} key={index}>
-                  <div className='hover:bg-stone-300/30 px-4 py-2 rounded-lg transition-colors'>
-                    <p className='text-base text-black font-bold'>{lesson.title}</p>
-                    <p className='text-slate-600'>{lesson.summary}</p>
-                  </div>
-                </Link>
-              ))}
-          </Accordion>
-        </div>
+        { 
+          exercises[currentIndex].lessons && exercises[currentIndex].lessons.length > 0 && (
+            <div className="flex my-4 w-full">
+              <Accordion>
+                  {exercises[currentIndex].lessons.map((lesson: any, index: any) => (
+                    <Link href={`/lessons/${lesson.id}/view`} key={index}>
+                      <div className='hover:bg-stone-300/30 px-4 py-2 rounded-lg transition-colors'>
+                        <p className='text-base text-black font-bold'>{lesson.title}</p>
+                      </div>
+                    </Link>
+                  ))}
+              </Accordion>
+            </div>
+          )
+        }
       </div>
     </main>
   )

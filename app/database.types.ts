@@ -27,21 +27,7 @@ export interface Database {
             foreignKeyName: "fk_collection"
             columns: ["cid"]
             isOneToOne: false
-            referencedRelation: "collection_with_owner_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_collection"
-            columns: ["cid"]
-            isOneToOne: false
             referencedRelation: "collections"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_lesson"
-            columns: ["lid"]
-            isOneToOne: false
-            referencedRelation: "lesson_with_owner_view"
             referencedColumns: ["id"]
           },
           {
@@ -116,13 +102,6 @@ export interface Database {
             foreignKeyName: "fk_exercise"
             columns: ["eid"]
             isOneToOne: false
-            referencedRelation: "exercise_with_lessons"
-            referencedColumns: ["eid"]
-          },
-          {
-            foreignKeyName: "fk_exercise"
-            columns: ["eid"]
-            isOneToOne: false
             referencedRelation: "exercises"
             referencedColumns: ["id"]
           },
@@ -174,21 +153,7 @@ export interface Database {
             foreignKeyName: "fk_exercise"
             columns: ["eid"]
             isOneToOne: false
-            referencedRelation: "exercise_with_lessons"
-            referencedColumns: ["eid"]
-          },
-          {
-            foreignKeyName: "fk_exercise"
-            columns: ["eid"]
-            isOneToOne: false
             referencedRelation: "exercises"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_lesson"
-            columns: ["lid"]
-            isOneToOne: false
-            referencedRelation: "lesson_with_owner_view"
             referencedColumns: ["id"]
           },
           {
@@ -280,13 +245,6 @@ export interface Database {
             foreignKeyName: "fk_collection"
             columns: ["cid"]
             isOneToOne: false
-            referencedRelation: "collection_with_owner_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_collection"
-            columns: ["cid"]
-            isOneToOne: false
             referencedRelation: "collections"
             referencedColumns: ["id"]
           },
@@ -313,13 +271,6 @@ export interface Database {
           uid?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "fk_exercise"
-            columns: ["eid"]
-            isOneToOne: false
-            referencedRelation: "exercise_with_lessons"
-            referencedColumns: ["eid"]
-          },
           {
             foreignKeyName: "fk_exercise"
             columns: ["eid"]
@@ -384,13 +335,6 @@ export interface Database {
             foreignKeyName: "fk_lesson"
             columns: ["lid"]
             isOneToOne: false
-            referencedRelation: "lesson_with_owner_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_lesson"
-            columns: ["lid"]
-            isOneToOne: false
             referencedRelation: "lessons"
             referencedColumns: ["id"]
           },
@@ -405,110 +349,7 @@ export interface Database {
       }
     }
     Views: {
-      collection_with_owner_view: {
-        Row: {
-          cid: string | null
-          created_at: string | null
-          id: string | null
-          name: string | null
-          uid: string | null
-          updated_at: string | null
-          username: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_collection"
-            columns: ["cid"]
-            isOneToOne: false
-            referencedRelation: "collections"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_collection"
-            columns: ["cid"]
-            isOneToOne: false
-            referencedRelation: "collection_with_owner_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_user"
-            columns: ["uid"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      exercise_with_lessons: {
-        Row: {
-          eid: string | null
-          lesson_summary: string | null
-          lesson_title: string | null
-          lid: string | null
-          side_a: string | null
-          side_b: string | null
-          uid: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_lesson"
-            columns: ["lid"]
-            isOneToOne: false
-            referencedRelation: "lessons"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_lesson"
-            columns: ["lid"]
-            isOneToOne: false
-            referencedRelation: "lesson_with_owner_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_user"
-            columns: ["uid"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      lesson_with_owner_view: {
-        Row: {
-          body: string | null
-          created_at: string | null
-          id: string | null
-          lid: string | null
-          summary: string | null
-          title: string | null
-          uid: string | null
-          updated_at: string | null
-          username: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_lesson"
-            columns: ["lid"]
-            isOneToOne: false
-            referencedRelation: "lessons"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_lesson"
-            columns: ["lid"]
-            isOneToOne: false
-            referencedRelation: "lesson_with_owner_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_user"
-            columns: ["uid"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
       create_collection:
@@ -614,6 +455,15 @@ export interface Database {
               lid: string
             }[]
           }
+      get_runnable_exercise_sets: {
+        Args: {
+          p_exerciseset_ids: string[]
+        }
+        Returns: {
+          title: string
+          exercises: Json[]
+        }[]
+      }
       insert_user_exerciseset_and_exercises: {
         Args: {
           p_exerciseset_title: string
