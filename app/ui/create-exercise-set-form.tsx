@@ -64,9 +64,8 @@ export default function CreateExerciseSetForm() {
         return response.json();
       };
 
-      req().then(console.log);
       // TODO redirect to the new exercise set
-      // req().then((res) => { router.push(`/exercises/${res.id}/view`) });
+      req().then((res) => { router.push(`/exercises/${res.id}/view`) });
     }
 
   }
@@ -101,8 +100,11 @@ export default function CreateExerciseSetForm() {
           <button
             ref={submitRef}
             type='submit'
-            className='w-full font-bold bg-green-500 rounded-md p-4 text-white hover:bg-green-700 transition-colors shadow-sm'
+            className='w-full font-bold bg-green-500 rounded-md p-4 text-white hover:bg-green-700 transition-colors shadow-sm relative'
           >
+            <div className={`${isLoading ? 'opacity-100' : 'opacity-0'} w-full h-full rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-inherit transition-opacity`}>
+              <div className="mt-4 animate-spin inline-block w-6 h-6 border-[2px] border-white border-opacity-70 border-t-transparent rounded-full" role="status" aria-label="loading" />
+            </div>
             Create
           </button>
         </div>

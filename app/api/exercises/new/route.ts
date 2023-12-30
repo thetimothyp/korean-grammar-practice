@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
   );
 
   if (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 
